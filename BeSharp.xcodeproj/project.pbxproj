@@ -12,6 +12,8 @@
 		0E8C0008168E1BEC0055DDC6 /* BeSharp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */; };
 		0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */; };
 		0E8C000E168E1BEC0055DDC6 /* BSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C000D168E1BEC0055DDC6 /* BSDetailViewController.m */; };
+		0E8C0016168E2AB60055DDC6 /* BSLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0015168E2AB60055DDC6 /* BSLine.m */; };
+		0E8C0019168E2D6E0055DDC6 /* BSDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0018168E2D6E0055DDC6 /* BSDataController.m */; };
 		0E8CFFE7168E1BEC0055DDC6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */; };
 		0E8CFFE9168E1BEC0055DDC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFE8168E1BEC0055DDC6 /* Foundation.framework */; };
 		0E8CFFEB168E1BEC0055DDC6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFEA168E1BEC0055DDC6 /* CoreGraphics.framework */; };
@@ -29,9 +31,13 @@
 		0E8C0004168E1BEC0055DDC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		0E8C0007168E1BEC0055DDC6 /* BeSharp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BeSharp.xcdatamodel; sourceTree = "<group>"; };
 		0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSMasterViewController.h; sourceTree = "<group>"; };
-		0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSMasterViewController.m; sourceTree = "<group>"; };
+		0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSMasterViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
 		0E8C000C168E1BEC0055DDC6 /* BSDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSDetailViewController.h; sourceTree = "<group>"; };
 		0E8C000D168E1BEC0055DDC6 /* BSDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSDetailViewController.m; sourceTree = "<group>"; };
+		0E8C0014168E2AB60055DDC6 /* BSLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLine.h; sourceTree = "<group>"; };
+		0E8C0015168E2AB60055DDC6 /* BSLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLine.m; sourceTree = "<group>"; };
+		0E8C0017168E2D6E0055DDC6 /* BSDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDataController.h; sourceTree = "<group>"; };
+		0E8C0018168E2D6E0055DDC6 /* BSDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDataController.m; sourceTree = "<group>"; };
 		0E8CFFE2168E1BEC0055DDC6 /* BeSharp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeSharp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0E8CFFE8168E1BEC0055DDC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -95,11 +101,15 @@
 			isa = PBXGroup;
 			children = (
 				0E8CFFF7168E1BEC0055DDC6 /* BSAppDelegate.h */,
+				0E8C0017168E2D6E0055DDC6 /* BSDataController.h */,
+				0E8C0018168E2D6E0055DDC6 /* BSDataController.m */,
 				0E8CFFF8168E1BEC0055DDC6 /* BSAppDelegate.m */,
 				0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */,
 				0E8C0003168E1BEC0055DDC6 /* MainStoryboard_iPad.storyboard */,
 				0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */,
 				0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */,
+				0E8C0014168E2AB60055DDC6 /* BSLine.h */,
+				0E8C0015168E2AB60055DDC6 /* BSLine.m */,
 				0E8C000C168E1BEC0055DDC6 /* BSDetailViewController.h */,
 				0E8C000D168E1BEC0055DDC6 /* BSDetailViewController.m */,
 				0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */,
@@ -195,6 +205,8 @@
 				0E8C0008168E1BEC0055DDC6 /* BeSharp.xcdatamodeld in Sources */,
 				0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */,
 				0E8C000E168E1BEC0055DDC6 /* BSDetailViewController.m in Sources */,
+				0E8C0016168E2AB60055DDC6 /* BSLine.m in Sources */,
+				0E8C0019168E2D6E0055DDC6 /* BSDataController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

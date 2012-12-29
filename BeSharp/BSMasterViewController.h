@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class BSDetailViewController;
+@class BSDataController;
 
 #import <CoreData/CoreData.h>
 
@@ -16,7 +17,6 @@
 
 @property (strong, nonatomic) BSDetailViewController *detailViewController;
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property BSDataController* dataController;
 
 @end
