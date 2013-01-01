@@ -13,10 +13,14 @@
 
 #import <CoreData/CoreData.h>
 
-@interface BSMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate>
+@interface BSMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
 
 @property (strong, nonatomic) BSDetailViewController *detailViewController;
 
 @property BSDataController* dataController;
+
+//inline editing
+@property UITextField *txtField;
+@property NSManagedObjectID *currentEditingItemId;
 
 @end

@@ -19,5 +19,6 @@
 - (BSDataController*) initWithAppDelegate:(BSAppDelegate *)delegate fetchedControllerDelegate:(NSObject <NSFetchedResultsControllerDelegate>*)fetchedResultsControllerDelegate;
 - (void) addNewLineWithLine:(BSLine *) newLine;
 - (NSFetchedResultsController *) getAllLines;
+- (void) saveLine: (NSManagedObjectID *)lineId withText:(NSString *) newText;
 
 @end

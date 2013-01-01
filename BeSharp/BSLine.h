@@ -11,8 +11,8 @@
 @interface BSLine : NSObject
 
 @property (nonatomic, strong) NSString *text;
-@property (nonatomic) NSInteger *order;
-@property (nonatomic) NSInteger *indent;
+@property (nonatomic) NSInteger order;
+@property (nonatomic) NSInteger indent;
 @property (nonatomic) BOOL isProject;
 @property (nonatomic) BOOL isCompleted;
 @property (nonatomic) NSInteger projectId;

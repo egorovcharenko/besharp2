@@ -39,7 +39,18 @@
     self.detailViewController = (BSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 
     self.dataController = [[BSDataController alloc]initWithAppDelegate:(BSAppDelegate*)[[UIApplication sharedApplication] delegate] fetchedControllerDelegate:self];
-
+    
+    
+    // inlnine editing
+    self.txtField=[[UITextField alloc]initWithFrame:CGRectMake(5, 5, 320, 39)];
+    self.txtField.autoresizingMask=UIViewAutoresizingFlexibleHeight;
+    self.txtField.autoresizesSubviews=YES;
+    [self.txtField setBorderStyle:UITextBorderStyleRoundedRect];
+    [self.txtField setPlaceholder:@"Type Data Here"];
+    self.txtField.returnKeyType = UIReturnKeyDone;
+    self.txtField.delegate = self;
+    
+    self.currentEditingItemId = nil;
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,6 +72,8 @@
     NSString *formattedDateString = [dateFormatter stringFromDate:date];
     
     line.text = formattedDateString;
+    line.order = 0;
+    
     [self.dataController addNewLineWithLine:line];
 }
 
@@ -117,10 +130,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
+    
+    // ipad
     if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
         self.detailViewController.detailItem = object;
     }
+    
+    // inline editing
+    self.currentEditingItemId = [object objectID];
+    
+    //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadData];
+    
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
@@ -195,7 +217,41 @@
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
-    cell.textLabel.text = [[object valueForKey:@"text"] description];
+
+    if ([self.currentEditingItemId isEqual:[object objectID]] && self.currentEditingItemId != nil)
+    {
+        self.txtField.text = [[object valueForKey:@"text"] description];
+        [cell addSubview:self.txtField];
+        
+        // [self.txtField becomeFirstResponder];
+        // [self becomeFirstResponder];
+    }
+    else
+    {
+        cell.textLabel.text = [[object valueForKey:@"text"] description];
+    }
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
+    if (theTextField == self.txtField) {
+        [theTextField resignFirstResponder];
+        self.currentEditingItemId = nil;
+        [self.tableView reloadData];
+    }
+    return YES;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    
+    // save changes to DB
+    NSManagedObjectID *editedId = self.currentEditingItemId;
+    
+    if (editedId != nil){
+        [self.dataController saveLine:editedId withText:self.txtField.text];
+        
+        [self.tableView reloadData];
+    }
 }
 
 @end
