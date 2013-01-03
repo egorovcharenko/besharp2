@@ -19,10 +19,12 @@
     return self;
 }
 
--(void) addNewLineWithLine:(BSLine *)newLine
+-(int) addNewLineWithLine:(BSLine *)newLine
 {
     NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
     NSManagedObject *newManagedLine = [[NSManagedObject alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.context];
+    
+    int result = newLine.order;
     
     [newManagedLine setValue:newLine.text forKey:@"text"];
     
@@ -50,6 +52,7 @@
         if (count >=0){
             [newManagedLine setValue:[NSNumber numberWithInteger:count] forKey:@"order"];
         }
+        result = count;
         
     }
     
@@ -61,6 +64,8 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
+    
+    return result;
 }
 
 -(NSFetchedResultsController*) getAllLines

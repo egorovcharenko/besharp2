@@ -32,24 +32,33 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    self.navigationItem.leftBarButtonItem = self.editButtonItem;
-
+    //self.navigationItem.leftBarButtonItem = self.editButtonItem;
+    
+    // setup buttons on top
     UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
     self.navigationItem.rightBarButtonItem = addButton;
+    
+    // misc
     self.detailViewController = (BSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-
+    
+    // data controller
     self.dataController = [[BSDataController alloc]initWithAppDelegate:(BSAppDelegate*)[[UIApplication sharedApplication] delegate] fetchedControllerDelegate:self];
     
     
     // inlnine editing
-    self.txtField=[[UITextField alloc]initWithFrame:CGRectMake(5, 5, 320, 39)];
-    self.txtField.autoresizingMask=UIViewAutoresizingFlexibleHeight;
+    self.txtField=[[UITextField alloc]initWithFrame:CGRectMake(5, 5, 310, 35)];
+    self.txtField.autoresizingMask=UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     self.txtField.autoresizesSubviews=YES;
+    self.txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     [self.txtField setBorderStyle:UITextBorderStyleRoundedRect];
     [self.txtField setPlaceholder:@"Type Data Here"];
     self.txtField.returnKeyType = UIReturnKeyDone;
     self.txtField.delegate = self;
     
+    // top entry of new task button
+    self.textBoxNewTask.delegate = self;
+    
+    // nothing is being edited
     self.currentEditingItemId = nil;
 }
 
@@ -63,18 +72,18 @@
 {
     BSLine *line = [BSLine alloc];
     
-    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateStyle:NSDateFormatterMediumStyle];
-    [dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    line.text = self.textBoxNewTask.text;
+    line.order = 0; // take last order
     
-    NSDate *date = [NSDate date];
+    int newLineOrder = [self.dataController addNewLineWithLine:line];
     
-    NSString *formattedDateString = [dateFormatter stringFromDate:date];
+    // clear new task
+    self.textBoxNewTask.text = @"";
     
-    line.text = formattedDateString;
-    line.order = 0;
+    // scroll to new line
     
-    [self.dataController addNewLineWithLine:line];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:newLineOrder - 1 inSection:0];
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
 }
 
 #pragma mark - Table View
@@ -107,24 +116,23 @@
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     /*
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
-        [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
-        
-        NSError *error = nil;
-        if (![context save:&error]) {
-             // Replace this implementation with code to handle the error appropriately.
-             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
-            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-            abort();
-        }
-    }   
+     if (editingStyle == UITableViewCellEditingStyleDelete) {
+     NSManagedObjectContext *context = [self.fetchedResultsController managedObjectContext];
+     [context deleteObject:[self.fetchedResultsController objectAtIndexPath:indexPath]];
+     
+     NSError *error = nil;
+     if (![context save:&error]) {
+     // Replace this implementation with code to handle the error appropriately.
+     // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+     NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+     abort();
+     }
+     }
      */
 }
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // The table view should not be re-orderable.
     return YES;
 }
 
@@ -142,8 +150,9 @@
     
     //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
     [self.tableView reloadData];
-    
 }
+
+
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
@@ -205,45 +214,71 @@
 }
 
 /*
-// Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed. 
+ // Implementing the above methods to update the table view in response to individual changes may have performance implications if a large number of changes are made simultaneously. If this proves to be an issue, you can instead just implement controllerDidChangeContent: which notifies the delegate that all section and object changes have been processed.
  
  - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
-{
-    // In the simplest, most efficient, case, reload the table view.
-    [self.tableView reloadData];
-}
+ {
+ // In the simplest, most efficient, case, reload the table view.
+ [self.tableView reloadData];
+ }
  */
 
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
-
+    
     if ([self.currentEditingItemId isEqual:[object objectID]] && self.currentEditingItemId != nil)
     {
         self.txtField.text = [[object valueForKey:@"text"] description];
         [cell addSubview:self.txtField];
         
+        
+        //[self.txtField becomeFirstResponder];
         // [self.txtField becomeFirstResponder];
-        // [self becomeFirstResponder];
+        //[self becomeFirstResponder];
     }
     else
     {
         cell.textLabel.text = [[object valueForKey:@"text"] description];
+        if ([[self.txtField superview] isEqual:cell])
+        {
+            [self.txtField removeFromSuperview];
+        }
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
     if (theTextField == self.txtField) {
         [theTextField resignFirstResponder];
+        
+        // save changes to DB
+        NSManagedObjectID *editedId = self.currentEditingItemId;
+        
+        if (editedId != nil){
+            [self.dataController saveLine:editedId withText:self.txtField.text];
+        }
         self.currentEditingItemId = nil;
+        [self.txtField removeFromSuperview];
+        
         [self.tableView reloadData];
+    } else if (theTextField == self.textBoxNewTask){
+        if ([self.textBoxNewTask.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
+            
+            
+            // insert new task if it's not empty
+            [self insertNewObject:nil];
+        } else {
+            // stop entering new tasks
+            [theTextField resignFirstResponder];
+        }
+        
     }
     return YES;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     // save changes to DB
     NSManagedObjectID *editedId = self.currentEditingItemId;
     
@@ -252,6 +287,9 @@
         
         [self.tableView reloadData];
     }
+    
+    return indexPath;
 }
+
 
 @end

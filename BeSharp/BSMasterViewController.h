@@ -14,6 +14,7 @@
 #import <CoreData/CoreData.h>
 
 @interface BSMasterViewController : UITableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
+@property (weak, nonatomic) IBOutlet UITextField *textBoxNewTask;
 
 @property (strong, nonatomic) BSDetailViewController *detailViewController;
 
