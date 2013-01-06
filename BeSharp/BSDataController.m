@@ -155,4 +155,20 @@
 
 }
 
+- (BSLine*) getLine: (NSManagedObjectID *)lineId;
+{
+    NSError *error = nil;
+ 
+    NSManagedObject *managedLine = nil;
+	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    BSLine *line = [[BSLine alloc] init];
+    line.text = [[managedLine valueForKey:@"text"] description];
+    return line;
+}
+
 @end

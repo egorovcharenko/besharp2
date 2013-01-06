@@ -8,16 +8,19 @@
 
 #import "BSMasterViewController.h"
 
-#import "BSDetailViewController.h"
 #import "BSDataController.h"
 
 #import "BSLine.h"
+#import "BSLineCell.h"
+
 
 @interface BSMasterViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
 @implementation BSMasterViewController
+
+@synthesize popupView;
 
 - (void)awakeFromNib
 {
@@ -44,16 +47,24 @@
     // data controller
     self.dataController = [[BSDataController alloc]initWithAppDelegate:(BSAppDelegate*)[[UIApplication sharedApplication] delegate] fetchedControllerDelegate:self];
     
-    
     // inlnine editing
-    self.txtField=[[UITextField alloc]initWithFrame:CGRectMake(5, 5, 310, 35)];
-    self.txtField.autoresizingMask=UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    self.txtField.autoresizesSubviews=YES;
-    self.txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    [self.txtField setBorderStyle:UITextBorderStyleRoundedRect];
-    [self.txtField setPlaceholder:@"Type Data Here"];
-    self.txtField.returnKeyType = UIReturnKeyDone;
-    self.txtField.delegate = self;
+    //self.txtField=[[UITextField alloc]initWithFrame:CGRectMake(5, 5, 310, 35)];
+    //self.txtField.autoresizingMask=UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    //self.txtField.autoresizesSubviews=YES;
+    //self.txtField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    //[self.txtField setBorderStyle:UITextBorderStyleRoundedRect];
+    //[self.txtField setPlaceholder:@"Type Data Here"];
+    //self.txtField.returnKeyType = UIReturnKeyDone;
+    //self.txtField.delegate = self;
+    
+    //Create an negatively sized or offscreen textfield
+    //UITextField *hiddenField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, -10, -10)];
+    //hiddenTextField = hiddenField;
+    //[self.view addSubview:hiddenTextField];
+    //[hiddenField release];
+    
+    //Set the hiddenTextField to become first responder
+    //[hiddenTextField becomeFirstResponder];
     
     // top entry of new task button
     self.textBoxNewTask.delegate = self;
@@ -84,6 +95,7 @@
     
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:newLineOrder - 1 inSection:0];
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table View
@@ -102,7 +114,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    BSLineCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
     [self configureCell:cell atIndexPath:indexPath];
     return cell;
 }
@@ -140,16 +152,17 @@
 {
     NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
     
-    // ipad
-    if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-        self.detailViewController.detailItem = object;
-    }
-    
     // inline editing
     self.currentEditingItemId = [object objectID];
+    self.currentlySelectedCell = (BSLineCell*) [self.tableView cellForRowAtIndexPath:indexPath];
     
+    self.currentlySelectedCell.textFieldForEdit.hidden = NO;
+    self.currentlySelectedCell.textLabel.hidden = YES;
+    self.currentlySelectedCell.textFieldForEdit.text = [[object valueForKey:@"text"] description];      
+    
+    [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
     //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
 }
 
 
@@ -159,7 +172,7 @@
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
-        [[segue destinationViewController] setDetailItem:object];
+        //[[segue destinationViewController] setDetailItem:object];
     }
 }
 
@@ -186,26 +199,25 @@
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-    UITableView *tableView = self.tableView;
-    
-    switch(type) {
-        case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-            
-        case NSFetchedResultsChangeUpdate:
-            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-            break;
-            
-        case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-            break;
-    }
+//    UITableView *tableView = self.tableView;
+//    switch(type) {
+//        case NSFetchedResultsChangeInsert:
+//            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//            
+//        case NSFetchedResultsChangeDelete:
+//            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//            
+//        case NSFetchedResultsChangeUpdate:
+//            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+//            break;
+//            
+//        case NSFetchedResultsChangeMove:
+//            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+//            break;
+//    }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
@@ -223,47 +235,59 @@
  }
  */
 
-- (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath
+- (void)configureCell:(BSLineCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
     NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
     
+    cell.textFieldForEdit.delegate = self;
+    
     if ([self.currentEditingItemId isEqual:[object objectID]] && self.currentEditingItemId != nil)
     {
-        self.txtField.text = [[object valueForKey:@"text"] description];
-        [cell addSubview:self.txtField];
+        // selected cell
+        cell.textFieldForEdit.hidden = NO;
+        cell.textLabel.hidden = YES;
+        cell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
         
+        //self.txtField.text = [[object valueForKey:@"text"] description];
+        //[cell addSubview:self.txtField];
         
         //[self.txtField becomeFirstResponder];
-        // [self.txtField becomeFirstResponder];
-        //[self becomeFirstResponder];
+        //[cell.textFieldForEdit becomeFirstResponder];
     }
     else
     {
+        // not selected cell
+        
+        //cell.textLabel.text = [[object valueForKey:@"text"] description];
+        //cell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
+        
+        cell.textFieldForEdit.hidden = YES;
+        cell.textLabel.hidden = NO;
         cell.textLabel.text = [[object valueForKey:@"text"] description];
-        if ([[self.txtField superview] isEqual:cell])
-        {
-            [self.txtField removeFromSuperview];
-        }
+        
+        //if ([[self.txtField superview] isEqual:cell])
+        //{
+        //    [self.txtField removeFromSuperview];
+        //}
     }
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
-    if (theTextField == self.txtField) {
+    if (theTextField.tag == 101) {
         [theTextField resignFirstResponder];
         
         // save changes to DB
         NSManagedObjectID *editedId = self.currentEditingItemId;
         
         if (editedId != nil){
-            [self.dataController saveLine:editedId withText:self.txtField.text];
+            [self.dataController saveLine:editedId withText:theTextField.text];
         }
         self.currentEditingItemId = nil;
-        [self.txtField removeFromSuperview];
+        //[self.txtField removeFromSuperview];
         
         [self.tableView reloadData];
     } else if (theTextField == self.textBoxNewTask){
         if ([self.textBoxNewTask.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
-            
             
             // insert new task if it's not empty
             [self insertNewObject:nil];
@@ -283,13 +307,43 @@
     NSManagedObjectID *editedId = self.currentEditingItemId;
     
     if (editedId != nil){
-        [self.dataController saveLine:editedId withText:self.txtField.text];
+        [self.dataController saveLine:editedId withText:self.currentlySelectedCell.textFieldForEdit.text];
         
-        [self.tableView reloadData];
+        //BSLine *prevEditedLine = [self.dataController getLine:self.currentEditingItemId];
+        
+        self.currentlySelectedCell.textFieldForEdit.hidden = YES;
+        self.currentlySelectedCell.textLabel.hidden = NO;
+        self.currentlySelectedCell.textLabel.text = self.currentlySelectedCell.textFieldForEdit.text;
+        
+        //[self.tableView reloadData];
     }
     
     return indexPath;
 }
 
 
+- (IBAction)leftButtonOnCellClicked:(id)sender forEvent:(UIEvent *)event {
+
+    
+    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"LinePopupView"
+                                                         owner:self
+                                                       options:nil];
+
+    self.popupView = [nibContents objectAtIndex:0];
+    [self.tableView addSubview:self.popupView];
+}
+
+- (IBAction)indentMinusAction:(id)sender {
+    // increase indent
+    NSManagedObjectID *editedId = self.currentEditingItemId;
+//    
+//    if (editedId != nil){
+//        [self.dataController saveLine:editedId withText:theTextField.text];
+//    }
+    [popupView removeFromSuperview];
+}
+
+- (IBAction)indentPlusAction:(id)sender {
+     [popupView removeFromSuperview];
+}
 @end

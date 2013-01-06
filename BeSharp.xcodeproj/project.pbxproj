@@ -7,11 +7,18 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E71BE831699B58E002478BA /* BSLinePopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE821699B58E002478BA /* BSLinePopupViewController.m */; };
+		0E71BE871699D338002478BA /* BSLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE861699D338002478BA /* BSLineCell.m */; };
+		0E71BE89169A00DE002478BA /* LinePopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE88169A00DE002478BA /* LinePopupView.xib */; };
+		0E71BE8C169A03F9002478BA /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE8B169A03F9002478BA /* OBShapedButton.m */; };
+		0E71BE8F169A0414002478BA /* UIImage+ColorAtPixel.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */; };
+		0E71BE95169A05B5002478BA /* sectorForBSDown.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE91169A05B5002478BA /* sectorForBSDown.png */; };
+		0E71BE96169A05B5002478BA /* sectorForBSLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE92169A05B5002478BA /* sectorForBSLeft.png */; };
+		0E71BE97169A05B5002478BA /* sectorForBSRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE93169A05B5002478BA /* sectorForBSRight.png */; };
+		0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE94169A05B5002478BA /* sectorForBSTop.png */; };
 		0E8C0002168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */; };
-		0E8C0005168E1BEC0055DDC6 /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C0003168E1BEC0055DDC6 /* MainStoryboard_iPad.storyboard */; };
 		0E8C0008168E1BEC0055DDC6 /* BeSharp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */; };
 		0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */; };
-		0E8C000E168E1BEC0055DDC6 /* BSDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C000D168E1BEC0055DDC6 /* BSDetailViewController.m */; };
 		0E8C0016168E2AB60055DDC6 /* BSLine.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0015168E2AB60055DDC6 /* BSLine.m */; };
 		0E8C0019168E2D6E0055DDC6 /* BSDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0018168E2D6E0055DDC6 /* BSDataController.m */; };
 		0E8CFFE7168E1BEC0055DDC6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */; };
@@ -27,13 +34,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E71BE811699B58E002478BA /* BSLinePopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLinePopupViewController.h; sourceTree = "<group>"; };
+		0E71BE821699B58E002478BA /* BSLinePopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLinePopupViewController.m; sourceTree = "<group>"; };
+		0E71BE851699D338002478BA /* BSLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLineCell.h; sourceTree = "<group>"; };
+		0E71BE861699D338002478BA /* BSLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLineCell.m; sourceTree = "<group>"; };
+		0E71BE88169A00DE002478BA /* LinePopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinePopupView.xib; sourceTree = "<group>"; };
+		0E71BE8A169A03F9002478BA /* OBShapedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBShapedButton.h; sourceTree = "<group>"; };
+		0E71BE8B169A03F9002478BA /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBShapedButton.m; sourceTree = "<group>"; };
+		0E71BE8D169A0414002478BA /* UIImage+ColorAtPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorAtPixel.h"; sourceTree = "<group>"; };
+		0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
+		0E71BE91169A05B5002478BA /* sectorForBSDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSDown.png; sourceTree = "<group>"; };
+		0E71BE92169A05B5002478BA /* sectorForBSLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSLeft.png; sourceTree = "<group>"; };
+		0E71BE93169A05B5002478BA /* sectorForBSRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSRight.png; sourceTree = "<group>"; };
+		0E71BE94169A05B5002478BA /* sectorForBSTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSTop.png; sourceTree = "<group>"; };
 		0E8C0001168E1BEC0055DDC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
-		0E8C0004168E1BEC0055DDC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPad.storyboard; sourceTree = "<group>"; };
 		0E8C0007168E1BEC0055DDC6 /* BeSharp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BeSharp.xcdatamodel; sourceTree = "<group>"; };
 		0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSMasterViewController.h; sourceTree = "<group>"; };
 		0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSMasterViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
-		0E8C000C168E1BEC0055DDC6 /* BSDetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSDetailViewController.h; sourceTree = "<group>"; };
-		0E8C000D168E1BEC0055DDC6 /* BSDetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSDetailViewController.m; sourceTree = "<group>"; };
 		0E8C0014168E2AB60055DDC6 /* BSLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLine.h; sourceTree = "<group>"; };
 		0E8C0015168E2AB60055DDC6 /* BSLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLine.m; sourceTree = "<group>"; };
 		0E8C0017168E2D6E0055DDC6 /* BSDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDataController.h; sourceTree = "<group>"; };
@@ -69,9 +86,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E71BE90169A059F002478BA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				0E71BE91169A05B5002478BA /* sectorForBSDown.png */,
+				0E71BE92169A05B5002478BA /* sectorForBSLeft.png */,
+				0E71BE93169A05B5002478BA /* sectorForBSRight.png */,
+				0E71BE94169A05B5002478BA /* sectorForBSTop.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		0E8CFFD7168E1BEC0055DDC6 = {
 			isa = PBXGroup;
 			children = (
+				0E71BE90169A059F002478BA /* Resources */,
 				0E8CFFEE168E1BEC0055DDC6 /* BeSharp */,
 				0E8CFFE5168E1BEC0055DDC6 /* Frameworks */,
 				0E8CFFE3168E1BEC0055DDC6 /* Products */,
@@ -100,18 +129,24 @@
 		0E8CFFEE168E1BEC0055DDC6 /* BeSharp */ = {
 			isa = PBXGroup;
 			children = (
+				0E71BE8D169A0414002478BA /* UIImage+ColorAtPixel.h */,
+				0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */,
+				0E71BE8A169A03F9002478BA /* OBShapedButton.h */,
+				0E71BE8B169A03F9002478BA /* OBShapedButton.m */,
 				0E8CFFF7168E1BEC0055DDC6 /* BSAppDelegate.h */,
 				0E8C0017168E2D6E0055DDC6 /* BSDataController.h */,
 				0E8C0018168E2D6E0055DDC6 /* BSDataController.m */,
 				0E8CFFF8168E1BEC0055DDC6 /* BSAppDelegate.m */,
+				0E71BE811699B58E002478BA /* BSLinePopupViewController.h */,
+				0E71BE821699B58E002478BA /* BSLinePopupViewController.m */,
 				0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */,
-				0E8C0003168E1BEC0055DDC6 /* MainStoryboard_iPad.storyboard */,
 				0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */,
 				0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */,
+				0E71BE88169A00DE002478BA /* LinePopupView.xib */,
+				0E71BE851699D338002478BA /* BSLineCell.h */,
+				0E71BE861699D338002478BA /* BSLineCell.m */,
 				0E8C0014168E2AB60055DDC6 /* BSLine.h */,
 				0E8C0015168E2AB60055DDC6 /* BSLine.m */,
-				0E8C000C168E1BEC0055DDC6 /* BSDetailViewController.h */,
-				0E8C000D168E1BEC0055DDC6 /* BSDetailViewController.m */,
 				0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */,
 				0E8CFFEF168E1BEC0055DDC6 /* Supporting Files */,
 			);
@@ -189,7 +224,11 @@
 				0E8CFFFD168E1BEC0055DDC6 /* Default@2x.png in Resources */,
 				0E8CFFFF168E1BEC0055DDC6 /* Default-568h@2x.png in Resources */,
 				0E8C0002168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard in Resources */,
-				0E8C0005168E1BEC0055DDC6 /* MainStoryboard_iPad.storyboard in Resources */,
+				0E71BE89169A00DE002478BA /* LinePopupView.xib in Resources */,
+				0E71BE95169A05B5002478BA /* sectorForBSDown.png in Resources */,
+				0E71BE96169A05B5002478BA /* sectorForBSLeft.png in Resources */,
+				0E71BE97169A05B5002478BA /* sectorForBSRight.png in Resources */,
+				0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,9 +243,12 @@
 				0E8CFFF9168E1BEC0055DDC6 /* BSAppDelegate.m in Sources */,
 				0E8C0008168E1BEC0055DDC6 /* BeSharp.xcdatamodeld in Sources */,
 				0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */,
-				0E8C000E168E1BEC0055DDC6 /* BSDetailViewController.m in Sources */,
 				0E8C0016168E2AB60055DDC6 /* BSLine.m in Sources */,
 				0E8C0019168E2D6E0055DDC6 /* BSDataController.m in Sources */,
+				0E71BE831699B58E002478BA /* BSLinePopupViewController.m in Sources */,
+				0E71BE871699D338002478BA /* BSLineCell.m in Sources */,
+				0E71BE8C169A03F9002478BA /* OBShapedButton.m in Sources */,
+				0E71BE8F169A0414002478BA /* UIImage+ColorAtPixel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -219,14 +261,6 @@
 				0E8C0001168E1BEC0055DDC6 /* en */,
 			);
 			name = MainStoryboard_iPhone.storyboard;
-			sourceTree = "<group>";
-		};
-		0E8C0003168E1BEC0055DDC6 /* MainStoryboard_iPad.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0E8C0004168E1BEC0055DDC6 /* en */,
-			);
-			name = MainStoryboard_iPad.storyboard;
 			sourceTree = "<group>";
 		};
 		0E8CFFF1168E1BEC0055DDC6 /* InfoPlist.strings */ = {
@@ -324,6 +358,7 @@
 				0E8C0013168E1BEC0055DDC6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		0E8CFFDC168E1BEC0055DDC6 /* Build configuration list for PBXProject "BeSharp" */ = {
 			isa = XCConfigurationList;

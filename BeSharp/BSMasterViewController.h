@@ -10,6 +10,7 @@
 
 @class BSDetailViewController;
 @class BSDataController;
+@class BSLineCell;
 
 #import <CoreData/CoreData.h>
 
@@ -20,8 +21,15 @@
 
 @property BSDataController* dataController;
 
+@property BSLineCell *currentlySelectedCell;
+
 //inline editing
-@property UITextField *txtField;
 @property NSManagedObjectID *currentEditingItemId;
+- (IBAction)leftButtonOnCellClicked:(id)sender forEvent:(UIEvent *)event;
+
+// popup button
+- (IBAction)indentMinusAction:(id)sender;
+- (IBAction)indentPlusAction:(id)sender;
+@property (strong) UIView* popupView;
 
 @end
