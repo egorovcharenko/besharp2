@@ -20,6 +20,10 @@
 - (int) addNewLineWithLine:(BSLine *) newLine;
 - (NSFetchedResultsController *) getAllLines;
 - (void) saveLine: (NSManagedObjectID *)lineId withText:(NSString *) newText;
+- (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
+
+- (void) increaseIndent: (NSManagedObjectID *)lineId;
+
 - (BSLine*) getLine: (NSManagedObjectID *)lineId;
 
 @end

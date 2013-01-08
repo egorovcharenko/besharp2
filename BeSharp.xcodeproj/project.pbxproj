@@ -16,6 +16,7 @@
 		0E71BE96169A05B5002478BA /* sectorForBSLeft.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE92169A05B5002478BA /* sectorForBSLeft.png */; };
 		0E71BE97169A05B5002478BA /* sectorForBSRight.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE93169A05B5002478BA /* sectorForBSRight.png */; };
 		0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE94169A05B5002478BA /* sectorForBSTop.png */; };
+		0E71BE9F169C1AE3002478BA /* Bullet.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE9E169C1AE3002478BA /* Bullet.png */; };
 		0E8C0002168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */; };
 		0E8C0008168E1BEC0055DDC6 /* BeSharp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */; };
 		0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */; };
@@ -39,22 +40,23 @@
 		0E71BE851699D338002478BA /* BSLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLineCell.h; sourceTree = "<group>"; };
 		0E71BE861699D338002478BA /* BSLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLineCell.m; sourceTree = "<group>"; };
 		0E71BE88169A00DE002478BA /* LinePopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinePopupView.xib; sourceTree = "<group>"; };
-		0E71BE8A169A03F9002478BA /* OBShapedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OBShapedButton.h; sourceTree = "<group>"; };
-		0E71BE8B169A03F9002478BA /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OBShapedButton.m; sourceTree = "<group>"; };
-		0E71BE8D169A0414002478BA /* UIImage+ColorAtPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+ColorAtPixel.h"; sourceTree = "<group>"; };
-		0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
+		0E71BE8A169A03F9002478BA /* OBShapedButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OBShapedButton.h; path = BeSharp/OBShapedButton.h; sourceTree = "<group>"; };
+		0E71BE8B169A03F9002478BA /* OBShapedButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OBShapedButton.m; path = BeSharp/OBShapedButton.m; sourceTree = "<group>"; };
+		0E71BE8D169A0414002478BA /* UIImage+ColorAtPixel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+ColorAtPixel.h"; path = "BeSharp/UIImage+ColorAtPixel.h"; sourceTree = "<group>"; };
+		0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+ColorAtPixel.m"; path = "BeSharp/UIImage+ColorAtPixel.m"; sourceTree = "<group>"; };
 		0E71BE91169A05B5002478BA /* sectorForBSDown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSDown.png; sourceTree = "<group>"; };
 		0E71BE92169A05B5002478BA /* sectorForBSLeft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSLeft.png; sourceTree = "<group>"; };
 		0E71BE93169A05B5002478BA /* sectorForBSRight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSRight.png; sourceTree = "<group>"; };
 		0E71BE94169A05B5002478BA /* sectorForBSTop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sectorForBSTop.png; sourceTree = "<group>"; };
+		0E71BE9E169C1AE3002478BA /* Bullet.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Bullet.png; sourceTree = "<group>"; };
 		0E8C0001168E1BEC0055DDC6 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
 		0E8C0007168E1BEC0055DDC6 /* BeSharp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BeSharp.xcdatamodel; sourceTree = "<group>"; };
 		0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BSMasterViewController.h; sourceTree = "<group>"; };
 		0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BSMasterViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
-		0E8C0014168E2AB60055DDC6 /* BSLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLine.h; sourceTree = "<group>"; };
-		0E8C0015168E2AB60055DDC6 /* BSLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLine.m; sourceTree = "<group>"; };
-		0E8C0017168E2D6E0055DDC6 /* BSDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSDataController.h; sourceTree = "<group>"; };
-		0E8C0018168E2D6E0055DDC6 /* BSDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSDataController.m; sourceTree = "<group>"; };
+		0E8C0014168E2AB60055DDC6 /* BSLine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSLine.h; path = BeSharp/BSLine.h; sourceTree = "<group>"; };
+		0E8C0015168E2AB60055DDC6 /* BSLine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSLine.m; path = BeSharp/BSLine.m; sourceTree = "<group>"; };
+		0E8C0017168E2D6E0055DDC6 /* BSDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSDataController.h; path = BeSharp/BSDataController.h; sourceTree = "<group>"; };
+		0E8C0018168E2D6E0055DDC6 /* BSDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSDataController.m; path = BeSharp/BSDataController.m; sourceTree = "<group>"; };
 		0E8CFFE2168E1BEC0055DDC6 /* BeSharp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeSharp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0E8CFFE8168E1BEC0055DDC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -89,6 +91,7 @@
 		0E71BE90169A059F002478BA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0E71BE9E169C1AE3002478BA /* Bullet.png */,
 				0E71BE91169A05B5002478BA /* sectorForBSDown.png */,
 				0E71BE92169A05B5002478BA /* sectorForBSLeft.png */,
 				0E71BE93169A05B5002478BA /* sectorForBSRight.png */,
@@ -97,9 +100,34 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		0E71BEA0169C1DCA002478BA /* OBShapedButton */ = {
+			isa = PBXGroup;
+			children = (
+				0E71BE8D169A0414002478BA /* UIImage+ColorAtPixel.h */,
+				0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */,
+				0E71BE8A169A03F9002478BA /* OBShapedButton.h */,
+				0E71BE8B169A03F9002478BA /* OBShapedButton.m */,
+			);
+			name = OBShapedButton;
+			sourceTree = "<group>";
+		};
+		0E71BEA1169C1DE1002478BA /* Data Layer */ = {
+			isa = PBXGroup;
+			children = (
+				0E8C0017168E2D6E0055DDC6 /* BSDataController.h */,
+				0E8C0018168E2D6E0055DDC6 /* BSDataController.m */,
+				0E8C0014168E2AB60055DDC6 /* BSLine.h */,
+				0E8C0015168E2AB60055DDC6 /* BSLine.m */,
+				0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */,
+			);
+			name = "Data Layer";
+			sourceTree = "<group>";
+		};
 		0E8CFFD7168E1BEC0055DDC6 = {
 			isa = PBXGroup;
 			children = (
+				0E71BEA1169C1DE1002478BA /* Data Layer */,
+				0E71BEA0169C1DCA002478BA /* OBShapedButton */,
 				0E71BE90169A059F002478BA /* Resources */,
 				0E8CFFEE168E1BEC0055DDC6 /* BeSharp */,
 				0E8CFFE5168E1BEC0055DDC6 /* Frameworks */,
@@ -129,13 +157,7 @@
 		0E8CFFEE168E1BEC0055DDC6 /* BeSharp */ = {
 			isa = PBXGroup;
 			children = (
-				0E71BE8D169A0414002478BA /* UIImage+ColorAtPixel.h */,
-				0E71BE8E169A0414002478BA /* UIImage+ColorAtPixel.m */,
-				0E71BE8A169A03F9002478BA /* OBShapedButton.h */,
-				0E71BE8B169A03F9002478BA /* OBShapedButton.m */,
 				0E8CFFF7168E1BEC0055DDC6 /* BSAppDelegate.h */,
-				0E8C0017168E2D6E0055DDC6 /* BSDataController.h */,
-				0E8C0018168E2D6E0055DDC6 /* BSDataController.m */,
 				0E8CFFF8168E1BEC0055DDC6 /* BSAppDelegate.m */,
 				0E71BE811699B58E002478BA /* BSLinePopupViewController.h */,
 				0E71BE821699B58E002478BA /* BSLinePopupViewController.m */,
@@ -145,9 +167,6 @@
 				0E71BE88169A00DE002478BA /* LinePopupView.xib */,
 				0E71BE851699D338002478BA /* BSLineCell.h */,
 				0E71BE861699D338002478BA /* BSLineCell.m */,
-				0E8C0014168E2AB60055DDC6 /* BSLine.h */,
-				0E8C0015168E2AB60055DDC6 /* BSLine.m */,
-				0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */,
 				0E8CFFEF168E1BEC0055DDC6 /* Supporting Files */,
 			);
 			path = BeSharp;
@@ -229,6 +248,7 @@
 				0E71BE96169A05B5002478BA /* sectorForBSLeft.png in Resources */,
 				0E71BE97169A05B5002478BA /* sectorForBSRight.png in Resources */,
 				0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */,
+				0E71BE9F169C1AE3002478BA /* Bullet.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -378,7 +398,8 @@
 				0E8C0007168E1BEC0055DDC6 /* BeSharp.xcdatamodel */,
 			);
 			currentVersion = 0E8C0007168E1BEC0055DDC6 /* BeSharp.xcdatamodel */;
-			path = BeSharp.xcdatamodeld;
+			name = BeSharp.xcdatamodeld;
+			path = BeSharp/BeSharp.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};

@@ -155,6 +155,52 @@
 
 }
 
+- (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
+{
+    NSError *error = nil;
+    NSManagedObject *managedLine = nil;
+	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    
+    [managedLine setValue:[NSNumber numberWithInteger:newIndent]  forKey:@"indent"];
+    
+    // Save the context.
+    error = nil;
+    if (![self.context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+- (void) increaseIndent: (NSManagedObjectID *)lineId;
+{
+    NSError *error = nil;
+    NSManagedObject *managedLine = nil;
+	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    int currentIndent = [[managedLine valueForKey:@"indent"] integerValue];
+    [managedLine setValue:[NSNumber numberWithInteger:(currentIndent + 1)]  forKey:@"indent"];
+    
+    // Save the context.
+    error = nil;
+    if (![self.context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 - (BSLine*) getLine: (NSManagedObjectID *)lineId;
 {
     NSError *error = nil;

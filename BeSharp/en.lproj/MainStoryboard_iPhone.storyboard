@@ -41,17 +41,14 @@
                                             <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <color key="shadowColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                         </label>
-                                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zTe-dV-uD3">
+                                        <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zTe-dV-uD3">
                                             <constraints>
                                                 <constraint firstAttribute="width" constant="43" id="x9e-fd-0Nj"/>
                                             </constraints>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" title="Button">
+                                            <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
+                                            <state key="normal" title="Button" image="Bullet.png">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <state key="highlighted">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
                                                 <action selector="leftButtonOnCellClicked:forEvent:" destination="12" eventType="touchUpInside" id="HZV-s3-yqA"/>
@@ -59,27 +56,37 @@
                                         </button>
                                         <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="text" borderStyle="roundedRect" placeholder="text" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KcX-Lj-ClQ">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="262" id="mfN-fo-nD8"/>
+                                                <constraint firstAttribute="width" constant="226" id="IhC-mW-tMo"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                             <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                         </textField>
+                                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="JnF-HW-K4L">
+                                            <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                        </view>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="leading" secondItem="zTe-dV-uD3" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="7V5-Di-g6K"/>
                                     <constraint firstItem="KcX-Lj-ClQ" firstAttribute="baseline" secondItem="NGJ-B3-Vv7" secondAttribute="baseline" type="default" id="B9Z-hJ-lXG"/>
-                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="leading" secondItem="zTe-dV-uD3" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="BAH-Ja-c97"/>
+                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="top" secondItem="lJ0-d7-vTF" secondAttribute="top" type="default" id="IHT-bX-D9W"/>
+                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="centerY" secondItem="JnF-HW-K4L" secondAttribute="centerY" type="default" id="NKk-pW-Ovb"/>
                                     <constraint firstItem="KcX-Lj-ClQ" firstAttribute="bottom" secondItem="NGJ-B3-Vv7" secondAttribute="bottom" type="default" id="TCR-ic-QOh"/>
-                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="leading" secondItem="lJ0-d7-vTF" secondAttribute="leading" type="default" id="Ttw-Hn-XYI"/>
-                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="centerY" secondItem="NGJ-B3-Vv7" secondAttribute="centerY" type="default" id="bBK-uK-eln"/>
+                                    <constraint firstItem="JnF-HW-K4L" firstAttribute="top" secondItem="KcX-Lj-ClQ" secondAttribute="top" type="default" id="XTQ-lY-XJ6"/>
+                                    <constraint firstAttribute="trailing" secondItem="JnF-HW-K4L" secondAttribute="trailing" constant="287" id="Xdc-v7-9sD"/>
                                     <constraint firstItem="zTe-dV-uD3" firstAttribute="bottom" secondItem="lJ0-d7-vTF" secondAttribute="bottom" type="default" id="giB-Gc-Dj5"/>
+                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="leading" secondItem="zTe-dV-uD3" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="jHo-B3-rqK"/>
+                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="leading" secondItem="lJ0-d7-vTF" secondAttribute="leading" constant="36" id="jPJ-NG-6ZX"/>
+                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="bottom" secondItem="JnF-HW-K4L" secondAttribute="bottom" type="default" id="k2J-yl-CBE"/>
+                                    <constraint firstItem="JnF-HW-K4L" firstAttribute="leading" secondItem="lJ0-d7-vTF" secondAttribute="leading" type="default" id="qFK-ek-Hs4"/>
                                     <constraint firstItem="KcX-Lj-ClQ" firstAttribute="top" secondItem="NGJ-B3-Vv7" secondAttribute="top" type="default" id="uXj-IU-8DC"/>
-                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="leading" secondItem="zTe-dV-uD3" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="uYS-eA-cLt"/>
                                     <constraint firstItem="NGJ-B3-Vv7" firstAttribute="trailing" secondItem="KcX-Lj-ClQ" secondAttribute="trailing" type="default" id="zEM-wI-ZvY"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="indentView" destination="JnF-HW-K4L" id="E2J-bT-Gni"/>
+                                    <outlet property="leftButton" destination="zTe-dV-uD3" id="qie-PY-ILO"/>
                                     <outlet property="textFieldForEdit" destination="KcX-Lj-ClQ" id="dW6-Rj-AZN"/>
                                     <outlet property="textLabel" destination="NGJ-B3-Vv7" id="vhb-6n-TFZ"/>
                                 </connections>
@@ -110,6 +117,9 @@
             <point key="canvasLocation" x="506" y="64"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="Bullet.png" width="600" height="600"/>
+    </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

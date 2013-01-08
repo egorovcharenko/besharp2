@@ -27,9 +27,11 @@
 @property NSManagedObjectID *currentEditingItemId;
 - (IBAction)leftButtonOnCellClicked:(id)sender forEvent:(UIEvent *)event;
 
-// popup button
+// popup dialog
 - (IBAction)indentMinusAction:(id)sender;
 - (IBAction)indentPlusAction:(id)sender;
-@property (strong) UIView* popupView;
+@property (strong) UIView *popupView;
+@property NSManagedObject *popupLine;
+@property NSIndexPath *popupIndexPath;
 
 @end

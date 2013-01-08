@@ -12,6 +12,8 @@
 
 @synthesize textFieldForEdit;
 @synthesize textLabel;
+@synthesize indentView;
+@synthesize leftButton;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

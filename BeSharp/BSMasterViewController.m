@@ -170,8 +170,8 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
+        //NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        //NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
         //[[segue destinationViewController] setDetailItem:object];
     }
 }
@@ -247,29 +247,24 @@
         cell.textFieldForEdit.hidden = NO;
         cell.textLabel.hidden = YES;
         cell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
-        
-        //self.txtField.text = [[object valueForKey:@"text"] description];
-        //[cell addSubview:self.txtField];
-        
-        //[self.txtField becomeFirstResponder];
-        //[cell.textFieldForEdit becomeFirstResponder];
     }
     else
     {
         // not selected cell
-        
-        //cell.textLabel.text = [[object valueForKey:@"text"] description];
-        //cell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
-        
         cell.textFieldForEdit.hidden = YES;
         cell.textLabel.hidden = NO;
-        cell.textLabel.text = [[object valueForKey:@"text"] description];
-        
-        //if ([[self.txtField superview] isEqual:cell])
-        //{
-        //    [self.txtField removeFromSuperview];
-        //}
+        cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
     }
+    
+    // configure indent view
+    int indent = [[object valueForKey:@"indent"] integerValue];
+    CGRect frm = cell.indentView.frame;
+    frm.size.width = indent * 20;
+    cell.indentView.frame = frm;
+    
+    // add tag to identify clicks
+    cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
+    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
@@ -321,29 +316,38 @@
     return indexPath;
 }
 
-
-- (IBAction)leftButtonOnCellClicked:(id)sender forEvent:(UIEvent *)event {
-
-    
+- (IBAction)leftButtonOnCellClicked:(UIButton*)sender forEvent:(UIEvent *)event {
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"LinePopupView"
                                                          owner:self
                                                        options:nil];
-
+    // remember current line
+    if (!([sender isKindOfClass:[UIButton class]]))
+        return;
+    NSUInteger section = ((sender.tag >> 16) & 0xFFFF);
+    NSUInteger row     = (sender.tag & 0xFFFF);
+    self.popupIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
+    self.popupLine = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
+    
+    // show radial menu
     self.popupView = [nibContents objectAtIndex:0];
     [self.tableView addSubview:self.popupView];
 }
 
 - (IBAction)indentMinusAction:(id)sender {
-    // increase indent
-    NSManagedObjectID *editedId = self.currentEditingItemId;
-//    
-//    if (editedId != nil){
-//        [self.dataController saveLine:editedId withText:theTextField.text];
-//    }
+
     [popupView removeFromSuperview];
 }
 
 - (IBAction)indentPlusAction:(id)sender {
-     [popupView removeFromSuperview];
+    // increase indent
+    if (self.popupLine != nil){
+        [self.dataController increaseIndent:[self.popupLine objectID]];
+    }
+    
+    // hide popup
+    [popupView removeFromSuperview];
+    
+    // update row
+    [self.tableView reloadRowsAtIndexPath:self.popupIndexPath withRowAnimation:<#(UITableViewRowAnimation)#>]
 }
 @end
