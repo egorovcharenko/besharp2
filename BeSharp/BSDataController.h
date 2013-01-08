@@ -22,7 +22,7 @@
 - (void) saveLine: (NSManagedObjectID *)lineId withText:(NSString *) newText;
 - (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
 
-- (void) increaseIndent: (NSManagedObjectID *)lineId;
+- (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 
 - (BSLine*) getLine: (NSManagedObjectID *)lineId;
 

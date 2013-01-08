@@ -10,10 +10,13 @@
 
 @interface BSLineCell : UITableViewCell
 
+// general controls
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldForEdit;
 @property (weak, nonatomic) IBOutlet UIButton *leftButton;
 
+// indent
 @property (weak, nonatomic) IBOutlet UIView *indentView;
+@property NSInteger indentInPixels;
 
 @end

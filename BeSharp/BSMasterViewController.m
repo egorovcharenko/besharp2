@@ -19,6 +19,8 @@
 @end
 
 @implementation BSMasterViewController
+NSInteger const indentPixelValue = 20;
+NSInteger const rowHeightPixelValue = 40;
 
 @synthesize popupView;
 
@@ -253,18 +255,27 @@
         // not selected cell
         cell.textFieldForEdit.hidden = YES;
         cell.textLabel.hidden = NO;
-        cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
+        //cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@",[[object valueForKey:@"text"] description], [object valueForKey:@"order"], [object valueForKey:@"indent"]];
     }
     
     // configure indent view
     int indent = [[object valueForKey:@"indent"] integerValue];
-    CGRect frm = cell.indentView.frame;
-    frm.size.width = indent * 20;
-    cell.indentView.frame = frm;
-    
+
+    // enumerate over all constraints
+    for (NSLayoutConstraint *constraint in cell.indentView.constraints) {
+        // find constraint on this view and with 'width' attribute
+        if ((constraint.firstItem == cell.indentView) &&
+            (constraint.firstAttribute == NSLayoutAttributeWidth) &&
+            (constraint.secondItem == nil)){
+            // increase width of constraint
+            constraint.constant = indent * indentPixelValue;
+            break;
+        }
+    }
+
     // add tag to identify clicks
     cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
-    
 }
 
 - (BOOL)textFieldShouldReturn:(UITextField *)theTextField {
@@ -278,12 +289,10 @@
             [self.dataController saveLine:editedId withText:theTextField.text];
         }
         self.currentEditingItemId = nil;
-        //[self.txtField removeFromSuperview];
         
         [self.tableView reloadData];
     } else if (theTextField == self.textBoxNewTask){
         if ([self.textBoxNewTask.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
-            
             // insert new task if it's not empty
             [self insertNewObject:nil];
         } else {
@@ -304,50 +313,82 @@
     if (editedId != nil){
         [self.dataController saveLine:editedId withText:self.currentlySelectedCell.textFieldForEdit.text];
         
-        //BSLine *prevEditedLine = [self.dataController getLine:self.currentEditingItemId];
-        
         self.currentlySelectedCell.textFieldForEdit.hidden = YES;
         self.currentlySelectedCell.textLabel.hidden = NO;
         self.currentlySelectedCell.textLabel.text = self.currentlySelectedCell.textFieldForEdit.text;
-        
-        //[self.tableView reloadData];
     }
     
     return indexPath;
 }
 
 - (IBAction)leftButtonOnCellClicked:(UIButton*)sender forEvent:(UIEvent *)event {
-    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"LinePopupView"
-                                                         owner:self
-                                                       options:nil];
-    // remember current line
+     // remember current line
     if (!([sender isKindOfClass:[UIButton class]]))
         return;
     NSUInteger section = ((sender.tag >> 16) & 0xFFFF);
     NSUInteger row     = (sender.tag & 0xFFFF);
     self.popupIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
-    self.popupLine = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
+    self.popupLine = [[self.dataController getAllLines] objectAtIndexPath:self.popupIndexPath];
     
     // show radial menu
+    NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:@"LinePopupView" owner:self options:nil];
     self.popupView = [nibContents objectAtIndex:0];
     [self.tableView addSubview:self.popupView];
+    
+    // set position for radial menu
+    CGRect popupViewRect = self.popupView.frame;
+    CGPoint currentRowPosition = [self.tableView rectForRowAtIndexPath:self.popupIndexPath].origin;
+    int indent = [[self.popupLine valueForKey:@"indent"] integerValue];
+    
+    int x = indent * indentPixelValue;
+    int y = currentRowPosition.y;
+    int width = popupViewRect.size.width;
+    int height = popupViewRect.size.height;
+    
+    // compensate for row height
+    y += rowHeightPixelValue / 2;
+    
+    // try to center popup on button
+    x -= width / 2;
+    if (x < 0)
+        x = 0;
+    
+    y -= height / 2;
+    if (y < 0)
+        y = 0;
+    
+    self.popupView.frame = CGRectMake(x, y, width, height);
 }
 
 - (IBAction)indentMinusAction:(id)sender {
-
-    [popupView removeFromSuperview];
-}
-
-- (IBAction)indentPlusAction:(id)sender {
-    // increase indent
+    // decrease indent
     if (self.popupLine != nil){
-        [self.dataController increaseIndent:[self.popupLine objectID]];
+        [self.dataController changeIndent:[self.popupLine objectID] indentChange:-1];
     }
     
     // hide popup
     [popupView removeFromSuperview];
     
     // update row
-    [self.tableView reloadRowsAtIndexPath:self.popupIndexPath withRowAnimation:<#(UITableViewRowAnimation)#>]
+    NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
+}
+
+- (IBAction)indentPlusAction:(id)sender {
+    // increase indent
+    if (self.popupLine != nil){
+        [self.dataController changeIndent:[self.popupLine objectID] indentChange:1];
+    }
+    
+    // hide popup
+    [popupView removeFromSuperview];
+    
+    // update row
+    NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
+    [self.tableView beginUpdates];
+    [self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView endUpdates];
 }
 @end

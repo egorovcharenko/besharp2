@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0E71BE831699B58E002478BA /* BSLinePopupViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE821699B58E002478BA /* BSLinePopupViewController.m */; };
 		0E71BE871699D338002478BA /* BSLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE861699D338002478BA /* BSLineCell.m */; };
 		0E71BE89169A00DE002478BA /* LinePopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE88169A00DE002478BA /* LinePopupView.xib */; };
 		0E71BE8C169A03F9002478BA /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE8B169A03F9002478BA /* OBShapedButton.m */; };
@@ -35,8 +34,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0E71BE811699B58E002478BA /* BSLinePopupViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLinePopupViewController.h; sourceTree = "<group>"; };
-		0E71BE821699B58E002478BA /* BSLinePopupViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLinePopupViewController.m; sourceTree = "<group>"; };
 		0E71BE851699D338002478BA /* BSLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLineCell.h; sourceTree = "<group>"; };
 		0E71BE861699D338002478BA /* BSLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLineCell.m; sourceTree = "<group>"; };
 		0E71BE88169A00DE002478BA /* LinePopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinePopupView.xib; sourceTree = "<group>"; };
@@ -159,8 +156,6 @@
 			children = (
 				0E8CFFF7168E1BEC0055DDC6 /* BSAppDelegate.h */,
 				0E8CFFF8168E1BEC0055DDC6 /* BSAppDelegate.m */,
-				0E71BE811699B58E002478BA /* BSLinePopupViewController.h */,
-				0E71BE821699B58E002478BA /* BSLinePopupViewController.m */,
 				0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */,
 				0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */,
 				0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */,
@@ -265,7 +260,6 @@
 				0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */,
 				0E8C0016168E2AB60055DDC6 /* BSLine.m in Sources */,
 				0E8C0019168E2D6E0055DDC6 /* BSDataController.m in Sources */,
-				0E71BE831699B58E002478BA /* BSLinePopupViewController.m in Sources */,
 				0E71BE871699D338002478BA /* BSLineCell.m in Sources */,
 				0E71BE8C169A03F9002478BA /* OBShapedButton.m in Sources */,
 				0E71BE8F169A0414002478BA /* UIImage+ColorAtPixel.m in Sources */,

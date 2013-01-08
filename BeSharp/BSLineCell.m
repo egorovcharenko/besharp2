@@ -14,6 +14,7 @@
 @synthesize textLabel;
 @synthesize indentView;
 @synthesize leftButton;
+@synthesize indentInPixels;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

@@ -178,7 +178,7 @@
     }
 }
 
-- (void) increaseIndent: (NSManagedObjectID *)lineId;
+- (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 {
     NSError *error = nil;
     NSManagedObject *managedLine = nil;
@@ -189,7 +189,10 @@
 	    abort();
 	}
     int currentIndent = [[managedLine valueForKey:@"indent"] integerValue];
-    [managedLine setValue:[NSNumber numberWithInteger:(currentIndent + 1)]  forKey:@"indent"];
+    int newIndent = currentIndent + indentChange;
+    newIndent = newIndent < 0 ? 0 : newIndent;
+    
+    [managedLine setValue:[NSNumber numberWithInteger:newIndent]  forKey:@"indent"];
     
     // Save the context.
     error = nil;
