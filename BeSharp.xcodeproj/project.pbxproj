@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E4E4C8F169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4E4C8E169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m */; };
+		0E4E4C91169CCB2500DEA13C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4E4C90169CCB2500DEA13C /* QuartzCore.framework */; };
 		0E71BE871699D338002478BA /* BSLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE861699D338002478BA /* BSLineCell.m */; };
 		0E71BE89169A00DE002478BA /* LinePopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E71BE88169A00DE002478BA /* LinePopupView.xib */; };
 		0E71BE8C169A03F9002478BA /* OBShapedButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE8B169A03F9002478BA /* OBShapedButton.m */; };
@@ -31,9 +33,18 @@
 		0E8CFFFB168E1BEC0055DDC6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CFFFA168E1BEC0055DDC6 /* Default.png */; };
 		0E8CFFFD168E1BEC0055DDC6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CFFFC168E1BEC0055DDC6 /* Default@2x.png */; };
 		0E8CFFFF168E1BEC0055DDC6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CFFFE168E1BEC0055DDC6 /* Default-568h@2x.png */; };
+		0EB6B75E16A3258C00FBD634 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B75916A3258C00FBD634 /* IISideController.m */; };
+		0EB6B75F16A3258C00FBD634 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B75B16A3258C00FBD634 /* IIViewDeckController.m */; };
+		0EB6B76016A3258C00FBD634 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B75D16A3258C00FBD634 /* IIWrapController.m */; };
+		0EB6B76716A334CD00FBD634 /* BSInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B76616A334CD00FBD634 /* BSInitialViewController.m */; };
+		0EB6B76A16A335CD00FBD634 /* BSSidePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B76916A335CC00FBD634 /* BSSidePanelViewController.m */; };
+		0EB6B76D16A3428D00FBD634 /* BSInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B76C16A3428D00FBD634 /* BSInboxViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E4E4C8D169CCAEF00DEA13C /* ATSDragToReorderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATSDragToReorderTableViewController.h; sourceTree = "<group>"; };
+		0E4E4C8E169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATSDragToReorderTableViewController.m; sourceTree = "<group>"; };
+		0E4E4C90169CCB2500DEA13C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		0E71BE851699D338002478BA /* BSLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSLineCell.h; sourceTree = "<group>"; };
 		0E71BE861699D338002478BA /* BSLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSLineCell.m; sourceTree = "<group>"; };
 		0E71BE88169A00DE002478BA /* LinePopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LinePopupView.xib; sourceTree = "<group>"; };
@@ -68,6 +79,19 @@
 		0E8CFFFA168E1BEC0055DDC6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		0E8CFFFC168E1BEC0055DDC6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0E8CFFFE168E1BEC0055DDC6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		0EB6B75816A3258C00FBD634 /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IISideController.h; path = ../../ViewDeck/ViewDeck/IISideController.h; sourceTree = "<group>"; };
+		0EB6B75916A3258C00FBD634 /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IISideController.m; path = ../../ViewDeck/ViewDeck/IISideController.m; sourceTree = "<group>"; };
+		0EB6B75A16A3258C00FBD634 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = ../../ViewDeck/ViewDeck/IIViewDeckController.h; sourceTree = "<group>"; };
+		0EB6B75B16A3258C00FBD634 /* IIViewDeckController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIViewDeckController.m; path = ../../ViewDeck/ViewDeck/IIViewDeckController.m; sourceTree = "<group>"; };
+		0EB6B75C16A3258C00FBD634 /* IIWrapController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIWrapController.h; path = ../../ViewDeck/ViewDeck/IIWrapController.h; sourceTree = "<group>"; };
+		0EB6B75D16A3258C00FBD634 /* IIWrapController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IIWrapController.m; path = ../../ViewDeck/ViewDeck/IIWrapController.m; sourceTree = "<group>"; };
+		0EB6B76516A334CD00FBD634 /* BSInitialViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSInitialViewController.h; sourceTree = "<group>"; };
+		0EB6B76616A334CD00FBD634 /* BSInitialViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSInitialViewController.m; sourceTree = "<group>"; };
+		0EB6B76816A335CC00FBD634 /* BSSidePanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSSidePanelViewController.h; sourceTree = "<group>"; };
+		0EB6B76916A335CC00FBD634 /* BSSidePanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSSidePanelViewController.m; sourceTree = "<group>"; };
+		0EB6B76B16A3428D00FBD634 /* BSInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSInboxViewController.h; sourceTree = "<group>"; };
+		0EB6B76C16A3428D00FBD634 /* BSInboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSInboxViewController.m; sourceTree = "<group>"; };
+		0EB6B77A16A6EEF800FBD634 /* consts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = consts.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +99,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0E4E4C91169CCB2500DEA13C /* QuartzCore.framework in Frameworks */,
 				0E8CFFE7168E1BEC0055DDC6 /* UIKit.framework in Frameworks */,
 				0E8CFFE9168E1BEC0055DDC6 /* Foundation.framework in Frameworks */,
 				0E8CFFEB168E1BEC0055DDC6 /* CoreGraphics.framework in Frameworks */,
@@ -85,6 +110,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E4E4C8C169CCACE00DEA13C /* Custom drag drop controller */ = {
+			isa = PBXGroup;
+			children = (
+				0E4E4C8D169CCAEF00DEA13C /* ATSDragToReorderTableViewController.h */,
+				0E4E4C8E169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m */,
+			);
+			name = "Custom drag drop controller";
+			sourceTree = "<group>";
+		};
 		0E71BE90169A059F002478BA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -123,11 +157,13 @@
 		0E8CFFD7168E1BEC0055DDC6 = {
 			isa = PBXGroup;
 			children = (
+				0E8CFFE5168E1BEC0055DDC6 /* Frameworks */,
+				0EB6B75616A3256800FBD634 /* SidePanel controller */,
+				0E4E4C8C169CCACE00DEA13C /* Custom drag drop controller */,
 				0E71BEA1169C1DE1002478BA /* Data Layer */,
 				0E71BEA0169C1DCA002478BA /* OBShapedButton */,
 				0E71BE90169A059F002478BA /* Resources */,
 				0E8CFFEE168E1BEC0055DDC6 /* BeSharp */,
-				0E8CFFE5168E1BEC0055DDC6 /* Frameworks */,
 				0E8CFFE3168E1BEC0055DDC6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -143,6 +179,7 @@
 		0E8CFFE5168E1BEC0055DDC6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0E4E4C90169CCB2500DEA13C /* QuartzCore.framework */,
 				0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */,
 				0E8CFFE8168E1BEC0055DDC6 /* Foundation.framework */,
 				0E8CFFEA168E1BEC0055DDC6 /* CoreGraphics.framework */,
@@ -154,9 +191,16 @@
 		0E8CFFEE168E1BEC0055DDC6 /* BeSharp */ = {
 			isa = PBXGroup;
 			children = (
+				0EB6B76B16A3428D00FBD634 /* BSInboxViewController.h */,
+				0EB6B76C16A3428D00FBD634 /* BSInboxViewController.m */,
+				0EB6B77A16A6EEF800FBD634 /* consts.h */,
+				0EB6B76516A334CD00FBD634 /* BSInitialViewController.h */,
+				0EB6B76616A334CD00FBD634 /* BSInitialViewController.m */,
 				0E8CFFF7168E1BEC0055DDC6 /* BSAppDelegate.h */,
 				0E8CFFF8168E1BEC0055DDC6 /* BSAppDelegate.m */,
 				0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */,
+				0EB6B76816A335CC00FBD634 /* BSSidePanelViewController.h */,
+				0EB6B76916A335CC00FBD634 /* BSSidePanelViewController.m */,
 				0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */,
 				0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */,
 				0E71BE88169A00DE002478BA /* LinePopupView.xib */,
@@ -179,6 +223,19 @@
 				0E8CFFFE168E1BEC0055DDC6 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		0EB6B75616A3256800FBD634 /* SidePanel controller */ = {
+			isa = PBXGroup;
+			children = (
+				0EB6B75816A3258C00FBD634 /* IISideController.h */,
+				0EB6B75916A3258C00FBD634 /* IISideController.m */,
+				0EB6B75A16A3258C00FBD634 /* IIViewDeckController.h */,
+				0EB6B75B16A3258C00FBD634 /* IIViewDeckController.m */,
+				0EB6B75C16A3258C00FBD634 /* IIWrapController.h */,
+				0EB6B75D16A3258C00FBD634 /* IIWrapController.m */,
+			);
+			name = "SidePanel controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -263,6 +320,13 @@
 				0E71BE871699D338002478BA /* BSLineCell.m in Sources */,
 				0E71BE8C169A03F9002478BA /* OBShapedButton.m in Sources */,
 				0E71BE8F169A0414002478BA /* UIImage+ColorAtPixel.m in Sources */,
+				0E4E4C8F169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m in Sources */,
+				0EB6B75E16A3258C00FBD634 /* IISideController.m in Sources */,
+				0EB6B75F16A3258C00FBD634 /* IIViewDeckController.m in Sources */,
+				0EB6B76016A3258C00FBD634 /* IIWrapController.m in Sources */,
+				0EB6B76716A334CD00FBD634 /* BSInitialViewController.m in Sources */,
+				0EB6B76A16A335CD00FBD634 /* BSSidePanelViewController.m in Sources */,
+				0EB6B76D16A3428D00FBD634 /* BSInboxViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

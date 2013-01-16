@@ -26,4 +26,7 @@
 
 - (BSLine*) getLine: (NSManagedObjectID *)lineId;
 
+// reordering
+- (void) moveLineFrom:(NSInteger) startPos to:(NSInteger) newPos;
+
 @end

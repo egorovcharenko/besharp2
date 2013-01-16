@@ -152,7 +152,7 @@
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
-
+    
 }
 
 - (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
@@ -207,7 +207,7 @@
 - (BSLine*) getLine: (NSManagedObjectID *)lineId;
 {
     NSError *error = nil;
- 
+    
     NSManagedObject *managedLine = nil;
 	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
         // Replace this implementation with code to handle the error appropriately.
@@ -218,6 +218,47 @@
     BSLine *line = [[BSLine alloc] init];
     line.text = [[managedLine valueForKey:@"text"] description];
     return line;
+}
+
+- (void) setLineOrder:(NSInteger)oldOrder newOrder:(NSInteger) newOrder
+{
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    [request setEntity:entityDescription];
+    
+    [request setPredicate:[NSPredicate predicateWithFormat:@"order == %@", oldOrder]];
+    NSError *error = nil;
+    NSArray *array = [self.context executeFetchRequest:request error:&error];
+
+    NSManagedObject *managedLine = array [0];
+    
+    [managedLine setValue:[NSNumber numberWithInteger:newOrder] forKey:@"order"];
+    
+    // Save the context.
+    error = nil;
+    if (![self.context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+- (void) moveLineFrom:(NSInteger) startPos to:(NSInteger) newPos
+{
+    if (newPos > startPos){
+        for (int i = startPos+1; i < newPos; i ++){
+            // decrease order for all items in-between
+            [self setLineOrder:i+1 newOrder: i];
+        }
+        
+        // moved object
+        [self setLineOrder:startPos newOrder:newPos];
+    } else {
+        
+    }
 }
 
 @end

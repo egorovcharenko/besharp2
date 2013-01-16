@@ -15,7 +15,7 @@
 #import <CoreData/CoreData.h>
 #import "ATSDragToReorderTableViewController.h"
 
-@interface BSMasterViewController : ATSDragToReorderTableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
+@interface BSInboxViewController : ATSDragToReorderTableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *textBoxNewTask;
 
 @property (strong, nonatomic) BSDetailViewController *detailViewController;

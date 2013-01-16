@@ -6,7 +6,7 @@
 //  Copyright (c) 2012 Egor Ovcharenko. All rights reserved.
 //
 
-#import "BSMasterViewController.h"
+#import "BSInboxViewController.h"
 
 #import "BSDataController.h"
 
@@ -14,15 +14,14 @@
 #import "BSLineCell.h"
 
 #import "consts.h"
-
 #import "IIViewDeckController.h"
 
 
-@interface BSMasterViewController ()
+@interface BSInboxViewController ()
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
 @end
 
-@implementation BSMasterViewController
+@implementation BSInboxViewController
 
 @synthesize popupView;
 
@@ -143,7 +142,7 @@
     
     self.currentlySelectedCell.textFieldForEdit.hidden = NO;
     self.currentlySelectedCell.textLabel.hidden = YES;
-    self.currentlySelectedCell.textFieldForEdit.text = [[object valueForKey:@"text"] description];      
+    self.currentlySelectedCell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
     
     [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
     //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
@@ -184,25 +183,25 @@
        atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type
       newIndexPath:(NSIndexPath *)newIndexPath
 {
-//    UITableView *tableView = self.tableView;
-//    switch(type) {
-//        case NSFetchedResultsChangeInsert:
-//            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//            
-//        case NSFetchedResultsChangeDelete:
-//            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//            
-//        case NSFetchedResultsChangeUpdate:
-//            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
-//            break;
-//            
-//        case NSFetchedResultsChangeMove:
-//            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
-//            break;
-//    }
+    //    UITableView *tableView = self.tableView;
+    //    switch(type) {
+    //        case NSFetchedResultsChangeInsert:
+    //            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //            break;
+    //
+    //        case NSFetchedResultsChangeDelete:
+    //            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //            break;
+    //
+    //        case NSFetchedResultsChangeUpdate:
+    //            [self configureCell:[tableView cellForRowAtIndexPath:indexPath] atIndexPath:indexPath];
+    //            break;
+    //
+    //        case NSFetchedResultsChangeMove:
+    //            [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //            [tableView insertRowsAtIndexPaths:@[newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+    //            break;
+    //    }
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
@@ -244,7 +243,7 @@
     
     // configure indent view
     int indent = [[object valueForKey:@"indent"] integerValue];
-
+    
     // enumerate over all constraints
     for (NSLayoutConstraint *constraint in cell.indentView.constraints) {
         // find constraint on this view and with 'width' attribute
@@ -256,7 +255,7 @@
             break;
         }
     }
-
+    
     // add tag to identify clicks
     cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
 }
@@ -305,7 +304,7 @@
 }
 
 - (IBAction)leftButtonOnCellClicked:(UIButton*)sender forEvent:(UIEvent *)event {
-     // remember current line
+    // remember current line
     if (!([sender isKindOfClass:[UIButton class]]))
         return;
     NSUInteger section = ((sender.tag >> 16) & 0xFFFF);
