@@ -8,32 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@class BSDetailViewController;
-@class BSDataController;
-@class BSLineCell;
 
 #import <CoreData/CoreData.h>
 #import "ATSDragToReorderTableViewController.h"
 
-@interface BSMasterViewController : ATSDragToReorderTableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
-@property (weak, nonatomic) IBOutlet UITextField *textBoxNewTask;
+#import "BSListViewController.h"
 
-@property (strong, nonatomic) BSDetailViewController *detailViewController;
-
-@property BSDataController* dataController;
-
-@property BSLineCell *currentlySelectedCell;
-
-//inline editing
-@property NSManagedObjectID *currentEditingItemId;
-- (IBAction)leftButtonOnCellClicked:(id)sender forEvent:(UIEvent *)event;
+@interface BSMasterViewController : BSListViewController
 
 // popup dialog
 - (IBAction)indentMinusAction:(id)sender;
 - (IBAction)indentPlusAction:(id)sender;
-- (IBAction)moveActionClicked:(id)sender;
-@property (strong) UIView *popupView;
-@property NSManagedObject *popupLine;
-@property NSIndexPath *popupIndexPath;
+- (IBAction)completeTaskClicked:(id)sender;
+- (IBAction)markAsProjectClicked:(id)sender;
+- (IBAction)leftButtonClicked:(id)sender;
 
 @end

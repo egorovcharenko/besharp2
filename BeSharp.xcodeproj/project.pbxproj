@@ -39,6 +39,8 @@
 		0EB6B76716A334CD00FBD634 /* BSInitialViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B76616A334CD00FBD634 /* BSInitialViewController.m */; };
 		0EB6B76A16A335CD00FBD634 /* BSSidePanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B76916A335CC00FBD634 /* BSSidePanelViewController.m */; };
 		0EB6B76D16A3428D00FBD634 /* BSInboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B76C16A3428D00FBD634 /* BSInboxViewController.m */; };
+		0EB6B78316A830B800FBD634 /* BSListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B78216A830B800FBD634 /* BSListViewController.m */; };
+		0EB6B78516A83CD000FBD634 /* BSInboxPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0EB6B78416A83CD000FBD634 /* BSInboxPopup.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -92,6 +94,9 @@
 		0EB6B76B16A3428D00FBD634 /* BSInboxViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSInboxViewController.h; sourceTree = "<group>"; };
 		0EB6B76C16A3428D00FBD634 /* BSInboxViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSInboxViewController.m; sourceTree = "<group>"; };
 		0EB6B77A16A6EEF800FBD634 /* consts.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = consts.h; sourceTree = "<group>"; };
+		0EB6B78116A830B800FBD634 /* BSListViewController.h */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.h; path = BSListViewController.h; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		0EB6B78216A830B800FBD634 /* BSListViewController.m */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = BSListViewController.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 1; };
+		0EB6B78416A83CD000FBD634 /* BSInboxPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BSInboxPopup.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +162,7 @@
 		0E8CFFD7168E1BEC0055DDC6 = {
 			isa = PBXGroup;
 			children = (
+				0EB6B77F16A8300200FBD634 /* Shared components */,
 				0E8CFFE5168E1BEC0055DDC6 /* Frameworks */,
 				0EB6B75616A3256800FBD634 /* SidePanel controller */,
 				0E4E4C8C169CCACE00DEA13C /* Custom drag drop controller */,
@@ -201,9 +207,12 @@
 				0E8C0000168E1BEC0055DDC6 /* MainStoryboard_iPhone.storyboard */,
 				0EB6B76816A335CC00FBD634 /* BSSidePanelViewController.h */,
 				0EB6B76916A335CC00FBD634 /* BSSidePanelViewController.m */,
+				0EB6B78116A830B800FBD634 /* BSListViewController.h */,
+				0EB6B78216A830B800FBD634 /* BSListViewController.m */,
 				0E8C0009168E1BEC0055DDC6 /* BSMasterViewController.h */,
 				0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */,
 				0E71BE88169A00DE002478BA /* LinePopupView.xib */,
+				0EB6B78416A83CD000FBD634 /* BSInboxPopup.xib */,
 				0E71BE851699D338002478BA /* BSLineCell.h */,
 				0E71BE861699D338002478BA /* BSLineCell.m */,
 				0E8CFFEF168E1BEC0055DDC6 /* Supporting Files */,
@@ -236,6 +245,13 @@
 				0EB6B75D16A3258C00FBD634 /* IIWrapController.m */,
 			);
 			name = "SidePanel controller";
+			sourceTree = "<group>";
+		};
+		0EB6B77F16A8300200FBD634 /* Shared components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Shared components";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -301,6 +317,7 @@
 				0E71BE97169A05B5002478BA /* sectorForBSRight.png in Resources */,
 				0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */,
 				0E71BE9F169C1AE3002478BA /* Bullet.png in Resources */,
+				0EB6B78516A83CD000FBD634 /* BSInboxPopup.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -327,6 +344,7 @@
 				0EB6B76716A334CD00FBD634 /* BSInitialViewController.m in Sources */,
 				0EB6B76A16A335CD00FBD634 /* BSSidePanelViewController.m in Sources */,
 				0EB6B76D16A3428D00FBD634 /* BSInboxViewController.m in Sources */,
+				0EB6B78316A830B800FBD634 /* BSListViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

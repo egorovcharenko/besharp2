@@ -82,6 +82,13 @@
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
+    //NSMutableArray *predicateArray = [NSMutableArray array];
+    //[predicateArray addObject:[NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString]];
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted == %@", 0];
+    [fetchRequest setPredicate:filterPredicate];
+
+    //[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isCompleted == %@", 0]];
+
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
     NSArray *sortDescriptors = @[sortDescriptor];
@@ -90,7 +97,8 @@
     
     // Edit the section name key path and cache name if appropriate.
     // nil for section name key path means "no sections".
-    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:nil cacheName:@"Master"];
+    NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:nil cacheName:nil];
+    
     aFetchedResultsController.delegate = self;
     self.fetchedResultsController = aFetchedResultsController;
     
@@ -220,6 +228,20 @@
     return line;
 }
 
+- (NSManagedObject*) getManagedLine: (NSManagedObjectID *)lineId;
+{
+    NSError *error = nil;
+    
+    NSManagedObject *managedLine = nil;
+	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    return managedLine;
+}
+
 - (void) setLineOrder:(NSInteger)oldOrder newOrder:(NSInteger) newOrder
 {
     NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
@@ -259,6 +281,55 @@
     } else {
         
     }
+}
+
+- (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted
+{
+    NSError *error = nil;
+    
+    NSManagedObject *managedLine = nil;
+	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+
+    [managedLine setValue:[NSNumber numberWithBool:isCompleted] forKey:@"isCompleted"];
+    
+    // Save the context.
+    error = nil;
+    if (![self.context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
+- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject
+{
+    NSError *error = nil;
+    
+    NSManagedObject *managedLine = nil;
+	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    
+    [managedLine setValue:[NSNumber numberWithBool:isProject] forKey:@"isProject"];
+    
+    // Save the context.
+    error = nil;
+    if (![self.context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+
 }
 
 @end

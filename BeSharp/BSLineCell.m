@@ -32,4 +32,6 @@
     // Configure the view for the selected state
 }
 
+- (IBAction)leftButtonClicked:(id)sender {
+}
 @end

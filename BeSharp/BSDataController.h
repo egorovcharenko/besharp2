@@ -24,9 +24,17 @@
 
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 
+// get line
 - (BSLine*) getLine: (NSManagedObjectID *)lineId;
+- (NSManagedObject*) getManagedLine: (NSManagedObjectID *)lineId;
 
 // reordering
 - (void) moveLineFrom:(NSInteger) startPos to:(NSInteger) newPos;
+
+// completion
+- (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted ;
+
+// set as a project
+- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject ;
 
 @end
