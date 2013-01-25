@@ -11,12 +11,17 @@
 @class BSDetailViewController;
 @class BSDataController;
 @class BSLineCell;
+@class Line;
 
 @interface BSListViewController : ATSDragToReorderTableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
 
 // data access
 @property (strong, nonatomic) BSDetailViewController *detailViewController;
 @property BSDataController* dataController;
+// cache
+@property NSFetchedResultsController *fetchResultsController;
+- (void)setDataController;
+- (void)initFetchController;
 
 //inline editing
 @property NSManagedObjectID *currentEditingItemId;
@@ -38,5 +43,12 @@
 
 // display cells
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;
+
+// parent project
+- (Line*) getAParentProject;
+
+// virtual methods
+- (NSInteger) getLineType;
+- (Line*) getLine:(NSIndexPath *)indexPath;
 
 @end

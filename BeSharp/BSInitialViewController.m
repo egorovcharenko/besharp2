@@ -41,7 +41,10 @@
 {
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
     self = [super initWithCenterViewController:[storyboard instantiateViewControllerWithIdentifier:@"masterViewController"]
-                            leftViewController:[storyboard instantiateViewControllerWithIdentifier:@"sidePanel"]];
+            leftViewController:[storyboard instantiateViewControllerWithIdentifier:@"sidePanel"]
+            rightViewController:[storyboard instantiateViewControllerWithIdentifier:@"projectsList"]
+            ];
+    
     // disable centerview when side is opened
     self.centerhiddenInteractivity = IIViewDeckCenterHiddenNotUserInteractiveWithTapToClose;
     

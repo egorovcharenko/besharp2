@@ -23,4 +23,7 @@
 - (IBAction)markAsProjectClicked:(id)sender;
 - (IBAction)leftButtonClicked:(id)sender;
 
+// parent project
+@property Line* parentProject;
+
 @end

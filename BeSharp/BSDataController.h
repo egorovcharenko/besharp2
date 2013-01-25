@@ -7,34 +7,41 @@
 //
 
 #import <Foundation/Foundation.h>
+
 @class BSAppDelegate;
-@class BSLine;
+@class Line;
 
 @interface BSDataController : NSObject <NSFetchedResultsControllerDelegate>
 
 @property NSManagedObjectContext *context;
-@property NSFetchedResultsController *fetchedResultsController;
+//@property NSFetchedResultsController *fetchedResultsController;
 @property NSObject <NSFetchedResultsControllerDelegate> *fetchedResultsControllerDelegate;
 
 - (BSDataController*) initWithAppDelegate:(BSAppDelegate *)delegate fetchedControllerDelegate:(NSObject <NSFetchedResultsControllerDelegate>*)fetchedResultsControllerDelegate;
-- (int) addNewLineWithLine:(BSLine *) newLine;
-- (NSFetchedResultsController *) getAllLines;
+
+// add lines
+- (int) saveLine:(Line *) newLine;
+- (Line*) createNewLineForSaving;
+
+// getting lines
+//- (NSFetchedResultsController *) getAllLines;
+- (NSFetchedResultsController *) getAllLinesFromProject:(Line*)project;
+- (NSFetchedResultsController *) getAllLinesFromProject:(Line*)project lineType:(NSInteger)lineType;
+//- (Line*) getManagedLine: (NSManagedObjectID *)lineId;
+
+// updating lines
 - (void) saveLine: (NSManagedObjectID *)lineId withText:(NSString *) newText;
 - (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
-
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
-
-// get line
-- (BSLine*) getLine: (NSManagedObjectID *)lineId;
-- (NSManagedObject*) getManagedLine: (NSManagedObjectID *)lineId;
-
-// reordering
-- (void) moveLineFrom:(NSInteger) startPos to:(NSInteger) newPos;
-
 // completion
 - (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted ;
-
 // set as a project
 - (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject ;
+
+// reordering
+- (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos;
+
+// get inbox managedId
+- (Line*) getInbox;
 
 @end

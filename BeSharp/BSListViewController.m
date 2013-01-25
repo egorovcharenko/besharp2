@@ -1,6 +1,6 @@
 //
 //  BSListViewController.m
-//  
+//
 //
 //  Created by Egor Ovcharenko on 17.01.13.
 //
@@ -10,7 +10,7 @@
 
 #import "BSDataController.h"
 
-#import "BSLine.h"
+#import "Line.h"
 #import "BSLineCell.h"
 
 #import "consts.h"
@@ -20,6 +20,7 @@
 @implementation BSListViewController
 
 @synthesize headerManualView;
+@synthesize fetchResultsController;
 //@synthesize newLineTextField;
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
@@ -53,43 +54,41 @@
     [self.tableView endUpdates];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
-    
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
     if(self.headerManualView == nil) {
         //allocate the view if it doesn't exist yet
         headerManualView  = [[UIView alloc] init];
         
-        self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 3, 250, 44)];
+        // new entry field
+        self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 250, 34)];
         self.theNewLineTextField.borderStyle = UITextBorderStyleRoundedRect;
         [headerManualView addSubview:self.theNewLineTextField];
         
+        // add entry button
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [addButton setFrame:CGRectMake(270, 3, 44, 44)];
+        [addButton setFrame:CGRectMake(270, 20, 44, 34)];
         [addButton setTitle:@"+" forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(newTaskButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
         [headerManualView addSubview:addButton];
+        
+        // get parent project
+        
+        Line *parentProject = [self getAParentProject];
+        if (parentProject != nil){
+            // top label
+            CGFloat width = CGRectGetWidth(self.view.bounds);
+            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, width, 15)];
+            [topLabel setText:parentProject.text];
+            [topLabel setTextAlignment:NSTextAlignmentCenter];
+            [headerManualView addSubview:topLabel];
+        }
     }
     
     //return the view for the footer
     return headerManualView;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
-    
-    // inline editing
-    self.currentEditingItemId = [object objectID];
-    self.currentlySelectedCell = (BSLineCell*) [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    self.currentlySelectedCell.textFieldForEdit.hidden = NO;
-    self.currentlySelectedCell.textLabel.hidden = YES;
-    self.currentlySelectedCell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
-    
-    [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
-    //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
-    //[self.tableView reloadData];
-}
 
 
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -122,6 +121,20 @@
     [super awakeFromNib];
 }
 
+- (void)setDataController
+{
+    // data controller
+    if (self.dataController == nil){
+        self.dataController = [[BSDataController alloc]initWithAppDelegate:(BSAppDelegate*)[[UIApplication sharedApplication] delegate] fetchedControllerDelegate:self];
+    }
+}
+
+- (void)initFetchController
+{
+    // init fetch controller
+    self.fetchResultsController = [self.dataController getAllLinesFromProject:[self getAParentProject] lineType:[self getLineType]];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -129,25 +142,23 @@
     //self.navigationItem.leftBarButtonItem = self.editButtonItem;
     
     // setup buttons on top
-    UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-    self.navigationItem.rightBarButtonItem = addButton;
+    //UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+    //self.navigationItem.rightBarButtonItem = addButton;
     
-    // misc
-    self.detailViewController = (BSDetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
-    
-    // data controller
-    self.dataController = [[BSDataController alloc]initWithAppDelegate:(BSAppDelegate*)[[UIApplication sharedApplication] delegate] fetchedControllerDelegate:self];
-    
+    [self setDataController];
     // top entry of new task button
     self.theNewLineTextField.delegate = self;
     
     // nothing is being edited
     self.currentEditingItemId = nil;
+    
+    [self initFetchController];
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return [[[self.dataController getAllLines] sections] count];
+    return 1;
 }
 
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -168,7 +179,7 @@
 
 - (void)configureCell:(BSLineCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [[self.dataController getAllLines] objectAtIndexPath:indexPath];
+    NSManagedObject *object = [self getLine:indexPath];
     
     cell.textFieldForEdit.delegate = self;
     
@@ -185,7 +196,7 @@
         cell.textFieldForEdit.hidden = YES;
         cell.textLabel.hidden = NO;
         //cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[object valueForKey:@"text"] description], [object valueForKey:@"order"], [object valueForKey:@"indent"],[object valueForKey:@"isProject"]];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[object valueForKey:@"text"] description], [object valueForKey:@"order"], [object valueForKey:@"indent"],[object valueForKey:@"parentProject"]];
     }
     
     // project
@@ -197,7 +208,7 @@
     
     // configure indent view
     int indent = [[object valueForKey:@"indent"] integerValue];
-
+    
     // enumerate over all constraints
     for (NSLayoutConstraint *constraint in cell.indentView.constraints) {
         // find constraint on this view and with 'width' attribute
@@ -209,7 +220,7 @@
             break;
         }
     }
-
+    
     // add tag to identify clicks
     cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
 }
@@ -218,13 +229,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    NSFetchedResultsController* lines = [self.dataController getAllLines];
-    id <NSFetchedResultsSectionInfo> sectionInfo = [lines sections][section];
-    return [sectionInfo numberOfObjects];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -252,6 +256,7 @@
      */
 }
 
+
 - (CGFloat)tableView:(UITableView *)tableView
 heightForHeaderInSection:(NSInteger)section {
     //differ between your sections or if you
@@ -260,13 +265,13 @@ heightForHeaderInSection:(NSInteger)section {
 }
 
 - (IBAction)showPopup:(UIButton*)sender {
-     // remember current line
+    // remember current line
     if (!([sender isKindOfClass:[UIButton class]]))
         return;
     NSUInteger section = ((sender.tag >> 16) & 0xFFFF);
     NSUInteger row     = (sender.tag & 0xFFFF);
     self.popupIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
-    self.popupLine = [[self.dataController getAllLines] objectAtIndexPath:self.popupIndexPath];
+    self.popupLine = [self getLine:self.popupIndexPath];
     
     // show radial menu
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:[self popupNibName] owner:self options:nil];
@@ -324,28 +329,39 @@ heightForHeaderInSection:(NSInteger)section {
     return YES;
 }
 
-- (IBAction)newTaskButtonClicked:(id)sender {
-    BSLine *line = [BSLine alloc];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    //NSError *error = nil;
+    //[self.fetchResultsController performFetch:&error];
     
+    //id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchResultsController sections][section];
+    //int count2 = [sectionInfo numberOfObjects];
+    int count = [self.fetchResultsController.fetchedObjects count];
+    return count;
+}
+
+- (IBAction)newTaskButtonClicked:(id)sender {
+    Line *line = [self.dataController createNewLineForSaving];
     line.text = self.theNewLineTextField.text;
     line.order = 0; // take last order
+    line.parentProject = [self getAParentProject];
+    line.type = [self getLineType];
     
     [self.tableView beginUpdates];
     
-    int newLineOrder = [self.dataController addNewLineWithLine:line];
+    int newLineOrder = [self.dataController saveLine:line];
     
     // clear new task
     self.theNewLineTextField.text = @"";
     
-    // scroll to new line
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.dataController.fetchedResultsController.fetchedObjects count]-1 inSection:0];
-    
+    // animate the insert
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.fetchResultsController.fetchedObjects count]-1 inSection:0];
     NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
-    
     [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    
     [self.tableView endUpdates];
-    //[self.tableView reloadData];
+    
+    // scroll to new line
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
 }
 

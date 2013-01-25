@@ -10,8 +10,6 @@
 
 #import "IIViewDeckController.h"
 
-#import "BSInboxViewController.h"
-
 @interface BSSidePanelViewController ()
 
 @end
@@ -40,11 +38,11 @@
 }
 
 - (IBAction)inboxButtonClicked:(id)sender {
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
+    //UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
     
-    [self.viewDeckController closeLeftView];
+    //[self.viewDeckController closeLeftView];
     
-    self.viewDeckController.centerController = [storyboard instantiateViewControllerWithIdentifier:@"inboxView"];
+    //self.viewDeckController.centerController = [storyboard instantiateViewControllerWithIdentifier:@"inboxView"];
 }
 
 - (IBAction)projectsButtonClicked:(id)sender {

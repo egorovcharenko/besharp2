@@ -10,7 +10,7 @@
 
 #import "BSDataController.h"
 
-#import "BSLine.h"
+#import "Line.h"
 #import "BSLineCell.h"
 
 #import "consts.h"
@@ -25,14 +25,24 @@
 
 @synthesize popupView;
 @synthesize headerView;
+@synthesize parentProject;
+
+- (void)viewDidLoad
+{
+    [self setDataController];
+    self.parentProject = [self.dataController getInbox];
+    [super viewDidLoad];    
+}
+
+- (NSInteger) getLineType
+{
+    return 1;
+}
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
 }
-
-
-
 
 - (IBAction)indentMinusAction:(id)sender {
     // decrease indent
@@ -118,6 +128,48 @@
     return @"LinePopupView";
 }
 
+- (Line*) getAParentProject
+{
+    // todo
+    return self.parentProject;
+    //return [self.dataController getInbox];
+}
 
+- (Line*) getParentProject
+{
+    // todo
+    return parentProject;
+    //return [self.dataController getInbox];
+}
+
+-(void) setParentProject:(Line*)aParentProject
+{
+    parentProject = aParentProject;
+    
+    // refresh data after parent changed
+    [self initFetchController];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Line *line = [self getLine:indexPath];
+    
+    // inline editing
+    self.currentEditingItemId = [line objectID];
+    self.currentlySelectedCell = (BSLineCell*) [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    self.currentlySelectedCell.textFieldForEdit.hidden = NO;
+    self.currentlySelectedCell.textLabel.hidden = YES;
+    self.currentlySelectedCell.textFieldForEdit.text = line.text;
+    
+    [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
+    //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
+    //[self.tableView reloadData];
+}
+
+- (Line*) getLine:(NSIndexPath *)indexPath
+{
+    return [self.fetchResultsController objectAtIndexPath:indexPath];
+}
 
 @end

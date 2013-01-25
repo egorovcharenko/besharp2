@@ -8,7 +8,18 @@
 
 #import "BSDataController.h"
 #import "BSAppDelegate.h"
-#import "BSLine.h"
+#import "Line.h"
+
+/*
+
+ type:
+ 1 - line
+ 2 - project
+ 3 - inbox
+ 
+*/
+
+
 
 @implementation BSDataController
 
@@ -19,14 +30,16 @@
     return self;
 }
 
--(int) addNewLineWithLine:(BSLine *)newLine
+-(Line*) createNewLineForSaving
 {
     NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
-    NSManagedObject *newManagedLine = [[NSManagedObject alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.context];
-    
+    Line *newManagedLine = [[Line alloc] initWithEntity:entityDesc insertIntoManagedObjectContext:self.context];
+    return newManagedLine;
+}
+
+-(int) saveLine:(Line *)newLine
+{
     int result = newLine.order;
-    
-    [newManagedLine setValue:newLine.text forKey:@"text"];
     
     // if order is not specified - get last one
     if (newLine.order <=0){
@@ -50,10 +63,9 @@
         };
         
         if (count >=0){
-            [newManagedLine setValue:[NSNumber numberWithInteger:count] forKey:@"order"];
+            newLine.order = count;
         }
         result = count;
-        
     }
     
     // Save the context.
@@ -70,10 +82,23 @@
 
 -(NSFetchedResultsController*) getAllLines
 {
-    if (_fetchedResultsController != nil) {
-        return _fetchedResultsController;
-    }
+    NSFetchedResultsController *fetchedResultsController;
+    fetchedResultsController = [self getAllLinesInternal:0];
+    fetchedResultsController.delegate = self;
     
+	NSError *error = nil;
+	if (![fetchedResultsController performFetch:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+	    abort();
+	}
+    
+    return fetchedResultsController;
+}
+
+-(NSFetchedResultsController*) getAllLinesInternal:(NSInteger)lineType
+{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     // Edit the entity name as appropriate.
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
@@ -84,7 +109,7 @@
     
     //NSMutableArray *predicateArray = [NSMutableArray array];
     //[predicateArray addObject:[NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString]];
-    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted == %@", 0];
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted == %@ AND type == %@", 0, lineType];
     [fetchRequest setPredicate:filterPredicate];
 
     //[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isCompleted == %@", 0]];
@@ -99,18 +124,7 @@
     // nil for section name key path means "no sections".
     NSFetchedResultsController *aFetchedResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:nil cacheName:nil];
     
-    aFetchedResultsController.delegate = self;
-    self.fetchedResultsController = aFetchedResultsController;
-    
-	NSError *error = nil;
-	if (![self.fetchedResultsController performFetch:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-    
-    return _fetchedResultsController;
+    return aFetchedResultsController;
 }
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller
@@ -186,6 +200,55 @@
     }
 }
 
+- (NSFetchedResultsController *) getAllLinesFromProject:(Line*)project
+{
+    return [self getAllLinesFromProject:project lineType:1];
+}
+
+- (NSFetchedResultsController *) getAllLinesFromProject:(Line*)project lineType:(NSInteger)lineType
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    // Edit the entity name as appropriate.
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    // Set the batch size to a suitable number.
+    [fetchRequest setFetchBatchSize:20];
+    
+    NSPredicate *filterPredicate;
+    if (project != nil){
+        filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted = %@ AND type = %d AND parentProject = %@", 0, lineType, project];
+    } else {
+        filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted = %@ AND type = %d AND parentProject = %@", 0, lineType, project];
+        
+        //filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted = %@ AND type = %d AND parentProject is null", 0, lineType];
+    }
+    [fetchRequest setPredicate:filterPredicate];
+    
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    // Edit the section name key path and cache name if appropriate.
+    // nil for section name key path means "no sections".
+    NSFetchedResultsController *fetchResultsController = [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest managedObjectContext:self.context sectionNameKeyPath:nil cacheName:nil];
+    
+    fetchResultsController.delegate = self;
+    
+    // temp
+    NSError *error = nil;
+    //NSArray* temp = [self.context executeFetchRequest:fetchRequest error:&error];
+    //int tempCount = temp.count;
+    
+    [fetchResultsController performFetch:&error];
+    //int anotherCount = [fetchResultsController.fetchedObjects count];
+    
+    return fetchResultsController;
+}
+
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 {
     NSError *error = nil;
@@ -212,27 +275,11 @@
     }
 }
 
-- (BSLine*) getLine: (NSManagedObjectID *)lineId;
+- (Line*) getManagedLine: (NSManagedObjectID *)lineId;
 {
     NSError *error = nil;
     
-    NSManagedObject *managedLine = nil;
-	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-    BSLine *line = [[BSLine alloc] init];
-    line.text = [[managedLine valueForKey:@"text"] description];
-    return line;
-}
-
-- (NSManagedObject*) getManagedLine: (NSManagedObjectID *)lineId;
-{
-    NSError *error = nil;
-    
-    NSManagedObject *managedLine = nil;
+    Line *managedLine = nil;
 	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
         // Replace this implementation with code to handle the error appropriately.
         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
@@ -330,6 +377,42 @@
         abort();
     }
 
+}
+- (Line*) getInbox
+{
+    Line* result = [self getInboxInternal];
+    
+    if(result == nil){
+        // create inbox if it's not created yet
+        Line *line = [self createNewLineForSaving];
+        line.text = @"Inbox";
+        line.type = 3;
+        line.parentProject = nil;
+        
+        [self saveLine:line];
+        
+        // rerun query
+        result = [self getInboxInternal];
+    }
+    return result;
+}
+
+- (Line*) getInboxInternal
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"type == 3", 0];
+    [fetchRequest setPredicate:filterPredicate];
+    
+    NSError *error = nil;
+    NSArray *array = [self.context executeFetchRequest:fetchRequest error:&error];
+    
+    if (array.count == 0){
+        return nil;
+    }
+    return array [0];
 }
 
 @end
