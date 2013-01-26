@@ -46,13 +46,14 @@
     // for project
     // open central view with this' project tasks
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-    BSMasterViewController *masterViewController = [storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
+    //BSMasterViewController *masterViewController = [storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
 
     // set this project as root
+    BSMasterViewController *masterViewController = (BSMasterViewController*) self.viewDeckController.centerController;
     masterViewController.parentProject = line;
     
     // show center
-    self.viewDeckController.centerController = masterViewController;
+    //self.viewDeckController.centerController = masterViewController;
     [self.viewDeckController closeRightView];
 }
 

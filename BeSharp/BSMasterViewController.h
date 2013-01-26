@@ -22,8 +22,9 @@
 - (IBAction)completeTaskClicked:(id)sender;
 - (IBAction)markAsProjectClicked:(id)sender;
 - (IBAction)leftButtonClicked:(id)sender;
+- (IBAction)pomodoroButtonClicked:(id)sender;
 
 // parent project
-@property Line* parentProject;
+@property (nonatomic) Line* parentProject;
 
 @end

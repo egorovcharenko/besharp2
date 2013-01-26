@@ -63,6 +63,7 @@
         // new entry field
         self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 250, 34)];
         self.theNewLineTextField.borderStyle = UITextBorderStyleRoundedRect;
+        self.theNewLineTextField.returnKeyType = UIReturnKeyDone;
         [headerManualView addSubview:self.theNewLineTextField];
         
         // add entry button

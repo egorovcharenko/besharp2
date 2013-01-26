@@ -123,6 +123,10 @@
     [self showPopup:sender];
 }
 
+- (IBAction)pomodoroButtonClicked:(id)sender {
+    //...
+}
+
 - (NSString*) popupNibName
 {
     return @"LinePopupView";
@@ -135,7 +139,7 @@
     //return [self.dataController getInbox];
 }
 
-- (Line*) getParentProject
+-(Line*) getParentProject
 {
     // todo
     return parentProject;
@@ -148,6 +152,12 @@
     
     // refresh data after parent changed
     [self initFetchController];
+    
+    // refresh all lines
+    [self.tableView reloadData];
+    
+    // refresh header
+    self.headerManualView = nil;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
