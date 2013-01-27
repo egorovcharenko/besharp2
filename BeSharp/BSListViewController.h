@@ -13,7 +13,13 @@
 @class BSLineCell;
 @class Line;
 
-@interface BSListViewController : ATSDragToReorderTableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate>
+@protocol LineSelectionDelegate
+-(void) selectedLine:(Line*)selectedLine;
+@end
+
+@interface BSListViewController : ATSDragToReorderTableViewController <NSFetchedResultsControllerDelegate, UITableViewDelegate, UITextFieldDelegate, LineSelectionDelegate>{
+    //id <LineSelectionDelegate> lineSelectedDelegate;
+}
 
 // data access
 @property (strong, nonatomic) BSDetailViewController *detailViewController;
@@ -33,10 +39,12 @@
 - (IBAction)newTaskButtonClicked:(id)sender;
 @property UITextField *theNewLineTextField;
 @property UIView *headerManualView;
+@property UIView *footerManualView;
+-(NSInteger) leftShift;
 
 // popup
 @property (strong) UIView *popupView;
-@property NSManagedObject *popupLine;
+@property Line *popupLine;
 @property NSIndexPath *popupIndexPath;
 - (NSString*) popupNibName;
 - (IBAction)showPopup:(UIButton*)sender;
@@ -50,5 +58,8 @@
 // virtual methods
 - (NSInteger) getLineType;
 - (Line*) getLine:(NSIndexPath *)indexPath;
+
+// selection delegate
+@property (retain, nonatomic) id <LineSelectionDelegate> lineSelectedDelegate;
 
 @end

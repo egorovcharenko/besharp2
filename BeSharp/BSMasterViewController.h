@@ -23,8 +23,14 @@
 - (IBAction)markAsProjectClicked:(id)sender;
 - (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)pomodoroButtonClicked:(id)sender;
+- (IBAction)popupBackgroundButtonClicked:(id)sender;
+- (IBAction)markAsGoalClicked:(id)sender;
+- (IBAction)moveToProjectClicked:(id)sender;
 
 // parent project
 @property (nonatomic) Line* parentProject;
+
+// change project for line
+@property Line* lineWithProbablyNewProject;
 
 @end

@@ -9,9 +9,11 @@
 #import "BSMasterViewController.h"
 
 #import "BSDataController.h"
+#import "BSProjectsViewController.h"
 
 #import "Line.h"
 #import "BSLineCell.h"
+#import "BSSidePanelViewController.h"
 
 #import "consts.h"
 
@@ -90,33 +92,15 @@
     NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
     
     [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
-    //[self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
     
     // update all rows after deleted!!
     [self.tableView reloadData];
     [self.tableView endUpdates];
 }
 
-- (IBAction)markAsProjectClicked:(id)sender {
-    [self.tableView beginUpdates];
-    
-    if (self.popupLine != nil){
-        if ([[self.popupLine valueForKey:@"isProject"] integerValue] == 0){
-            // mark as project
-            [self.dataController setProjectFlag:[self.popupLine objectID] isProject:1];
-        } else {
-            // unmark as project
-            [self.dataController setProjectFlag:[self.popupLine objectID] isProject:0];
-        }
-    }
-    // hide popup
-    [popupView removeFromSuperview];
-    
-    // update row
-    NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
-    
-    [self.tableView reloadRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationNone];
-    [self.tableView endUpdates];
+-(NSInteger) leftShift
+{
+    return 0;
 }
 
 - (IBAction)leftButtonClicked:(id)sender {
@@ -124,7 +108,81 @@
 }
 
 - (IBAction)pomodoroButtonClicked:(id)sender {
-    //...
+    // hide popup
+    [popupView removeFromSuperview];
+    
+    // set task as focused on the left panel
+    BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
+    sidePanelController.focusedTask = self.popupLine;
+    
+    // show left panel
+    [self.viewDeckController openLeftView];
+}
+
+- (IBAction)popupBackgroundButtonClicked:(id)sender {
+    // hide popup
+    [popupView removeFromSuperview];
+}
+
+- (IBAction)markAsGoalClicked:(id)sender {
+    // set as last goal
+    self.popupLine.goalType = 1;
+    self.popupLine.goalOrder = [self.dataController lastGoalOrderByType:1] + 1;
+    
+    // save line
+    [self.dataController saveLine:self.popupLine];
+    
+    // update left goals table
+    [((BSSidePanelViewController*)self.viewDeckController.leftController).goalsTable reloadData];
+    
+    // hide popup
+    [popupView removeFromSuperview];
+}
+
+- (IBAction)moveToProjectClicked:(id)sender
+{
+    // hide popup
+    [popupView removeFromSuperview];
+    
+    // set delegate
+    BSProjectsViewController *projectsViewController = (BSProjectsViewController*) self.viewDeckController.rightController;
+    projectsViewController.lineSelectedDelegate = self;
+    
+    // remember line
+    self.lineWithProbablyNewProject = self.popupLine;
+    
+    // set selection mode for project screen
+    projectsViewController.selectionMode = YES;
+    
+    // show projects view
+    [self.viewDeckController openRightView];
+}
+
+// called when project is selected for line
+-(void) selectedLine:(Line*)selectedProjectForLine
+{
+    BSProjectsViewController *projectsViewController = (BSProjectsViewController*) self.viewDeckController.rightController;
+    
+    // reset selection mode for project screen
+    projectsViewController.selectionMode = NO;
+    
+    // close projects view
+    [self.viewDeckController closeRightView];
+
+    // set new project
+    if (selectedProjectForLine != nil){
+        [self.tableView beginUpdates];
+        self.lineWithProbablyNewProject.parentProject = selectedProjectForLine;
+        
+        // save line
+        [self.dataController saveLine:self.lineWithProbablyNewProject];
+    
+        // update row
+        NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
+        [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [self.tableView endUpdates];
+    }
 }
 
 - (NSString*) popupNibName
@@ -134,12 +192,10 @@
 
 - (Line*) getAParentProject
 {
-    // todo
     return self.parentProject;
-    //return [self.dataController getInbox];
 }
 
--(Line*) getParentProject
+-(Line*) parentProject
 {
     // todo
     return parentProject;

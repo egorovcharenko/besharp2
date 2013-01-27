@@ -5,16 +5,15 @@
         <attribute name="goalType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="indent" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="isCompleted" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="isProject" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="pomodoroExpected" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="pomodoroTaken" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="pomodoroTotal" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="pomodoroUsed" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <relationship name="childLines" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Line" inverseName="parentProject" inverseEntity="Line" syncable="YES"/>
         <relationship name="parentProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Line" inverseName="childLines" inverseEntity="Line" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Line" positionX="52" positionY="189" width="128" height="223"/>
+        <element name="Line" positionX="52" positionY="189" width="128" height="210"/>
     </elements>
 </model>

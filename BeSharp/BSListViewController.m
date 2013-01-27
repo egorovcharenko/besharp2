@@ -20,8 +20,9 @@
 @implementation BSListViewController
 
 @synthesize headerManualView;
+@synthesize footerManualView;
 @synthesize fetchResultsController;
-//@synthesize newLineTextField;
+@synthesize lineSelectedDelegate;
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -60,21 +61,7 @@
         //allocate the view if it doesn't exist yet
         headerManualView  = [[UIView alloc] init];
         
-        // new entry field
-        self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake(10, 20, 250, 34)];
-        self.theNewLineTextField.borderStyle = UITextBorderStyleRoundedRect;
-        self.theNewLineTextField.returnKeyType = UIReturnKeyDone;
-        [headerManualView addSubview:self.theNewLineTextField];
-        
-        // add entry button
-        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [addButton setFrame:CGRectMake(270, 20, 44, 34)];
-        [addButton setTitle:@"+" forState:UIControlStateNormal];
-        [addButton addTarget:self action:@selector(newTaskButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-        [headerManualView addSubview:addButton];
-        
         // get parent project
-        
         Line *parentProject = [self getAParentProject];
         if (parentProject != nil){
             // top label
@@ -89,6 +76,31 @@
     //return the view for the footer
     return headerManualView;
 }
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if(self.footerManualView == nil) {
+        //allocate the view if it doesn't exist yet
+        footerManualView  = [[UIView alloc] init];
+        
+        // new entry field
+        self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake([self leftShift] + 10, 5, 250 - [self leftShift], 34)];
+        self.theNewLineTextField.borderStyle = UITextBorderStyleRoundedRect;
+        self.theNewLineTextField.returnKeyType = UIReturnKeyDone;
+        [footerManualView addSubview:self.theNewLineTextField];
+        
+        // add entry button
+        UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        [addButton setFrame:CGRectMake(270, 5, 44, 34)];
+        [addButton setTitle:@"+" forState:UIControlStateNormal];
+        [addButton addTarget:self action:@selector(newTaskButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        [footerManualView addSubview:addButton];
+    }
+    
+    //return the view for the footer
+    return footerManualView;
+}
+
 
 
 
@@ -200,13 +212,6 @@
         cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[object valueForKey:@"text"] description], [object valueForKey:@"order"], [object valueForKey:@"indent"],[object valueForKey:@"parentProject"]];
     }
     
-    // project
-    if ([[object valueForKey:@"isProject"] integerValue] == 1){
-        [cell.textLabel setFont:[UIFont boldSystemFontOfSize:20]];
-    } else {
-        [cell.textLabel setFont:[UIFont boldSystemFontOfSize:16]];
-    }
-    
     // configure indent view
     int indent = [[object valueForKey:@"indent"] integerValue];
     
@@ -258,8 +263,13 @@
 }
 
 
-- (CGFloat)tableView:(UITableView *)tableView
-heightForHeaderInSection:(NSInteger)section {
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    //differ between your sections or if you
+    //have only on section return a static value
+    return 30;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     //differ between your sections or if you
     //have only on section return a static value
     return 50;
@@ -282,7 +292,7 @@ heightForHeaderInSection:(NSInteger)section {
     // set position for radial menu
     CGRect popupViewRect = self.popupView.frame;
     CGPoint currentRowPosition = [self.tableView rectForRowAtIndexPath:self.popupIndexPath].origin;
-    int indent = [[self.popupLine valueForKey:@"indent"] integerValue];
+    int indent = self.popupLine.indent;
     
     int x = indent * indentPixelValue;
     int y = currentRowPosition.y;
@@ -350,7 +360,8 @@ heightForHeaderInSection:(NSInteger)section {
     
     [self.tableView beginUpdates];
     
-    int newLineOrder = [self.dataController saveLine:line];
+    //int newLineOrder =
+    [self.dataController saveLine:line];
     
     // clear new task
     self.theNewLineTextField.text = @"";

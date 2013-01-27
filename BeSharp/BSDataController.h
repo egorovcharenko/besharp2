@@ -36,10 +36,15 @@
 // completion
 - (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted ;
 // set as a project
-- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject ;
+//- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject ;
 
 // reordering
 - (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos;
+
+// goals
+- (NSInteger) lastGoalOrderByType:(NSInteger) goalType;
+- (Line*) getGoal:(NSInteger)goalType number:(NSInteger)number;
+- (NSInteger) getGoalsCount:(NSInteger)goalType;
 
 // get inbox managedId
 - (Line*) getInbox;

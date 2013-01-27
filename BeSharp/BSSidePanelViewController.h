@@ -8,8 +8,39 @@
 
 #import <UIKit/UIKit.h>
 
-@interface BSSidePanelViewController : UIViewController
+@class Line;
+
+@interface BSSidePanelViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>{
+    NSTimer *timer;
+    NSInteger secondsLeft;
+}
 - (IBAction)inboxButtonClicked:(id)sender;
 - (IBAction)projectsButtonClicked:(id)sender;
+
+// pomodoro
+@property Line *focusedTask;
+@property (weak, nonatomic) IBOutlet UITextField *focusedTaskTextField;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *focusedTaskTextFieldHeightConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *timerLabel;
+- (IBAction)startStopButtonClicked:(id)sender;
+@property (weak, nonatomic) IBOutlet UIButton *startStopButton;
+@property (weak, nonatomic) IBOutlet UILabel *completedPomodorosLabel;
+@property (weak, nonatomic) IBOutlet UILabel *leftPomodorosLabel;
+- (IBAction)increaseLeftClicked:(id)sender;
+- (IBAction)decreaseLeftClicked:(id)sender;
+@property (weak, nonatomic) IBOutlet UIImageView *overallImage;
+
+typedef enum {
+    timerWaitingForWork,
+    timerWorking,
+    timerWaitingForRest,
+    timerResting
+} TimerEnum;
+
+@property TimerEnum timerState;
+
+// goals
+@property (weak, nonatomic) IBOutlet UITableView *goalsTable;
+
 
 @end

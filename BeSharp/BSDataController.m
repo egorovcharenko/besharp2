@@ -17,6 +17,11 @@
  2 - project
  3 - inbox
  
+ goalType:
+ 1 - daily
+ 2 - weekly
+ 3 - year
+ 4 - life (reserved)
 */
 
 
@@ -280,7 +285,7 @@
     NSError *error = nil;
     
     Line *managedLine = nil;
-	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
+	if (! (managedLine = (Line*)[self.context existingObjectWithID:lineId error:&error])) {
         // Replace this implementation with code to handle the error appropriately.
         // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
 	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
@@ -354,30 +359,6 @@
     }
 }
 
-- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject
-{
-    NSError *error = nil;
-    
-    NSManagedObject *managedLine = nil;
-	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-    
-    [managedLine setValue:[NSNumber numberWithBool:isProject] forKey:@"isProject"];
-    
-    // Save the context.
-    error = nil;
-    if (![self.context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
-
-}
 - (Line*) getInbox
 {
     Line* result = [self getInboxInternal];
@@ -403,7 +384,7 @@
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"type == 3", 0];
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"type == 3"];
     [fetchRequest setPredicate:filterPredicate];
     
     NSError *error = nil;
@@ -413,6 +394,66 @@
         return nil;
     }
     return array [0];
+}
+
+-(NSInteger) lastGoalOrderByType:(NSInteger) goalType
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"goalType = 1"];
+    [fetchRequest setPredicate:filterPredicate];
+    
+    NSError *error = nil;
+    NSArray *array = [self.context executeFetchRequest:fetchRequest error:&error];
+    
+    if (array.count == 0){
+        return 0;
+    }
+    
+    NSInteger result = [[array valueForKeyPath:@"@max.goalOrder"] integerValue];
+    
+    return result;
+}
+
+- (NSArray *)getGoalsByType:(NSInteger)goalType
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"goalType = %d", goalType];
+    [fetchRequest setPredicate:filterPredicate];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"goalOrder" ascending:YES];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSArray *array = [self.context executeFetchRequest:fetchRequest error:&error];
+    return array;
+}
+
+// number: zero-based
+- (Line*) getGoal:(NSInteger)goalType number:(NSInteger)number
+{
+    NSArray *array;
+    array = [self getGoalsByType:goalType];
+    
+    if (array.count <= number){
+        return nil;
+    }
+    
+    return array[number];
+}
+
+- (NSInteger) getGoalsCount:(NSInteger)goalType
+{
+    NSArray *array;
+    array = [self getGoalsByType:goalType];
+    return array.count;
 }
 
 @end

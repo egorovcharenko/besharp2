@@ -28,33 +28,44 @@
 @synthesize popupView;
 @synthesize headerView;
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.selectionMode = NO;
+}
+
 - (NSInteger) getLineType
 {
     return 2;
 }
-
 
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return YES;
 }
 
+-(NSInteger) leftShift
+{
+    return 50;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     Line *line = [self getLine:indexPath];
     
-    // for project
-    // open central view with this' project tasks
-    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"MainStoryboard_iPhone" bundle:nil];
-    //BSMasterViewController *masterViewController = [storyboard instantiateViewControllerWithIdentifier:@"masterViewController"];
-
-    // set this project as root
-    BSMasterViewController *masterViewController = (BSMasterViewController*) self.viewDeckController.centerController;
-    masterViewController.parentProject = line;
-    
-    // show center
-    //self.viewDeckController.centerController = masterViewController;
-    [self.viewDeckController closeRightView];
+    if (self.selectionMode){
+        if (self.lineSelectedDelegate != nil){
+            [self.lineSelectedDelegate selectedLine:line];
+        }
+    } else {
+        // set this project as root
+        BSMasterViewController *masterViewController = (BSMasterViewController*) self.viewDeckController.centerController;
+        masterViewController.parentProject = line;
+        
+        // show center
+        [self.viewDeckController closeRightView];
+    }
 }
 
 - (NSString*) popupNibName

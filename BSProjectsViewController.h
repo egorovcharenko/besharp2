@@ -16,9 +16,10 @@
 
 // popup dialog
 @property (strong) UIView *popupView;
-@property NSManagedObject *popupLine;
 @property NSIndexPath *popupIndexPath;
 - (IBAction)leftButtonClicked:(id)sender;
 
+// select project mode
+@property Boolean selectionMode;
 
 @end
