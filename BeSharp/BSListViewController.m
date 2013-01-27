@@ -292,21 +292,20 @@
     // set position for radial menu
     CGRect popupViewRect = self.popupView.frame;
     CGPoint currentRowPosition = [self.tableView rectForRowAtIndexPath:self.popupIndexPath].origin;
-    int indent = self.popupLine.indent;
     
-    int x = indent * indentPixelValue;
-    int y = currentRowPosition.y;
+    const int visiblePopupHeight = 50; // todo
+    const int visiblePopupWidth = 50; // todo
+
     int width = popupViewRect.size.width;
     int height = popupViewRect.size.height;
+    int x = self.view.frame.size.width - visiblePopupWidth / 2;
+    int y = currentRowPosition.y;
     
     // compensate for row height
     y += rowHeightPixelValue / 2;
     
     // try to center popup on button
     x -= width / 2;
-    if (x < 0)
-        x = 0;
-    
     y -= height / 2;
     if (y < 0)
         y = 0;
