@@ -38,7 +38,6 @@
 @property (weak, nonatomic) IBOutlet UIView *headerView;
 - (IBAction)newTaskButtonClicked:(id)sender;
 @property UITextField *theNewLineTextField;
-@property UIView *headerManualView;
 @property UIView *footerManualView;
 -(NSInteger) leftShift;
 
@@ -48,6 +47,7 @@
 @property NSIndexPath *popupIndexPath;
 - (NSString*) popupNibName;
 - (IBAction)showPopup:(UIButton*)sender;
+- (void)rememberClickedRow:(UIButton *)sender;
 
 // display cells
 - (void)configureCell:(UITableViewCell *)cell atIndexPath:(NSIndexPath *)indexPath;

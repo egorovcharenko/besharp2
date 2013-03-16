@@ -19,10 +19,9 @@
 
 @implementation BSListViewController
 
-@synthesize headerManualView;
-@synthesize footerManualView;
 @synthesize fetchResultsController;
 @synthesize lineSelectedDelegate;
+@synthesize footerManualView;
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller
 {
@@ -55,45 +54,49 @@
     [self.tableView endUpdates];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if(self.headerManualView == nil) {
-        //allocate the view if it doesn't exist yet
-        headerManualView  = [[UIView alloc] init];
-        
-        // get parent project
-        Line *parentProject = [self getAParentProject];
-        if (parentProject != nil){
-            // top label
-            CGFloat width = CGRectGetWidth(self.view.bounds);
-            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, width, 15)];
-            [topLabel setText:parentProject.text];
-            [topLabel setTextAlignment:NSTextAlignmentCenter];
-            [headerManualView addSubview:topLabel];
-        }
-    }
-    
-    //return the view for the footer
-    return headerManualView;
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
 {
     if(self.footerManualView == nil) {
+        // positions
+        int topShift = 13;
+        
+        
         //allocate the view if it doesn't exist yet
         footerManualView  = [[UIView alloc] init];
         
+        // get global width
+        CGFloat width = CGRectGetWidth(self.view.bounds);
+        
+        // set stretchable background image
+        UIEdgeInsets edge = UIEdgeInsetsMake(57, 13, 57, 13);
+        UIImage *tasks_top = [UIImage imageNamed:@"new_task_background.png"];
+        UIImage *stretchableImage = [tasks_top resizableImageWithCapInsets:edge];
+        
+        UIImageView* top_back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, footerHeight)];
+        //top_back.contentMode = UIViewContentModeScaleToFill;
+        top_back.image = stretchableImage;
+        //top_back.frame = CGRectMake(0, 0, width, footerHeight);
+        //[top_back setClipsToBounds:YES];
+
         // new entry field
-        self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake([self leftShift] + 10, 5, 250 - [self leftShift], 34)];
+        self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake([self leftShift] + 15, topShift+3, width - [self leftShift] - 65, 34)];
+        [self.theNewLineTextField setFont:[UIFont fontWithName:@"Helvetica" size:20]];
+        
         self.theNewLineTextField.borderStyle = UITextBorderStyleRoundedRect;
         self.theNewLineTextField.returnKeyType = UIReturnKeyDone;
-        [footerManualView addSubview:self.theNewLineTextField];
-        
+        self.theNewLineTextField.delegate = self;
+        self.theNewLineTextField.borderStyle = UITextBorderStyleNone;
+        self.theNewLineTextField.placeholder = @"Type new task here...";
         // add entry button
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-        [addButton setFrame:CGRectMake(270, 5, 44, 34)];
-        [addButton setTitle:@"+" forState:UIControlStateNormal];
+        [addButton setFrame:CGRectMake(self.theNewLineTextField.frame.origin.x + self.theNewLineTextField.frame.size.width + 5,
+                                       topShift + 1, 28, 28)];
+        [addButton setBackgroundImage:[UIImage imageNamed:@"new_task_button.png"] forState:UIControlStateNormal];
         [addButton addTarget:self action:@selector(newTaskButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+        
+        
+        [footerManualView addSubview:top_back];
+        [footerManualView addSubview:self.theNewLineTextField];
         [footerManualView addSubview:addButton];
     }
     
@@ -229,6 +232,8 @@
     
     // add tag to identify clicks
     cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
+    cell.checkButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -262,27 +267,25 @@
      */
 }
 
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
-    //differ between your sections or if you
-    //have only on section return a static value
-    return 30;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     //differ between your sections or if you
     //have only on section return a static value
-    return 50;
+    return footerHeight;
 }
 
-- (IBAction)showPopup:(UIButton*)sender {
-    // remember current line
-    if (!([sender isKindOfClass:[UIButton class]]))
-        return;
+- (void)rememberClickedRow:(UIButton *)sender {
     NSUInteger section = ((sender.tag >> 16) & 0xFFFF);
     NSUInteger row     = (sender.tag & 0xFFFF);
     self.popupIndexPath = [NSIndexPath indexPathForRow:row inSection:section];
     self.popupLine = [self getLine:self.popupIndexPath];
+}
+
+- (IBAction)showPopup:(UIButton*)sender {
+    if (!([sender isKindOfClass:[UIButton class]]))
+        return;
+    
+    // remember current line
+    [self rememberClickedRow:sender];
     
     // show radial menu
     NSArray *nibContents = [[NSBundle mainBundle] loadNibNamed:[self popupNibName] owner:self options:nil];
@@ -295,7 +298,7 @@
     
     const int visiblePopupHeight = 50; // todo
     const int visiblePopupWidth = 50; // todo
-
+    
     int width = popupViewRect.size.width;
     int height = popupViewRect.size.height;
     int x = self.view.frame.size.width - visiblePopupWidth / 2;
@@ -351,29 +354,37 @@
 }
 
 - (IBAction)newTaskButtonClicked:(id)sender {
-    Line *line = [self.dataController createNewLineForSaving];
-    line.text = self.theNewLineTextField.text;
-    line.order = 0; // take last order
-    line.parentProject = [self getAParentProject];
-    line.type = [self getLineType];
-    
-    [self.tableView beginUpdates];
-    
-    //int newLineOrder =
-    [self.dataController saveLine:line];
-    
-    // clear new task
-    self.theNewLineTextField.text = @"";
-    
-    // animate the insert
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.fetchResultsController.fetchedObjects count]-1 inSection:0];
-    NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
-    [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [self.tableView endUpdates];
-    
-    // scroll to new line
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    // check for empty line
+    if (self.theNewLineTextField.text.length > 0)
+    {
+        Line *line = [self.dataController createNewLineForSaving];
+        line.text = self.theNewLineTextField.text;
+        line.order = 0; // take last order
+        line.parentProject = [self getAParentProject];
+        line.type = [self getLineType];
+        
+        [self.tableView beginUpdates];
+        
+        //int newLineOrder =
+        [self.dataController saveLine:line];
+        
+        // clear new task
+        self.theNewLineTextField.text = @"";
+        
+        // animate the insert
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.fetchResultsController.fetchedObjects count]-1 inSection:0];
+        NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
+        [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        [self.tableView endUpdates];
+        
+        // scroll to new line
+        [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    } else {
+        // entry is empty
+        [self.theNewLineTextField resignFirstResponder];
+        
+    }
 }
 
 @end

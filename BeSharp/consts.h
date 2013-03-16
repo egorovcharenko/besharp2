@@ -12,6 +12,9 @@
 static NSInteger const indentPixelValue = 20;
 static NSInteger const rowHeightPixelValue = 40;
 
+static NSInteger const headerHeight = 43;
+static NSInteger const footerHeight = 58;
+
 static NSInteger const secondsWork = 5; // 25 mins
 static NSInteger const secondsRest = 3; // 5 min
 

@@ -28,12 +28,17 @@
 @synthesize popupView;
 @synthesize headerView;
 @synthesize parentProject;
+@synthesize headerManualView;
 
 - (void)viewDidLoad
 {
     [self setDataController];
     self.parentProject = [self.dataController getInbox];
-    [super viewDidLoad];    
+    
+    // set background
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"background.png"]];
+    
+    [super viewDidLoad];
 }
 
 - (NSInteger) getLineType
@@ -94,8 +99,10 @@
     [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
     
     // update all rows after deleted!!
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
     [self.tableView endUpdates];
+    
+    [self.tableView reloadData];
 }
 
 -(NSInteger) leftShift
@@ -216,7 +223,7 @@
     self.headerManualView = nil;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)startInlineEditing:(NSIndexPath *)indexPath
 {
     Line *line = [self getLine:indexPath];
     
@@ -229,8 +236,11 @@
     self.currentlySelectedCell.textFieldForEdit.text = line.text;
     
     [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
-    //[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObjects:indexPath, nil] withRowAnimation:UITableViewRowAnimationNone];
-    //[self.tableView reloadData];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [self startInlineEditing:indexPath];
 }
 
 - (Line*) getLine:(NSIndexPath *)indexPath
@@ -238,4 +248,62 @@
     return [self.fetchResultsController objectAtIndexPath:indexPath];
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if(self.headerManualView == nil) {
+        //allocate the view if it doesn't exist yet
+        headerManualView  = [[UIView alloc] init];
+        
+        // get parent project
+        Line *curParentProject = [self getAParentProject];
+        if (curParentProject != nil){
+            int height = headerHeight;
+            
+            // top label
+            CGFloat width = CGRectGetWidth(self.view.bounds);
+            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, height)];
+            [topLabel setText:curParentProject.text];
+            [topLabel setTextAlignment:NSTextAlignmentCenter];
+            [topLabel setBackgroundColor: [UIColor clearColor]];
+            [topLabel setTextColor:[UIColor whiteColor]];
+            [topLabel setFont:[UIFont fontWithName:@"Helvetica" size:24]];
+            
+            // Stretch top
+            UIEdgeInsets edge = UIEdgeInsetsMake(0, 7, 0, 7);
+            UIImage *tasks_top = [UIImage imageNamed:@"tasks_top.png"];
+            UIImage *stretchableImage = [tasks_top resizableImageWithCapInsets:edge];
+            
+            UIImageView* top_back = [[UIImageView alloc] initWithImage:stretchableImage];
+            top_back.contentMode = UIViewContentModeScaleToFill;
+            top_back.frame = CGRectMake(
+                                top_back.frame.origin.x,
+                                top_back.frame.origin.y, width, height);
+            
+            
+            // add to view
+            [headerManualView addSubview:top_back];
+            [headerManualView addSubview:topLabel];
+        }
+    }
+    
+    //return the view for the footer
+    return headerManualView;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    //differ between your sections or if you
+    //have only on section return a static value
+    return headerHeight;
+}
+
+- (IBAction)markAsCompleted:(id)sender {
+    // remember clicked line
+    [self rememberClickedRow:sender];
+    
+    // actually complete the task
+    [self completeTaskClicked:sender];
+    
+    // reload data so tags will be updated
+    //[self.tableView reloadData];
+}
 @end

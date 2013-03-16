@@ -33,4 +33,11 @@
 // change project for line
 @property Line* lineWithProbablyNewProject;
 
+// mark as completed button
+- (IBAction)markAsCompleted:(id)sender;
+
+// header
+@property UIView *headerManualView;
+
+
 @end

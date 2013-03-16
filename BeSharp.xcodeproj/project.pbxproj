@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0E00AB5A16F489C900529BCF /* tasks_top.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E00AB5916F489C900529BCF /* tasks_top.png */; };
+		0E00AB5C16F498A200529BCF /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E00AB5B16F498A200529BCF /* background@2x.png */; };
+		0E00AB5E16F49AAB00529BCF /* black_checkbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E00AB5D16F49AAB00529BCF /* black_checkbox.png */; };
+		0E00AB6016F49DA600529BCF /* edit_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E00AB5F16F49DA600529BCF /* edit_icon.png */; };
+		0E00AB6216F4B9F300529BCF /* new_task_button.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E00AB6116F4B9F300529BCF /* new_task_button.png */; };
+		0E00AB6416F4B9FA00529BCF /* new_task_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E00AB6316F4B9FA00529BCF /* new_task_background.png */; };
 		0E4E4C8F169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E4E4C8E169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m */; };
 		0E4E4C91169CCB2500DEA13C /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E4E4C90169CCB2500DEA13C /* QuartzCore.framework */; };
 		0E71BE871699D338002478BA /* BSLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E71BE861699D338002478BA /* BSLineCell.m */; };
@@ -45,6 +51,12 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0E00AB5916F489C900529BCF /* tasks_top.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tasks_top.png; sourceTree = "<group>"; };
+		0E00AB5B16F498A200529BCF /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
+		0E00AB5D16F49AAB00529BCF /* black_checkbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = black_checkbox.png; sourceTree = "<group>"; };
+		0E00AB5F16F49DA600529BCF /* edit_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = edit_icon.png; sourceTree = "<group>"; };
+		0E00AB6116F4B9F300529BCF /* new_task_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new_task_button.png; sourceTree = "<group>"; };
+		0E00AB6316F4B9FA00529BCF /* new_task_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = new_task_background.png; sourceTree = "<group>"; };
 		0E4E4C8D169CCAEF00DEA13C /* ATSDragToReorderTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ATSDragToReorderTableViewController.h; sourceTree = "<group>"; };
 		0E4E4C8E169CCAEF00DEA13C /* ATSDragToReorderTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ATSDragToReorderTableViewController.m; sourceTree = "<group>"; };
 		0E4E4C90169CCB2500DEA13C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -118,6 +130,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0E00AB5816F489B100529BCF /* Design */ = {
+			isa = PBXGroup;
+			children = (
+				0E00AB6316F4B9FA00529BCF /* new_task_background.png */,
+				0E00AB6116F4B9F300529BCF /* new_task_button.png */,
+				0E00AB5F16F49DA600529BCF /* edit_icon.png */,
+				0E00AB5D16F49AAB00529BCF /* black_checkbox.png */,
+				0E00AB5B16F498A200529BCF /* background@2x.png */,
+				0E00AB5916F489C900529BCF /* tasks_top.png */,
+			);
+			name = Design;
+			sourceTree = "<group>";
+		};
 		0E4E4C8C169CCACE00DEA13C /* Custom drag drop controller */ = {
 			isa = PBXGroup;
 			children = (
@@ -131,6 +156,7 @@
 		0E71BE90169A059F002478BA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0E00AB5816F489B100529BCF /* Design */,
 				0E71BE9E169C1AE3002478BA /* Bullet.png */,
 				0E71BE91169A05B5002478BA /* sectorForBSDown.png */,
 				0E71BE92169A05B5002478BA /* sectorForBSLeft.png */,
@@ -390,6 +416,12 @@
 				0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */,
 				0E71BE9F169C1AE3002478BA /* Bullet.png in Resources */,
 				0E8F3F8B16AAB5030057AA7E /* BSProjectPopup.xib in Resources */,
+				0E00AB5A16F489C900529BCF /* tasks_top.png in Resources */,
+				0E00AB5C16F498A200529BCF /* background@2x.png in Resources */,
+				0E00AB5E16F49AAB00529BCF /* black_checkbox.png in Resources */,
+				0E00AB6016F49DA600529BCF /* edit_icon.png in Resources */,
+				0E00AB6216F4B9F300529BCF /* new_task_button.png in Resources */,
+				0E00AB6416F4B9FA00529BCF /* new_task_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

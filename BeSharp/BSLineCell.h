@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *textLabel;
 @property (weak, nonatomic) IBOutlet UITextField *textFieldForEdit;
 @property (weak, nonatomic) IBOutlet UIButton *leftButton;
+@property (weak, nonatomic) IBOutlet UIButton *checkButton;
 
 // indent
 @property (weak, nonatomic) IBOutlet UIView *indentView;
