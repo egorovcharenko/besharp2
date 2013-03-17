@@ -46,7 +46,7 @@
 @property Line *popupLine;
 @property NSIndexPath *popupIndexPath;
 - (NSString*) popupNibName;
-- (IBAction)showPopup:(UIButton*)sender;
+- (IBAction)showPopup:(UIButton*)sender forEvent:(UIEvent *)event;
 - (void)rememberClickedRow:(UIButton *)sender;
 
 // display cells

@@ -110,8 +110,52 @@
     return 0;
 }
 
-- (IBAction)leftButtonClicked:(id)sender {
-    [self showPopup:sender];
+- (IBAction)leftButtonClicked:(id)sender forEvent:(UIEvent *)event{
+    [self showPopup:sender forEvent:event];
+}
+
+- (IBAction)addNewTaskAbove:(id)sender {
+    
+}
+
+- (IBAction)addNewTaskBelow:(id)sender {
+    // Calc order for the new line
+    int newOrder = self.popupLine.order + 1;
+    
+    // Change order for all other lines
+    [self.dataController addIndentToAllLinesStartingIndent:newOrder fromProject:self.popupLine.parentProject];
+    
+    // Add Line itself
+    Line *line = [self.dataController createNewLineForSaving];
+    line.text = @"";
+    line.order = newOrder;
+    line.parentProject = [self getAParentProject];
+    line.type = [self getLineType];
+    line.indent = self.popupLine.indent;
+    
+    [self.tableView beginUpdates];
+    [self.dataController saveLine:line];
+    
+    // animate the insert
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.fetchResultsController.fetchedObjects count] - 1 inSection:0];
+    NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
+    [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self.tableView endUpdates];
+    
+    //[self.tableView reloadData];
+    
+    // scroll to new line
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    
+    // hide popup
+    [popupView removeFromSuperview];
+    
+    // start editing new line
+    // TODO
+}
+
+- (IBAction)addNewTaskChild:(id)sender {
 }
 
 - (IBAction)pomodoroButtonClicked:(id)sender {
@@ -269,7 +313,7 @@
             [topLabel setFont:[UIFont fontWithName:@"Helvetica" size:24]];
             
             // Stretch top
-            UIEdgeInsets edge = UIEdgeInsetsMake(0, 7, 0, 7);
+            UIEdgeInsets edge = UIEdgeInsetsMake(0, 3, 0, 3);
             UIImage *tasks_top = [UIImage imageNamed:@"tasks_top.png"];
             UIImage *stretchableImage = [tasks_top resizableImageWithCapInsets:edge];
             
@@ -278,7 +322,6 @@
             top_back.frame = CGRectMake(
                                 top_back.frame.origin.x,
                                 top_back.frame.origin.y, width, height);
-            
             
             // add to view
             [headerManualView addSubview:top_back];

@@ -12,7 +12,7 @@
 
 @synthesize textFieldForEdit;
 @synthesize textLabel;
-@synthesize indentView;
+@synthesize checkButton;
 @synthesize leftButton;
 @synthesize indentInPixels;
 

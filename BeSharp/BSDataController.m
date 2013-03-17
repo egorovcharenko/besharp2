@@ -456,4 +456,9 @@
     return array.count;
 }
 
+- (void) addIndentToAllLinesStartingIndent: (int) startinIndent fromProject:(Line*) parentProject
+{
+    // TODO
+}
+
 @end

@@ -104,9 +104,6 @@
     return footerManualView;
 }
 
-
-
-
 - (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // save changes to DB
@@ -205,6 +202,10 @@
         cell.textFieldForEdit.hidden = NO;
         cell.textLabel.hidden = YES;
         cell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
+        
+        // border of text edit
+        [cell.textFieldForEdit.layer setBorderColor:(__bridge CGColorRef)([UIColor colorWithRed:239/255 green:190/255 blue:105/255 alpha:1.0])];
+        [cell.textFieldForEdit.layer setBorderWidth:10.0];
     }
     else
     {
@@ -213,19 +214,21 @@
         cell.textLabel.hidden = NO;
         //cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
         cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[object valueForKey:@"text"] description], [object valueForKey:@"order"], [object valueForKey:@"indent"],[object valueForKey:@"parentProject"]];
+        //cell.textLabel.text = [NSString stringWithFormat:@"%@",[[object valueForKey:@"text"] description]];
+        
     }
     
     // configure indent view
     int indent = [[object valueForKey:@"indent"] integerValue];
     
     // enumerate over all constraints
-    for (NSLayoutConstraint *constraint in cell.indentView.constraints) {
+    for (NSLayoutConstraint *constraint in cell.checkButton.constraints) {
         // find constraint on this view and with 'width' attribute
-        if ((constraint.firstItem == cell.indentView) &&
+        if ((constraint.firstItem == cell.checkButton) &&
             (constraint.firstAttribute == NSLayoutAttributeWidth) &&
             (constraint.secondItem == nil)){
             // increase width of constraint
-            constraint.constant = indent * indentPixelValue;
+            constraint.constant = indent * indentPixelValue + 40;
             break;
         }
     }
@@ -280,7 +283,7 @@
     self.popupLine = [self getLine:self.popupIndexPath];
 }
 
-- (IBAction)showPopup:(UIButton*)sender {
+- (IBAction)showPopup:(UIButton*)sender forEvent:(UIEvent *)event{
     if (!([sender isKindOfClass:[UIButton class]]))
         return;
     
@@ -294,24 +297,35 @@
     
     // set position for radial menu
     CGRect popupViewRect = self.popupView.frame;
-    CGPoint currentRowPosition = [self.tableView rectForRowAtIndexPath:self.popupIndexPath].origin;
     
-    const int visiblePopupHeight = 50; // todo
-    const int visiblePopupWidth = 50; // todo
+    // get coordinates of touch inside the row
+    NSSet *touches = [event touchesForView:sender];
+    UITouch *touch = [touches anyObject];
+    CGPoint touchLocation = [touch locationInView:self.tableView];
     
     int width = popupViewRect.size.width;
     int height = popupViewRect.size.height;
-    int x = self.view.frame.size.width - visiblePopupWidth / 2;
-    int y = currentRowPosition.y;
+    
+    // do not go too far to sides
+    int popupHalfWidth = 190 / 2;//265 / 2;
+    int popupHalfHeight = 190 / 2;//265 / 2;
+    int x = touchLocation.x - width / 2;
+    int y = touchLocation.y - height / 2;
+    
+    if (touchLocation.x < popupHalfWidth)
+        x = popupHalfWidth - width / 2;;
+    
+    if (touchLocation.y < popupHalfHeight)
+        y = popupHalfHeight - height / 2;
+    
+    if ( (self.tableView.frame.size.width - touchLocation.x) < popupHalfWidth)
+        x = (self.tableView.frame.size.width - popupHalfWidth) - width / 2;
+    
+    if ( (self.tableView.frame.size.height - touchLocation.y) < popupHalfHeight)
+        y = (self.tableView.frame.size.height - popupHalfHeight) - height / 2;
     
     // compensate for row height
-    y += rowHeightPixelValue / 2;
-    
-    // try to center popup on button
-    x -= width / 2;
-    y -= height / 2;
-    if (y < 0)
-        y = 0;
+    //y += rowHeightPixelValue / 2;
     
     self.popupView.frame = CGRectMake(x, y, width, height);
 }

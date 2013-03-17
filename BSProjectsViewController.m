@@ -74,7 +74,7 @@
 }
 
 - (IBAction)leftButtonClicked:(id)sender {
-    [self showPopup:sender];
+    [self showPopup:sender  forEvent:nil];
 }
 
 - (Line*) getAParentProject

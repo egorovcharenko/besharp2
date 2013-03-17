@@ -21,11 +21,14 @@
 - (IBAction)indentPlusAction:(id)sender;
 - (IBAction)completeTaskClicked:(id)sender;
 - (IBAction)markAsProjectClicked:(id)sender;
-- (IBAction)leftButtonClicked:(id)sender;
 - (IBAction)pomodoroButtonClicked:(id)sender;
 - (IBAction)popupBackgroundButtonClicked:(id)sender;
 - (IBAction)markAsGoalClicked:(id)sender;
 - (IBAction)moveToProjectClicked:(id)sender;
+- (IBAction)leftButtonClicked:(id)sender forEvent:(UIEvent *)event;
+- (IBAction)addNewTaskAbove:(id)sender;
+- (IBAction)addNewTaskBelow:(id)sender;
+- (IBAction)addNewTaskChild:(id)sender;
 
 // parent project
 @property (nonatomic) Line* parentProject;

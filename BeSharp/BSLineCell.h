@@ -17,7 +17,6 @@
 @property (weak, nonatomic) IBOutlet UIButton *checkButton;
 
 // indent
-@property (weak, nonatomic) IBOutlet UIView *indentView;
 @property NSInteger indentInPixels;
 
 @end
