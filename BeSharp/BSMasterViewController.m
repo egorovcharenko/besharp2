@@ -6,6 +6,8 @@
 //  Copyright (c) 2012 Egor Ovcharenko. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "BSMasterViewController.h"
 
 #import "BSDataController.h"
@@ -114,16 +116,13 @@
     [self showPopup:sender forEvent:event];
 }
 
-- (IBAction)addNewTaskAbove:(id)sender {
-    
-}
 
-- (IBAction)addNewTaskBelow:(id)sender {
+- (void)addLineInternalWithIncrement:(int)increment indentIncrement:(int)indentIncrement {
     // Calc order for the new line
-    int newOrder = self.popupLine.order + 1;
+    int newOrder = self.popupLine.order + increment;
     
     // Change order for all other lines
-    [self.dataController addIndentToAllLinesStartingIndent:newOrder fromProject:self.popupLine.parentProject];
+    [self.dataController addOrderToAllLinesStartingOrder:newOrder fromProject:self.popupLine.parentProject];
     
     // Add Line itself
     Line *line = [self.dataController createNewLineForSaving];
@@ -131,31 +130,58 @@
     line.order = newOrder;
     line.parentProject = [self getAParentProject];
     line.type = [self getLineType];
-    line.indent = self.popupLine.indent;
+    line.indent = self.popupLine.indent + indentIncrement;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(self.popupIndexPath.row + increment) inSection:self.popupIndexPath.section];
+    
+    // run some code after smooth update
+    [CATransaction begin];
+    
+    [CATransaction setCompletionBlock:^{
+        // animation has finished - reload all data
+        [self.tableView reloadData];
+        // start editing new line
+        [self startInlineEditing:indexPath];
+    }];
     
     [self.tableView beginUpdates];
-    [self.dataController saveLine:line];
     
-    // animate the insert
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:[self.fetchResultsController.fetchedObjects count] - 1 inSection:0];
+    [self.dataController saveLine:line];
     NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
     [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
     
     [self.tableView endUpdates];
     
-    //[self.tableView reloadData];
+    [CATransaction commit];
     
     // scroll to new line
     [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
     
     // hide popup
     [popupView removeFromSuperview];
+}
+
+- (IBAction)addNewTaskAbove:(id)sender {
+    int increment = 0;
+    int indentIncrement = 0;
     
-    // start editing new line
-    // TODO
+    [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
+
+}
+
+- (IBAction)addNewTaskBelow:(id)sender {
+    int increment = 1;
+    int indentIncrement = 0;
+    
+    [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
 }
 
 - (IBAction)addNewTaskChild:(id)sender {
+    int increment = 1;
+    int indentIncrement = 1;
+    
+    [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
+
 }
 
 - (IBAction)pomodoroButtonClicked:(id)sender {

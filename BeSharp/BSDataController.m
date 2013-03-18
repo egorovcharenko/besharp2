@@ -335,6 +335,19 @@
     }
 }
 
+- (void)saveContext
+{
+    // Save the context.
+    NSError *error;
+    error = nil;
+    if (![self.context save:&error]) {
+        // Replace this implementation with code to handle the error appropriately.
+        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+}
+
 - (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted
 {
     NSError *error = nil;
@@ -349,14 +362,7 @@
 
     [managedLine setValue:[NSNumber numberWithBool:isCompleted] forKey:@"isCompleted"];
     
-    // Save the context.
-    error = nil;
-    if (![self.context save:&error]) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
-    }
+    [self saveContext];
 }
 
 - (Line*) getInbox
@@ -456,9 +462,15 @@
     return array.count;
 }
 
-- (void) addIndentToAllLinesStartingIndent: (int) startinIndent fromProject:(Line*) parentProject
+- (void) addOrderToAllLinesStartingOrder: (int) startinOrder fromProject:(Line*) parentProject
 {
-    // TODO
+    NSFetchedResultsController *allLinesFromProject = [self getAllLinesFromProject:parentProject];
+    for (Line *line in [allLinesFromProject fetchedObjects]){
+        if (line.order >= startinOrder){
+            line.order ++;
+        }
+    }
+    [self saveContext];
 }
 
 @end

@@ -321,8 +321,8 @@
     if ( (self.tableView.frame.size.width - touchLocation.x) < popupHalfWidth)
         x = (self.tableView.frame.size.width - popupHalfWidth) - width / 2;
     
-    if ( (self.tableView.frame.size.height - touchLocation.y) < popupHalfHeight)
-        y = (self.tableView.frame.size.height - popupHalfHeight) - height / 2;
+    if ( (self.tableView.frame.size.height - touchLocation.y + self.tableView.contentOffset.y) < popupHalfHeight)
+        y = (self.tableView.frame.size.height - popupHalfHeight + self.tableView.contentOffset.y) - height / 2;
     
     // compensate for row height
     //y += rowHeightPixelValue / 2;

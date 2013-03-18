@@ -37,7 +37,7 @@
 - (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted ;
 // set as a project
 //- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject ;
-- (void) addIndentToAllLinesStartingIndent: (int) startinIndent fromProject:(Line*) parentProject;
+- (void) addOrderToAllLinesStartingOrder: (int) startinIndent fromProject:(Line*) parentProject;
 
 // reordering
 - (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos;
