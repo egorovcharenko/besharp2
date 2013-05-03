@@ -32,6 +32,15 @@
 {
     [super viewDidLoad];
     
+    // set background
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"projects_background.png"]];
+    
+    // set color of separators
+    self.tableView.separatorColor = [UIColor blackColor];
+    
+    // set default prompt
+    self.theNewLineTextField.placeholder = @"Type new project here ...";
+    
     self.selectionMode = NO;
 }
 
@@ -47,7 +56,7 @@
 
 -(NSInteger) leftShift
 {
-    return 50;
+    return 45;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -70,7 +79,7 @@
 
 - (NSString*) popupNibName
 {
-    return @"BSProjectPopup";
+    return @"ProjectPopupView";
 }
 
 - (IBAction)leftButtonClicked:(id)sender {
@@ -85,5 +94,32 @@
 - (Line*) getLine:(NSIndexPath *)indexPath
 {
     return [self.fetchResultsController objectAtIndexPath:indexPath];
+}
+
+- (IBAction)completeProjectWasClicked:(id)sender forEvent:(UIEvent *)event {
+    // remember clicked line
+    [self rememberClickedRow:sender];
+    
+    // actually complete the project
+    [self.tableView beginUpdates];
+    
+    // complete the task
+    if (self.popupLine != nil){
+        [self.dataController setCompletedFlag:[self.popupLine objectID] isCompleted:YES];
+    }
+    // hide popup
+    //[popupView removeFromSuperview];
+    
+    // update row
+    NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
+    
+    [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    // update all rows after deleted!!
+    //[self.tableView reloadData];
+    [self.tableView endUpdates];
+    
+    // reload data so tags will be updated
+    [self.tableView reloadData];
 }
 @end

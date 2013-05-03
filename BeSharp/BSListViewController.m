@@ -72,11 +72,8 @@
         UIImage *tasks_top = [UIImage imageNamed:@"new_task_background.png"];
         UIImage *stretchableImage = [tasks_top resizableImageWithCapInsets:edge];
         
-        UIImageView* top_back = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, width, footerHeight)];
-        //top_back.contentMode = UIViewContentModeScaleToFill;
+        UIImageView* top_back = [[UIImageView alloc] initWithFrame:CGRectMake([self leftShift], 0, width - [self leftShift], footerHeight)];
         top_back.image = stretchableImage;
-        //top_back.frame = CGRectMake(0, 0, width, footerHeight);
-        //[top_back setClipsToBounds:YES];
 
         // new entry field
         self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake([self leftShift] + 15, topShift+3, width - [self leftShift] - 65, 34)];
@@ -86,7 +83,14 @@
         self.theNewLineTextField.returnKeyType = UIReturnKeyDone;
         self.theNewLineTextField.delegate = self;
         self.theNewLineTextField.borderStyle = UITextBorderStyleNone;
-        self.theNewLineTextField.placeholder = @"Type new task here...";
+        if ([self getLineType] == 2){
+            // for projects use another text
+            self.theNewLineTextField.placeholder = @"Type new project here";
+        }
+        else
+        {
+            self.theNewLineTextField.placeholder = @"Type new task here";
+        }
         // add entry button
         UIButton *addButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
         [addButton setFrame:CGRectMake(self.theNewLineTextField.frame.origin.x + self.theNewLineTextField.frame.size.width + 5,
@@ -236,7 +240,8 @@
     // add tag to identify clicks
     cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
     cell.checkButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
-    
+    // same - for projects
+    cell.leftButtonProjects.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
 }
 
 - (void)didReceiveMemoryWarning

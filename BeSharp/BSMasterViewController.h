@@ -25,10 +25,12 @@
 - (IBAction)popupBackgroundButtonClicked:(id)sender;
 - (IBAction)markAsGoalClicked:(id)sender;
 - (IBAction)moveToProjectClicked:(id)sender;
-- (IBAction)leftButtonClicked:(id)sender forEvent:(UIEvent *)event;
 - (IBAction)addNewTaskAbove:(id)sender;
 - (IBAction)addNewTaskBelow:(id)sender;
 - (IBAction)addNewTaskChild:(id)sender;
+
+// show popup
+- (IBAction)leftButtonClicked:(id)sender forEvent:(UIEvent *)event;
 
 // parent project
 @property (nonatomic) Line* parentProject;

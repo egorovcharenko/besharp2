@@ -37,6 +37,7 @@
 		0E8C0008168E1BEC0055DDC6 /* BeSharp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0006168E1BEC0055DDC6 /* BeSharp.xcdatamodeld */; };
 		0E8C000B168E1BEC0055DDC6 /* BSMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */; };
 		0E8C0019168E2D6E0055DDC6 /* BSDataController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0E8C0018168E2D6E0055DDC6 /* BSDataController.m */; };
+		0E8CF9BE1734365000A26081 /* ProjectPopupView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CF9BD1734365000A26081 /* ProjectPopupView.xib */; };
 		0E8CFFE7168E1BEC0055DDC6 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */; };
 		0E8CFFE9168E1BEC0055DDC6 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFE8168E1BEC0055DDC6 /* Foundation.framework */; };
 		0E8CFFEB168E1BEC0055DDC6 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8CFFEA168E1BEC0055DDC6 /* CoreGraphics.framework */; };
@@ -47,7 +48,7 @@
 		0E8CFFFB168E1BEC0055DDC6 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CFFFA168E1BEC0055DDC6 /* Default.png */; };
 		0E8CFFFD168E1BEC0055DDC6 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CFFFC168E1BEC0055DDC6 /* Default@2x.png */; };
 		0E8CFFFF168E1BEC0055DDC6 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E8CFFFE168E1BEC0055DDC6 /* Default-568h@2x.png */; };
-		0E8F3F8B16AAB5030057AA7E /* BSProjectPopup.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0E8F3F8A16AAB5030057AA7E /* BSProjectPopup.xib */; };
+		0E96B7F716F8D17F00E84161 /* projects_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0E96B7F616F8D17F00E84161 /* projects_background@2x.png */; };
 		0EB6B75E16A3258C00FBD634 /* IISideController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B75916A3258C00FBD634 /* IISideController.m */; };
 		0EB6B75F16A3258C00FBD634 /* IIViewDeckController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B75B16A3258C00FBD634 /* IIViewDeckController.m */; };
 		0EB6B76016A3258C00FBD634 /* IIWrapController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B75D16A3258C00FBD634 /* IIWrapController.m */; };
@@ -96,6 +97,7 @@
 		0E8C000A168E1BEC0055DDC6 /* BSMasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BSMasterViewController.m; path = BeSharp/BSMasterViewController.m; sourceTree = "<group>"; wrapsLines = 1; };
 		0E8C0017168E2D6E0055DDC6 /* BSDataController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BSDataController.h; path = BeSharp/BSDataController.h; sourceTree = "<group>"; };
 		0E8C0018168E2D6E0055DDC6 /* BSDataController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BSDataController.m; path = BeSharp/BSDataController.m; sourceTree = "<group>"; };
+		0E8CF9BD1734365000A26081 /* ProjectPopupView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProjectPopupView.xib; sourceTree = "<group>"; };
 		0E8CFFE2168E1BEC0055DDC6 /* BeSharp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BeSharp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0E8CFFE6168E1BEC0055DDC6 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		0E8CFFE8168E1BEC0055DDC6 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -110,7 +112,7 @@
 		0E8CFFFA168E1BEC0055DDC6 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		0E8CFFFC168E1BEC0055DDC6 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0E8CFFFE168E1BEC0055DDC6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		0E8F3F8A16AAB5030057AA7E /* BSProjectPopup.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BSProjectPopup.xib; sourceTree = "<group>"; };
+		0E96B7F616F8D17F00E84161 /* projects_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "projects_background@2x.png"; sourceTree = "<group>"; };
 		0EB6B75816A3258C00FBD634 /* IISideController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IISideController.h; path = ../../ViewDeck/ViewDeck/IISideController.h; sourceTree = "<group>"; };
 		0EB6B75916A3258C00FBD634 /* IISideController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IISideController.m; path = ../../ViewDeck/ViewDeck/IISideController.m; sourceTree = "<group>"; };
 		0EB6B75A16A3258C00FBD634 /* IIViewDeckController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IIViewDeckController.h; path = ../../ViewDeck/ViewDeck/IIViewDeckController.h; sourceTree = "<group>"; };
@@ -153,6 +155,7 @@
 			children = (
 				0E42166B16F60E36009E4FF8 /* add_new_above@2x.png */,
 				0E42166916F60D58009E4FF8 /* focus_on_task@2x.png */,
+				0E96B7F616F8D17F00E84161 /* projects_background@2x.png */,
 				0E42167316F61053009E4FF8 /* move_to_project@2x.png */,
 				0E42166716F60C93009E4FF8 /* indent_left@2x.png */,
 				0E42167116F60FE9009E4FF8 /* indent_right@2x.png */,
@@ -372,9 +375,9 @@
 		0EB6B79616AA8AB900FBD634 /* Projects list */ = {
 			isa = PBXGroup;
 			children = (
+				0E8CF9BD1734365000A26081 /* ProjectPopupView.xib */,
 				0EB6B79716AA8AF800FBD634 /* BSProjectsViewController.h */,
 				0EB6B79816AA8AF800FBD634 /* BSProjectsViewController.m */,
-				0E8F3F8A16AAB5030057AA7E /* BSProjectPopup.xib */,
 			);
 			name = "Projects list";
 			sourceTree = "<group>";
@@ -442,7 +445,6 @@
 				0E71BE97169A05B5002478BA /* sectorForBSRight.png in Resources */,
 				0E71BE98169A05B5002478BA /* sectorForBSTop.png in Resources */,
 				0E71BE9F169C1AE3002478BA /* Bullet.png in Resources */,
-				0E8F3F8B16AAB5030057AA7E /* BSProjectPopup.xib in Resources */,
 				0E00AB5C16F498A200529BCF /* background@2x.png in Resources */,
 				0E00AB5E16F49AAB00529BCF /* black_checkbox@2x.png in Resources */,
 				0E00AB6016F49DA600529BCF /* edit_icon@2x.png in Resources */,
@@ -458,6 +460,8 @@
 				0E42167016F60F9D009E4FF8 /* add_new_child@2x.png in Resources */,
 				0E42167216F60FE9009E4FF8 /* indent_right@2x.png in Resources */,
 				0E42167416F61054009E4FF8 /* move_to_project@2x.png in Resources */,
+				0E96B7F716F8D17F00E84161 /* projects_background@2x.png in Resources */,
+				0E8CF9BE1734365000A26081 /* ProjectPopupView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
