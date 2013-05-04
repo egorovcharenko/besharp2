@@ -82,8 +82,8 @@
     return @"ProjectPopupView";
 }
 
-- (IBAction)leftButtonClicked:(id)sender {
-    [self showPopup:sender  forEvent:nil];
+- (IBAction)leftButtonClickedWithEvent:(id)sender forEvent:(UIEvent *)event {
+    [self showPopup:sender  forEvent:event];
 }
 
 - (Line*) getAParentProject
@@ -121,5 +121,10 @@
     
     // reload data so tags will be updated
     [self.tableView reloadData];
+}
+
+- (IBAction)popupBackgroundClicked:(id)sender {
+    // hide popup
+    [popupView removeFromSuperview];
 }
 @end

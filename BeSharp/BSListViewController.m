@@ -304,7 +304,9 @@
     CGRect popupViewRect = self.popupView.frame;
     
     // get coordinates of touch inside the row
-    NSSet *touches = [event touchesForView:sender];
+    NSSet *touches;
+    touches = [event touchesForView:sender];
+    
     UITouch *touch = [touches anyObject];
     CGPoint touchLocation = [touch locationInView:self.tableView];
     

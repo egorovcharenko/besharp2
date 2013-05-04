@@ -17,12 +17,15 @@
 // popup dialog
 @property (strong) UIView *popupView;
 @property NSIndexPath *popupIndexPath;
-- (IBAction)leftButtonClicked:(id)sender;
+- (IBAction)leftButtonClickedWithEvent:(id)sender forEvent:(UIEvent *)event;
 
 // select project mode
 @property Boolean selectionMode;
 
 // complete project
 - (IBAction)completeProjectWasClicked:(id)sender forEvent:(UIEvent *)event;
+
+// popup events
+- (IBAction)popupBackgroundClicked:(id)sender;
 
 @end

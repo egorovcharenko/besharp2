@@ -35,7 +35,7 @@
 -(void) setFocusedTask:(Line *)newFocusedTask
 {
     if (newFocusedTask != nil){
-        self.overallImage.hidden = YES;
+        //self.overallImage.hidden = YES;
         focusedTask = newFocusedTask;
         
         [self updatePomodoroTaskInfo];
@@ -44,9 +44,35 @@
         self.timerState = timerWaitingForWork;
         secondsLeft = secondsWork;
         self.timerLabel.text = [self timeFormatted:secondsLeft];
+        
+        // Change button skin to disabled
+        [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
+        
+        // Enable the button
+        [self.startStopButton setEnabled:YES];
+        [self.pomodoroMinusButton setEnabled:YES];
+        [self.pomodoroPlusButton setEnabled:YES];
+        
+        // Set color of task
+        [self.focusedTaskTextField setTextColor:[UIColor colorWithRed:254.0/255.0 green:178.0/255.0 blue:51.0/255.0 alpha:1.0]];
+        
     } else {
-        self.overallImage.hidden = NO;
-        self.overallImage.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+        //self.overallImage.hidden = NO;
+        //self.overallImage.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
+        
+        // Change button skin to disabled
+        [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start_disabled.png"] forState:UIControlStateNormal];
+        
+        // Disable the buttons
+        [self.startStopButton setEnabled:NO];
+        [self.pomodoroMinusButton setEnabled:NO];
+        [self.pomodoroPlusButton setEnabled:NO];
+        
+        // Set color of task
+        [self.focusedTaskTextField setTextColor:[UIColor grayColor]];
+    
+        // Set text of task to dummy
+        [self.focusedTaskTextField setText:@"Please select task first"];
     }
 }
 
@@ -73,6 +99,10 @@
     
     // hide pomodoro controls behind the image
     self.focusedTask = nil;
+    
+    // set background
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pomodoro_background.png"]];
+    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -231,6 +261,9 @@
             // change button label
             [self.startStopButton setTitle: @"Stop" forState: UIControlStateNormal];
             
+            // Change button skin
+            [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_stop.png"] forState:UIControlStateNormal];
+            
             break;
             
         case timerWorking:
@@ -248,6 +281,9 @@
             // change button label
             [self.startStopButton setTitle: @"Start" forState: UIControlStateNormal];
             
+            // Change button skin
+            [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
+            
             break;
             
         case timerWaitingForRest:
@@ -261,14 +297,17 @@
             timerState = timerResting;
             
             // change button label
-            [self.startStopButton setTitle: @"Skip >>" forState: UIControlStateNormal];
+            [self.startStopButton setTitle: @"Skip" forState: UIControlStateNormal];
 
+            // Change button skin
+            [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_skip.png"] forState:UIControlStateNormal];
+            
             break;
             
         case timerResting:
             // skip to work
-            
             [self prepareForWork];
+            
             
             break;
 
@@ -294,6 +333,9 @@
     
     // change button label
     [self.startStopButton setTitle: @"Start" forState: UIControlStateNormal];
+    
+    // Change button skin
+    [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
 }
 
 - (void)saveFocusedTask {
@@ -334,7 +376,10 @@
                 self.timerLabel.text = [self timeFormatted:secondsLeft];
                 
                 // change button label
-                [self.startStopButton setTitle: @"Start" forState: UIControlStateNormal];
+                [self.startStopButton setTitle: @"Rest" forState: UIControlStateNormal];
+                
+                // Change button skin
+                [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
                 
                 break;
             }
@@ -397,7 +442,7 @@
     
     // TODO set maximum allowed height for the field
     CGSize textViewSize = [self.focusedTask.text sizeWithFont:self.focusedTaskTextField.font constrainedToSize:CGSizeMake(self.focusedTaskTextField.frame.size.width, FLT_MAX) lineBreakMode:NSLineBreakByTruncatingTail];
-    self.focusedTaskTextFieldHeightConstraint.constant = textViewSize.height;
+    //self.focusedTaskTextFieldHeightConstraint.constant = textViewSize.height;
     
     // display left pomodoros
     int leftPomodoro = focusedTask.pomodoroTotal - focusedTask.pomodoroUsed;

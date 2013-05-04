@@ -22,7 +22,10 @@
 - (IBAction)completeTaskClicked:(id)sender;
 - (IBAction)markAsProjectClicked:(id)sender;
 - (IBAction)pomodoroButtonClicked:(id)sender;
+
+// hide popup
 - (IBAction)popupBackgroundButtonClicked:(id)sender;
+
 - (IBAction)markAsGoalClicked:(id)sender;
 - (IBAction)moveToProjectClicked:(id)sender;
 - (IBAction)addNewTaskAbove:(id)sender;

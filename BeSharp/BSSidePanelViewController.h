@@ -19,7 +19,8 @@
 
 // pomodoro
 @property Line *focusedTask;
-@property (weak, nonatomic) IBOutlet UITextField *focusedTaskTextField;
+
+@property (weak, nonatomic) IBOutlet UILabel *focusedTaskTextField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *focusedTaskTextFieldHeightConstraint;
 @property (weak, nonatomic) IBOutlet UILabel *timerLabel;
 - (IBAction)startStopButtonClicked:(id)sender;
@@ -29,6 +30,8 @@
 - (IBAction)increaseLeftClicked:(id)sender;
 - (IBAction)decreaseLeftClicked:(id)sender;
 @property (weak, nonatomic) IBOutlet UIImageView *overallImage;
+@property (weak, nonatomic) IBOutlet UIButton *pomodoroMinusButton;
+@property (weak, nonatomic) IBOutlet UIButton *pomodoroPlusButton;
 
 typedef enum {
     timerWaitingForWork,
