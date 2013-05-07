@@ -335,9 +335,9 @@
         Line *curParentProject = [self getAParentProject];
         if (curParentProject != nil){
             int height = headerHeight;
+            CGFloat width = CGRectGetWidth(self.view.bounds);
             
             // top label
-            CGFloat width = CGRectGetWidth(self.view.bounds);
             UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, height)];
             [topLabel setText:curParentProject.text];
             [topLabel setTextAlignment:NSTextAlignmentCenter];
@@ -356,14 +356,49 @@
                                 top_back.frame.origin.x,
                                 top_back.frame.origin.y, width, height);
             
+            // Hide all checked button
+            UIButton *hideButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+            [hideButton setFrame:CGRectMake(5, 5, 78, 30)];
+            [hideButton setBackgroundImage:[UIImage imageNamed:@"hide_checked_button.png"] forState:UIControlStateNormal];
+            [hideButton setTitle:@"      Delete" forState:UIControlStateNormal];
+            [hideButton addTarget:self action:@selector(hideButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            [hideButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+            
             // add to view
             [headerManualView addSubview:top_back];
             [headerManualView addSubview:topLabel];
+            [headerManualView addSubview:hideButton];
         }
     }
     
     //return the view for the footer
     return headerManualView;
+}
+
+-(void) hideButtonClicked:(id)sender
+{
+    
+    // run some code after smooth update
+    [CATransaction begin];
+    
+    [CATransaction setCompletionBlock:^{
+        // animation has finished - reload all data
+        [self.tableView reloadData];
+    }];
+    
+    [self.tableView beginUpdates];
+    
+    // hide all completed lines
+    NSArray *indexArray = [self.dataController hideAllCompletedLinesFromProject:[self getAParentProject]];
+    [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
+    
+    [self.tableView endUpdates];
+    
+    [CATransaction commit];
+    
+    // refresh also left panel as some goals could be hidden already
+    BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
+    [sidePanelController.goalsTable reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

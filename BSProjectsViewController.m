@@ -74,6 +74,9 @@
         
         // show center
         [self.viewDeckController closeRightView];
+        
+        // refresh the view so selected project will be orange
+        [self.tableView reloadData];
     }
 }
 

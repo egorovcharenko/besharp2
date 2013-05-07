@@ -411,7 +411,7 @@ typedef enum {
 	 */
 	UITableViewCell *highlightedCell = [self.tableView cellForRowAtIndexPath:indexPathOfRow];
 	if ( ![highlightedCell isHighlighted] )
-		return;
+		;//return; // TODO EGOR FIX CHECK - this was commented out to enable dragging by the whole line
 
 	/*
 	 *	Check to see if the tableView's data source will let us move this cell.
@@ -445,7 +445,7 @@ typedef enum {
 	 */
 
 	/*
-	 *	If -tableView:cellForRowAtIndexPath: (in -cellPreparedToAnimateAroundAtIndexPath) has to create a new cell, the separator style wiil be set to the default.
+	 *	If -tableView:cellForRowAtIndexPath: (in -cellPreparedToAnimateAroundAtIndexPath) has to create a new cell, the separator style will be set to the default.
 	 *	This might cause a distratcting 1 px line at the bottom of the cell if the style is not the default.
 	 *
 	 *	In what has to be a bug, -reloadRowsAtIndexPaths:withRowAnimation: will cause a new cell to be created, so we do that first.
@@ -458,14 +458,14 @@ typedef enum {
 	 */
 
 
-	NSIndexPath *indexPathOfSomeOtherRow = [self indexPathOfSomeRowThatIsNotIndexPath:indexPathOfRow];
+	//NSIndexPath *indexPathOfSomeOtherRow = [self indexPathOfSomeRowThatIsNotIndexPath:indexPathOfRow];
 
-	if (indexPathOfSomeOtherRow != nil)
-		[self.tableView reloadRowsAtIndexPaths:@[indexPathOfSomeOtherRow] withRowAnimation:UITableViewRowAnimationNone];
+	//if (indexPathOfSomeOtherRow != nil)
+		//[self.tableView reloadRowsAtIndexPaths:@[indexPathOfSomeOtherRow] withRowAnimation:UITableViewRowAnimationNone];
 
 	self.draggedCell = [self cellPreparedToAnimateAroundAtIndexPath:indexPathOfRow];
 
-	[self.draggedCell setHighlighted:YES animated:NO];
+	[self.draggedCell setHighlighted:NO animated:NO];
 	[UIView animateWithDuration:0.23 delay:0 options:(UIViewAnimationOptionAllowUserInteraction|UIViewAnimationOptionCurveEaseInOut) animations:^{
 		[self.indicatorDelegate dragTableViewController:self addDraggableIndicatorsToCell:self.draggedCell forIndexPath:indexPathOfRow];
 	} completion:^(BOOL finished) {
@@ -939,6 +939,9 @@ typedef enum {
 			[self.dragDelegate dragTableViewController:self didEndDraggingToRow:blankIndexPath];
 
 		UIAccessibilityPostNotification(UIAccessibilityAnnouncementNotification, NSLocalizedString(@"Drag completed.", @"Voiceover annoucement"));
+        
+        // TODO EGOR
+        [self.tableView reloadData];
 	}];
 
 	/*

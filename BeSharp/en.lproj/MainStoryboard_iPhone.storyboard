@@ -593,6 +593,96 @@
         <image name="pomodoro_plus@2x.png" width="77" height="74"/>
         <image name="pomodoro_start@2x.png" width="154" height="74"/>
     </resources>
+    <classes>
+        <class className="ATSDragToReorderTableViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ATSDragToReorderTableViewController.h"/>
+        </class>
+        <class className="BSGoalLineCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSGoalLineCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="goalCheckBigButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="goalCheckMark" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="goalName" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="BSInitialViewController" superclassName="IIViewDeckController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSInitialViewController.h"/>
+        </class>
+        <class className="BSLineCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSLineCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="checkButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="leftButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="leftButtonProjects" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="realCheckMark" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="realProjectCheckMark" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="textFieldForEdit" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="textLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="BSListViewController" superclassName="ATSDragToReorderTableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSListViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="leftButtonOnCellClicked:forEvent:"/>
+                <relationship kind="action" name="newTaskButtonClicked:"/>
+                <relationship kind="action" name="showPopup:forEvent:" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="headerView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="BSMasterViewController" superclassName="BSListViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSMasterViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="addNewTaskAbove:"/>
+                <relationship kind="action" name="addNewTaskBelow:"/>
+                <relationship kind="action" name="addNewTaskChild:"/>
+                <relationship kind="action" name="completeTaskClicked:"/>
+                <relationship kind="action" name="indentMinusAction:"/>
+                <relationship kind="action" name="indentPlusAction:"/>
+                <relationship kind="action" name="leftButtonClicked:forEvent:"/>
+                <relationship kind="action" name="markAsCompleted:"/>
+                <relationship kind="action" name="markAsGoalClicked:"/>
+                <relationship kind="action" name="markAsProjectClicked:"/>
+                <relationship kind="action" name="moveToProjectClicked:"/>
+                <relationship kind="action" name="pomodoroButtonClicked:"/>
+                <relationship kind="action" name="popupBackgroundButtonClicked:"/>
+            </relationships>
+        </class>
+        <class className="BSProjectsViewController" superclassName="BSListViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSProjectsViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="completeProjectWasClicked:forEvent:"/>
+                <relationship kind="action" name="leftButtonClickedWithEvent:forEvent:"/>
+                <relationship kind="action" name="popupBackgroundClicked:"/>
+            </relationships>
+        </class>
+        <class className="BSSidePanelViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/BSSidePanelViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="decreaseLeftClicked:"/>
+                <relationship kind="action" name="goalCompleteClicked:forEvent:"/>
+                <relationship kind="action" name="inboxButtonClicked:"/>
+                <relationship kind="action" name="increaseLeftClicked:"/>
+                <relationship kind="action" name="projectsButtonClicked:"/>
+                <relationship kind="action" name="startStopButtonClicked:"/>
+                <relationship kind="outlet" name="completedPomodorosLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="focusedTaskTextField" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="focusedTaskTextFieldHeightConstraint" candidateClass="NSLayoutConstraint"/>
+                <relationship kind="outlet" name="goalsTable" candidateClass="UITableView"/>
+                <relationship kind="outlet" name="leftPomodorosLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="overallImage" candidateClass="UIImageView"/>
+                <relationship kind="outlet" name="pomodoroMinusButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="pomodoroPlusButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="startStopButton" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="timerLabel" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="IIViewDeckController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/IIViewDeckController.h"/>
+        </class>
+        <class className="NSLayoutConstraint" superclassName="NSObject">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

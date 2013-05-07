@@ -314,20 +314,79 @@
     }
 }
 
-- (void) moveLineFrom:(NSInteger) startPos to:(NSInteger) newPos
+- (void) moveLineFrom:(NSInteger) startPos to:(NSInteger) newPos inProject:(Line*) parentProject
 {
+    [self normalizeOrder:parentProject];
+    
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    [request setEntity:entityDescription];
+    
+    [request setPredicate:[NSPredicate predicateWithFormat:@"(isHidden = NO) AND (parentProject == %@)", parentProject]];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSArray *lines = [self.context executeFetchRequest:request error:&error];
+    
     if (newPos > startPos){
-        for (int i = startPos+1; i < newPos; i ++){
-            // decrease order for all items in-between
-            [self setLineOrder:i+1 newOrder: i];
+        // decrease order for all items in-between
+        for (int i = startPos + 1; i <= newPos; i ++){
+            Line* line = [lines objectAtIndex:(i)];
+            line.order --;
         }
         
-        // moved object
-        [self setLineOrder:startPos newOrder:newPos];
-    } else {
+        // moved object - move to end position
+        Line *draggedLine = [lines objectAtIndex:startPos];
+        draggedLine.order = newPos + 1;
         
+    } else {
+        // increse order for all items in-between
+        for (int i = newPos; i < startPos; i ++){
+            Line* line = [lines objectAtIndex:(i)];
+            line.order ++;
+        }
+        
+        // moved object - move to end position
+        Line *draggedLine = [lines objectAtIndex:startPos];
+        draggedLine.order = newPos + 1;
     }
+    
+    // save changes
+    [self saveContext];
 }
+
+- (void) normalizeOrder:(Line*) parentProject
+{
+    NSEntityDescription *entityDescription = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    
+    [request setEntity:entityDescription];
+    
+    [request setPredicate:[NSPredicate predicateWithFormat:@"(isHidden = NO) AND (parentProject == %@)", parentProject]];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    [request setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSArray *lines = [self.context executeFetchRequest:request error:&error];
+    
+    // normalize
+    for (int i = 0; i < lines.count; i ++){
+        Line* line = [lines objectAtIndex:i];
+        line.order = i + 1;
+    }
+    
+    // save changes
+    [self saveContext];
+}
+
 
 - (void)saveContext
 {
@@ -458,6 +517,48 @@
         }
     }
     [self saveContext];
+}
+
+- (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject
+{
+    NSMutableArray *result=[[NSMutableArray alloc]init];
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *filterPredicate;
+    filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (parentProject = %@)", parentProject];
+    [fetchRequest setPredicate:filterPredicate];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSArray *completedLines = [self.context executeFetchRequest:fetchRequest error:&error];
+    
+    int i = 0;
+    // iterate over all returned lines
+    for (Line *line in completedLines) {
+        if (line.isCompleted){
+            // change isHidden to YES
+            line.isHidden = YES;
+            
+            // remember this line in return array
+            NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
+            [result addObject:ip];
+        }
+        
+        // increase anyway
+        i ++;
+    }
+    
+    // save context
+    [self saveContext];
+    
+    return result;
 }
 
 @end

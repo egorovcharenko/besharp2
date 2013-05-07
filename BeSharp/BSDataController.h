@@ -33,12 +33,12 @@
 - (void) saveLine: (NSManagedObjectID *)lineId withText:(NSString *) newText;
 - (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
-// set as a project
-//- (void) setProjectFlag: (NSManagedObjectID *)lineId isProject:(Boolean) isProject ;
 - (void) addOrderToAllLinesStartingOrder: (int) startinIndent fromProject:(Line*) parentProject;
+- (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject;
 
 // reordering
-- (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos;
+- (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos inProject:(Line*) parentProject;
+- (void) normalizeOrder:(Line*) parentProject;
 
 // goals
 - (NSInteger) lastGoalOrderByType:(NSInteger) goalType;

@@ -7,7 +7,7 @@
 //
 
 #import "BSListViewController.h"
-
+#import "BSMasterViewController.h"
 #import "BSDataController.h"
 
 #import "Line.h"
@@ -16,6 +16,8 @@
 #import "consts.h"
 
 #import "IIViewDeckController.h"
+
+//@class BSMasterViewController;
 
 @implementation BSListViewController
 
@@ -74,7 +76,7 @@
         
         UIImageView* top_back = [[UIImageView alloc] initWithFrame:CGRectMake([self leftShift], 0, width - [self leftShift], footerHeight)];
         top_back.image = stretchableImage;
-
+        
         // new entry field
         self.theNewLineTextField = [[UITextField alloc] initWithFrame:CGRectMake([self leftShift] + 15, topShift+3, width - [self leftShift] - 65, 34)];
         [self.theNewLineTextField setFont:[UIFont fontWithName:@"Helvetica" size:20]];
@@ -126,7 +128,7 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    [self.dataController moveLineFrom:fromIndexPath.row to:toIndexPath.row];
+    [self.dataController moveLineFrom:fromIndexPath.row to:toIndexPath.row inProject:[self getAParentProject]];
 }
 
 - (void)awakeFromNib
@@ -203,6 +205,7 @@
     // deal with completed and not tasks and projects
     
     if ([self getLineType] == 1){
+        // Line
         if (line.isCompleted){
             // if task is completed but not hidden - draw the checkmark
             [cell.realCheckMark setImage:[UIImage imageNamed:@"checkmarkChecked.png"] forState:UIControlStateNormal];
@@ -217,6 +220,7 @@
             [cell.textLabel setTextColor: [UIColor colorWithRed:79.0/255.0 green:79.0/255.0 blue:79.0/255.0 alpha:1.0]];
         }
     } else if ([self getLineType] == 2) {
+        // Project
         if (line.isCompleted){
             // if task is completed but not hidden - draw the checkmark
             [cell.realProjectCheckMark setImage:[UIImage imageNamed:@"checkmarkChecked.png"] forState:UIControlStateNormal];
@@ -224,11 +228,20 @@
             // set goal name to gray
             [cell.textLabel setTextColor: [UIColor colorWithRed:183.0/255.0 green:183.0/255.0 blue:183.0/255.0 alpha:1.0]];
         } else {
-            // normal uncompleted goal
-            [cell.realProjectCheckMark setImage:[UIImage imageNamed:@"black_checkbox.png"] forState:UIControlStateNormal];
             
-            // set goal name to white
-            [cell.textLabel setTextColor: [UIColor whiteColor]];
+            // if it's the current project
+            BSMasterViewController *centerController = (BSMasterViewController*) self.viewDeckController.centerController;
+            if (centerController.parentProject.objectID == line.objectID)
+            {
+                // this is selected project - set goal name to orange
+                [cell.textLabel setTextColor: [UIColor colorWithRed:255.0/255.0 green:178.0/255.0 blue:51.0/255.0 alpha:1.0]];
+            } else {
+                // normal uncompleted goal
+                [cell.realProjectCheckMark setImage:[UIImage imageNamed:@"black_checkbox.png"] forState:UIControlStateNormal];
+                
+                // set goal name to white
+                [cell.textLabel setTextColor: [UIColor whiteColor]];
+            }
         }
     }
     
@@ -397,11 +410,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    //NSError *error = nil;
-    //[self.fetchResultsController performFetch:&error];
-    
-    //id <NSFetchedResultsSectionInfo> sectionInfo = [self.fetchResultsController sections][section];
-    //int count2 = [sectionInfo numberOfObjects];
     int count = [self.fetchResultsController.fetchedObjects count];
     return count;
 }
@@ -437,6 +445,26 @@
         // entry is empty - remove focus
         [self.theNewLineTextField resignFirstResponder];
     }
+}
+
+// should be identical to cell returned in -tableView:cellForRowAtIndexPath:
+- (UITableViewCell *)cellIdenticalToCellAtIndexPath:(NSIndexPath *)indexPath forDragTableViewController:(ATSDragToReorderTableViewController *)dragTableViewController {
+	//BSLineCell *cell = [[BSLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell"];
+    //BSLineCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+    BSLineCell *cell = [[BSLineCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:nil];
+    
+    Line *line = [self getLine:indexPath];
+    
+    UILabel *text = [[UILabel alloc] initWithFrame:CGRectMake(45 + [self leftShift], 0, cell.frame.size.width - 50 - [self leftShift], cell.frame.size.height)];
+    [text setBackgroundColor:[UIColor clearColor]];
+    [text setText:line.text];
+    [text setTextAlignment:NSTextAlignmentLeft];
+    [cell addSubview:text];
+    [cell setBackgroundColor:[UIColor colorWithWhite:1.0 alpha:0.5]];
+    //[self configureCell:cell atIndexPath:indexPath];
+	//cell.textLabel.text = @"test";//[arrayOfItems objectAtIndex:indexPath.row];
+    
+	return cell;
 }
 
 @end
