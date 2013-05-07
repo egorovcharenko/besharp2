@@ -86,24 +86,31 @@
 }
 
 - (IBAction)completeTaskClicked:(id)sender {
-    [self.tableView beginUpdates];
+    //[self.tableView beginUpdates];
     
     // complete the task
     if (self.popupLine != nil){
-        [self.dataController setCompletedFlag:[self.popupLine objectID] isCompleted:YES];
+        if (self.popupLine.isCompleted){
+            self.popupLine.isCompleted = NO;
+        } else {
+            self.popupLine.isCompleted = YES;
+        }
     }
+    
+    // save updated line
+    [self.dataController saveLine:self.popupLine];
+    
     // hide popup
     [popupView removeFromSuperview];
     
     // update row
-    NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
+    //NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
     
-    [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    //[self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    //[self.tableView endUpdates];
     
     // update all rows after deleted!!
-    //[self.tableView reloadData];
-    [self.tableView endUpdates];
-    
     [self.tableView reloadData];
 }
 

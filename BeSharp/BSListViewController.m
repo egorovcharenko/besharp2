@@ -196,16 +196,48 @@
 
 - (void)configureCell:(BSLineCell *)cell atIndexPath:(NSIndexPath *)indexPath
 {
-    NSManagedObject *object = [self getLine:indexPath];
+    Line *line = [self getLine:indexPath];
     
     cell.textFieldForEdit.delegate = self;
     
-    if ([self.currentEditingItemId isEqual:[object objectID]] && self.currentEditingItemId != nil)
+    // deal with completed and not tasks and projects
+    
+    if ([self getLineType] == 1){
+        if (line.isCompleted){
+            // if task is completed but not hidden - draw the checkmark
+            [cell.realCheckMark setImage:[UIImage imageNamed:@"checkmarkChecked.png"] forState:UIControlStateNormal];
+            
+            // set goal name color
+            [cell.textLabel setTextColor: [UIColor colorWithRed:159.0/255.0 green:159.0/255.0 blue:159.0/255.0 alpha:1.0]];
+        } else {
+            // normal uncompleted goal
+            [cell.realCheckMark setImage:[UIImage imageNamed:@"black_checkbox.png"] forState:UIControlStateNormal];
+            
+            // set goal name color to gray
+            [cell.textLabel setTextColor: [UIColor colorWithRed:79.0/255.0 green:79.0/255.0 blue:79.0/255.0 alpha:1.0]];
+        }
+    } else if ([self getLineType] == 2) {
+        if (line.isCompleted){
+            // if task is completed but not hidden - draw the checkmark
+            [cell.realProjectCheckMark setImage:[UIImage imageNamed:@"checkmarkChecked.png"] forState:UIControlStateNormal];
+            
+            // set goal name to gray
+            [cell.textLabel setTextColor: [UIColor colorWithRed:183.0/255.0 green:183.0/255.0 blue:183.0/255.0 alpha:1.0]];
+        } else {
+            // normal uncompleted goal
+            [cell.realProjectCheckMark setImage:[UIImage imageNamed:@"black_checkbox.png"] forState:UIControlStateNormal];
+            
+            // set goal name to white
+            [cell.textLabel setTextColor: [UIColor whiteColor]];
+        }
+    }
+    
+    if ([self.currentEditingItemId isEqual:[line objectID]] && self.currentEditingItemId != nil)
     {
         // selected cell
         cell.textFieldForEdit.hidden = NO;
         cell.textLabel.hidden = YES;
-        cell.textFieldForEdit.text = [[object valueForKey:@"text"] description];
+        cell.textFieldForEdit.text = [[line valueForKey:@"text"] description];
         
         // border of text edit
         [cell.textFieldForEdit.layer setBorderColor:(__bridge CGColorRef)([UIColor colorWithRed:239/255 green:190/255 blue:105/255 alpha:1.0])];
@@ -217,13 +249,13 @@
         cell.textFieldForEdit.hidden = YES;
         cell.textLabel.hidden = NO;
         //cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
-        cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[object valueForKey:@"text"] description], [object valueForKey:@"order"], [object valueForKey:@"indent"],[object valueForKey:@"parentProject"]];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[line valueForKey:@"text"] description], [line valueForKey:@"order"], [line valueForKey:@"indent"],[line valueForKey:@"parentProject"]];
         //cell.textLabel.text = [NSString stringWithFormat:@"%@",[[object valueForKey:@"text"] description]];
         
     }
     
     // configure indent view
-    int indent = [[object valueForKey:@"indent"] integerValue];
+    int indent = [[line valueForKey:@"indent"] integerValue];
     
     // enumerate over all constraints
     for (NSLayoutConstraint *constraint in cell.checkButton.constraints) {
@@ -402,9 +434,8 @@
         // scroll to new line
         [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
     } else {
-        // entry is empty
+        // entry is empty - remove focus
         [self.theNewLineTextField resignFirstResponder];
-        
     }
 }
 

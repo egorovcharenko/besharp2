@@ -2,7 +2,7 @@
 //  Line.h
 //  BeSharp
 //
-//  Created by Egor Ovcharenko on 26.01.13.
+//  Created by Egor Ovcharenko on 05.05.13.
 //  Copyright (c) 2013 Egor Ovcharenko. All rights reserved.
 //
 
@@ -22,6 +22,7 @@
 @property (nonatomic) int32_t pomodoroUsed;
 @property (nonatomic, retain) NSString * text;
 @property (nonatomic) int32_t type;
+@property (nonatomic) BOOL isHidden;
 @property (nonatomic, retain) NSSet *childLines;
 @property (nonatomic, retain) Line *parentProject;
 @end

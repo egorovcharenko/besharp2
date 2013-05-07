@@ -56,6 +56,9 @@
         // Set color of task
         [self.focusedTaskTextField setTextColor:[UIColor colorWithRed:254.0/255.0 green:178.0/255.0 blue:51.0/255.0 alpha:1.0]];
         
+        // Set color of start button
+        [self.startStopButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        
     } else {
         //self.overallImage.hidden = NO;
         //self.overallImage.backgroundColor = [UIColor colorWithRed:1.0 green:0.0 blue:0.0 alpha:1.0];
@@ -72,7 +75,10 @@
         [self.focusedTaskTextField setTextColor:[UIColor grayColor]];
     
         // Set text of task to dummy
-        [self.focusedTaskTextField setText:@"Please select task first"];
+        [self.focusedTaskTextField setText:@"Please select the task first"];
+        
+        // Set color of start button
+        [self.startStopButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
     }
 }
 
@@ -97,12 +103,13 @@
     self.goalsTable.delegate = self;
     self.goalsTable.dataSource = self;
     
-    // hide pomodoro controls behind the image
+    // hide pomodoro controls
     self.focusedTask = nil;
     
     // set background
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"pomodoro_background.png"]];
-    
+    // set table background
+    self.goalsTable.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"projects_background.png"]];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -111,23 +118,26 @@
     switch (section) {
         case 0:
         {
+            // daily
             int count = [masterViewController.dataController getGoalsCount:1];
             if (count > 0)
-                return 20;
+                return 24;
             break;
         }
         case 1:
         {
+            // weekly
             int count = [masterViewController.dataController getGoalsCount:2];
             if (count > 0)
-                return 20;
+                return 24;
             break;
         }
         case 2:
         {
+            // yearly
             int count = [masterViewController.dataController getGoalsCount:3];
             if (count > 0)
-                return 20;
+                return 24;
             break;
         }
         default:
@@ -140,28 +150,38 @@
 {
     UIView *header = [[UIView alloc] init];
     CGFloat width = CGRectGetWidth(self.goalsTable.bounds);
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, width, 20)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, 1, width, 23)];
     [label setTextAlignment:NSTextAlignmentLeft];
     
     switch (section) {
         case 0:
         {
-            [label setText:@"Daily goals"];
+            [label setText:@"  Daily goals"];
             break;
         }
         case 1:
         {
-            [label setText:@"Weekly goals"];
+            [label setText:@"  Weekly goals"];
             break;
         }
         case 2:
         {
-            [label setText:@"Life goals"];
+            [label setText:@"  Life goals"];
             break;
         }
         default:
             break;
     }
+    // set color
+    [label setTextColor:[UIColor colorWithRed:163.0/255.0 green:163.0/255.0 blue:163.0/255.0 alpha:1.0]];
+
+    // set back
+    [label setBackgroundColor:[UIColor clearColor]];
+    [label setShadowOffset:CGSizeMake(0.0, 1.0)];
+    [label setShadowColor:[UIColor blackColor]];
+    
+    [header setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"goals_header_background_simple.png"]]];
+    
     [header addSubview:label];
     
     return header;
@@ -175,7 +195,7 @@
 - (Line*) getGoal:(NSIndexPath *)indexPath
 {
     BSMasterViewController *masterViewController = (BSMasterViewController*) self.viewDeckController.centerController;
-    Line *goal = [masterViewController.dataController getGoal:indexPath.section+1 number:indexPath.row];
+    Line *goal = [masterViewController.dataController getGoal:indexPath.section + 1 number:indexPath.row];
     return goal;
 }
 
@@ -186,7 +206,25 @@
     cell.goalName.text = [NSString stringWithFormat:@"%@", goal.text];
 
     // add tag to identify clicks
-    //cell.leftButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
+    cell.goalCheckBigButton.tag = ((indexPath.section & 0xFFFF) << 16) | (indexPath.row & 0xFFFF);
+    
+    if (goal.isCompleted){
+        if (!goal.isHidden){
+            // if goal is completed but not hidden - draw the checkmark
+            [cell.goalCheckMark setBackgroundImage:[UIImage imageNamed:@"checkmarkChecked.png"] forState:UIControlStateNormal];
+            
+            // set goal name to gray
+            [cell.goalName setTextColor: [UIColor colorWithRed:183.0/255.0 green:183.0/255.0 blue:183.0/255.0 alpha:1.0]];
+        } else {
+            // if goal is hidden - it should not be returned at all
+        }
+    } else {
+        // normal uncompleted goal
+        [cell.goalCheckMark setBackgroundImage:[UIImage imageNamed:@"black_checkbox.png"] forState:UIControlStateNormal];
+        
+        // set goal name to white
+        [cell.goalName setTextColor: [UIColor whiteColor]];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -340,8 +378,14 @@
 
 - (void)saveFocusedTask {
     // save task
+    [self saveTask:focusedTask];
+}
+
+- (void) saveTask : (Line*) taskToSave
+{
+    // save task
     BSMasterViewController *masterViewController = (BSMasterViewController*) self.viewDeckController.centerController;
-    [masterViewController.dataController saveLine:focusedTask];
+    [masterViewController.dataController saveLine:taskToSave];
 }
 
 - (void) timerTick:(NSTimer *) argTimer {
@@ -454,5 +498,36 @@
     // display completed pomodoros    
     self.completedPomodorosLabel.text = [NSString stringWithFormat:@"%d", focusedTask.pomodoroUsed];
     
+}
+
+- (IBAction)goalCompleteClicked:(UIButton*)sender forEvent:(UIEvent *)event {
+    // restore index from the tag
+    NSUInteger section = ((sender.tag >> 16) & 0xFFFF);
+    NSUInteger row     = (sender.tag & 0xFFFF);
+    NSIndexPath *index = [NSIndexPath indexPathForRow:row inSection:section];
+    
+    // get goal
+    Line* goal = [self getGoal:index];
+    
+    if (!goal.isCompleted){
+        // set task as completed
+        goal.isCompleted = YES;
+    } else {
+        // set task as not completed
+        goal.isCompleted = NO;
+    }
+    
+    // save goal
+    [self saveTask:goal];
+    
+    // refresh (possibly not needed)
+    [self.goalsTable reloadData];
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    // set task as focused
+    Line* selectedGoal = [self getGoal:indexPath];
+    self.focusedTask = selectedGoal;
 }
 @end

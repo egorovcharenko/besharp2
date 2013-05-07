@@ -10,5 +10,7 @@
 
 @interface BSGoalLineCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UILabel *goalName;
+@property (weak, nonatomic) IBOutlet UIButton *goalCheckMark;
+@property (weak, nonatomic) IBOutlet UIButton *goalCheckBigButton;
 
 @end

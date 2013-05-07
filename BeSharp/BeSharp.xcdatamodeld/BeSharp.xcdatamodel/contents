@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="1811" systemVersion="12C3012" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
+<model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Line" representedClassName="Line" syncable="YES">
         <attribute name="goalOrder" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="goalType" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="indent" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
-        <attribute name="isCompleted" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="isCompleted" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="isHidden" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="order" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="pomodoroTotal" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="pomodoroUsed" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
@@ -14,6 +15,6 @@
         <relationship name="parentProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Line" inverseName="childLines" inverseEntity="Line" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Line" positionX="52" positionY="189" width="128" height="210"/>
+        <element name="Line" positionX="52" positionY="189" width="128" height="225"/>
     </elements>
 </model>

@@ -44,6 +44,7 @@ typedef enum {
 
 // goals
 @property (weak, nonatomic) IBOutlet UITableView *goalsTable;
+- (IBAction)goalCompleteClicked:(id)sender forEvent:(UIEvent *)event;
 
 
 @end

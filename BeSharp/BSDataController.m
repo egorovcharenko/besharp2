@@ -112,12 +112,8 @@
     // Set the batch size to a suitable number.
     [fetchRequest setFetchBatchSize:20];
     
-    //NSMutableArray *predicateArray = [NSMutableArray array];
-    //[predicateArray addObject:[NSPredicate predicateWithFormat:@"name CONTAINS[cd] %@", searchString]];
-    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted == %@ AND type == %@", 0, lineType];
+    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (type = %@)", lineType];
     [fetchRequest setPredicate:filterPredicate];
-
-    //[fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isCompleted == %@", 0]];
 
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
@@ -222,11 +218,9 @@
     
     NSPredicate *filterPredicate;
     if (project != nil){
-        filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted = %@ AND type = %d AND parentProject = %@", 0, lineType, project];
+        filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (type = %d) AND (parentProject = %@)", lineType, project];
     } else {
-        filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted = %@ AND type = %d AND parentProject = %@", 0, lineType, project];
-        
-        //filterPredicate = [NSPredicate predicateWithFormat:@"isCompleted = %@ AND type = %d AND parentProject is null", 0, lineType];
+        filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (type = %d) AND (parentProject = %@)", lineType, project];
     }
     [fetchRequest setPredicate:filterPredicate];
     
@@ -348,23 +342,6 @@
     }
 }
 
-- (void) setCompletedFlag: (NSManagedObjectID *)lineId isCompleted:(Boolean) isCompleted
-{
-    NSError *error = nil;
-    
-    NSManagedObject *managedLine = nil;
-	if (! (managedLine = [self.context existingObjectWithID:lineId error:&error])) {
-        // Replace this implementation with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-	    NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-	    abort();
-	}
-
-    [managedLine setValue:[NSNumber numberWithBool:isCompleted] forKey:@"isCompleted"];
-    
-    [self saveContext];
-}
-
 - (Line*) getInbox
 {
     Line* result = [self getInboxInternal];
@@ -425,11 +402,21 @@
 
 - (NSArray *)getGoalsByType:(NSInteger)goalType
 {
+    return [self getGoalsByType:goalType returnHidden:NO];
+}
+
+- (NSArray *)getGoalsByType:(NSInteger)goalType returnHidden:(Boolean)returnHidden
+{
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
     [fetchRequest setEntity:entity];
     
-    NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"goalType = %d", goalType];
+    NSPredicate *filterPredicate;
+    if (returnHidden == NO){
+        filterPredicate = [NSPredicate predicateWithFormat:@"(goalType = %d) AND (isHidden = NO)", goalType];
+    } else {
+        filterPredicate = [NSPredicate predicateWithFormat:@"(goalType = %d) AND (isHidden = YES)", goalType];
+    }
     [fetchRequest setPredicate:filterPredicate];
     
     // Edit the sort key as appropriate.

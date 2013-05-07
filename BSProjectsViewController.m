@@ -101,23 +101,31 @@
     [self rememberClickedRow:sender];
     
     // actually complete the project
-    [self.tableView beginUpdates];
+    //[self.tableView beginUpdates];
     
-    // complete the task
+    // complete the project
     if (self.popupLine != nil){
-        [self.dataController setCompletedFlag:[self.popupLine objectID] isCompleted:YES];
+        if (self.popupLine.isCompleted){
+            self.popupLine.isCompleted = NO;
+        } else {
+            self.popupLine.isCompleted = YES;
+        }
     }
+    
+    // save updated line
+    [self.dataController saveLine:self.popupLine];
+    
     // hide popup
     //[popupView removeFromSuperview];
     
     // update row
-    NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
+    //NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
     
-    [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    //[self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
     
     // update all rows after deleted!!
     //[self.tableView reloadData];
-    [self.tableView endUpdates];
+    //[self.tableView endUpdates];
     
     // reload data so tags will be updated
     [self.tableView reloadData];

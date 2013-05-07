@@ -15,6 +15,8 @@
 @property (weak, nonatomic) IBOutlet UITextField *textFieldForEdit;
 @property (weak, nonatomic) IBOutlet UIButton *leftButton;
 @property (weak, nonatomic) IBOutlet UIButton *checkButton;
+@property (weak, nonatomic) IBOutlet UIButton *realCheckMark;
+@property (weak, nonatomic) IBOutlet UIButton *realProjectCheckMark;
 
 // for projects
 @property (weak, nonatomic) IBOutlet UIButton *leftButtonProjects;
