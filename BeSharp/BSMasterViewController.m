@@ -173,11 +173,15 @@
     int indentIncrement = 0;
     
     [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
-
+    
 }
 
 - (IBAction)addNewTaskBelow:(id)sender {
-    int increment = 1;
+    // first normalize
+    [self.dataController normalizeOrder:[self getAParentProject]];
+    
+    // find increment for next task
+    int increment = [self.dataController findNumberOfChildren:self.popupLine parentProject:[self getAParentProject]] + 1;
     int indentIncrement = 0;
     
     [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
@@ -188,7 +192,7 @@
     int indentIncrement = 1;
     
     [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
-
+    
 }
 
 - (IBAction)pomodoroButtonClicked:(id)sender {
@@ -252,7 +256,7 @@
     
     // close projects view
     [self.viewDeckController closeRightView];
-
+    
     // set new project
     if (selectedProjectForLine != nil){
         [self.tableView beginUpdates];
@@ -260,7 +264,7 @@
         
         // save line
         [self.dataController saveLine:self.lineWithProbablyNewProject];
-    
+        
         // update row
         NSArray *indexArray = [NSArray arrayWithObject:self.popupIndexPath];
         [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -327,7 +331,8 @@
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    if(self.headerManualView == nil) {
+    //if(self.headerManualView == nil)
+    {
         //allocate the view if it doesn't exist yet
         headerManualView  = [[UIView alloc] init];
         
@@ -353,21 +358,40 @@
             UIImageView* top_back = [[UIImageView alloc] initWithImage:stretchableImage];
             top_back.contentMode = UIViewContentModeScaleToFill;
             top_back.frame = CGRectMake(
-                                top_back.frame.origin.x,
-                                top_back.frame.origin.y, width, height);
-            
-            // Hide all checked button
-            UIButton *hideButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            [hideButton setFrame:CGRectMake(5, 5, 78, 30)];
-            [hideButton setBackgroundImage:[UIImage imageNamed:@"hide_checked_button.png"] forState:UIControlStateNormal];
-            [hideButton setTitle:@"      Delete" forState:UIControlStateNormal];
-            [hideButton addTarget:self action:@selector(hideButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-            [hideButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            
+                                        top_back.frame.origin.x,
+                                        top_back.frame.origin.y, width, height);
             // add to view
             [headerManualView addSubview:top_back];
             [headerManualView addSubview:topLabel];
-            [headerManualView addSubview:hideButton];
+            
+            // "Hide all checked" button
+            int numberOfCheckedLines = [self.dataController numberOfCheckedLines:self.parentProject];
+            if (numberOfCheckedLines > 0)
+            {
+                UIButton *hideButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                [hideButton setFrame:CGRectMake(5, 7, 78, 30)];
+                [hideButton setBackgroundImage:[UIImage imageNamed:@"hide_checked_button.png"] forState:UIControlStateNormal];
+                [hideButton setTitle:@"      Delete" forState:UIControlStateNormal];
+                [hideButton addTarget:self action:@selector(hideButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+                [hideButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                
+                [headerManualView addSubview:hideButton];
+            }
+            
+            // "Inbox" button
+            if (self.parentProject.objectID != [self.dataController getInbox].objectID){
+                UIButton *inboxButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+                [inboxButton setFrame:CGRectMake(width - 78 - 10, 7, 78, 30)];
+                [inboxButton setBackgroundImage:[UIImage imageNamed:@"inbox_button_2.png"] forState:UIControlStateNormal];
+                [inboxButton setTitle:@"" forState:UIControlStateNormal];
+                [inboxButton addTarget:self action:@selector(inboxButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+                //[inboxButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                
+                [headerManualView addSubview:inboxButton];
+                
+                // modify project label
+                [topLabel setFrame:CGRectMake(10, topLabel.frame.origin.y, width - 10 - 10 - 78, topLabel.frame.size.height)];
+            }
         }
     }
     
@@ -399,6 +423,19 @@
     // refresh also left panel as some goals could be hidden already
     BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
     [sidePanelController.goalsTable reloadData];
+}
+
+-(void) inboxButtonClicked:(id)sender
+{
+    // set inbox
+    self.parentProject = [self.dataController getInbox];
+    
+    // refresh tasks list
+    [self.tableView reloadData];
+    
+    // refresh also projects list
+    BSProjectsViewController *sidePanelController = (BSProjectsViewController*) self.viewDeckController.rightController;
+    [sidePanelController.tableView reloadData];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {

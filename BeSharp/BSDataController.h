@@ -27,7 +27,6 @@
 //- (NSFetchedResultsController *) getAllLines;
 - (NSFetchedResultsController *) getAllLinesFromProject:(Line*)project;
 - (NSFetchedResultsController *) getAllLinesFromProject:(Line*)project lineType:(NSInteger)lineType;
-//- (Line*) getManagedLine: (NSManagedObjectID *)lineId;
 
 // updating lines
 - (void) saveLine: (NSManagedObjectID *)lineId withText:(NSString *) newText;
@@ -35,6 +34,9 @@
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 - (void) addOrderToAllLinesStartingOrder: (int) startinIndent fromProject:(Line*) parentProject;
 - (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject;
+
+- (NSInteger) findNumberOfChildren:(Line*) mainLine parentProject:(Line*)parentProject;
+- (NSInteger) numberOfCheckedLines:(Line*) parentProject;
 
 // reordering
 - (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos inProject:(Line*) parentProject;

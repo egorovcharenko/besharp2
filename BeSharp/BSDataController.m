@@ -11,7 +11,7 @@
 #import "Line.h"
 
 /*
-
+ 
  type:
  1 - line
  2 - project
@@ -22,7 +22,7 @@
  2 - weekly
  3 - year
  4 - life (reserved)
-*/
+ */
 
 
 
@@ -114,7 +114,7 @@
     
     NSPredicate *filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (type = %@)", lineType];
     [fetchRequest setPredicate:filterPredicate];
-
+    
     // Edit the sort key as appropriate.
     NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
     NSArray *sortDescriptors = @[sortDescriptor];
@@ -299,7 +299,7 @@
     [request setPredicate:[NSPredicate predicateWithFormat:@"order == %@", oldOrder]];
     NSError *error = nil;
     NSArray *array = [self.context executeFetchRequest:request error:&error];
-
+    
     NSManagedObject *managedLine = array [0];
     
     [managedLine setValue:[NSNumber numberWithInteger:newOrder] forKey:@"order"];
@@ -559,6 +559,63 @@
     [self saveContext];
     
     return result;
+}
+
+- (NSInteger) findNumberOfChildren:(Line*) mainLine parentProject:(Line*)parentProject
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *filterPredicate;
+    filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (parentProject = %@)", parentProject];
+    [fetchRequest setPredicate:filterPredicate];
+    
+    // Edit the sort key as appropriate.
+    NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"order" ascending:YES];
+    NSArray *sortDescriptors = @[sortDescriptor];
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    
+    NSError *error = nil;
+    NSArray *lines = [self.context executeFetchRequest:fetchRequest error:&error];
+    
+    bool counting = false;
+    NSInteger result = 0;
+    
+    // iterate over all returned lines
+    for (Line *line in lines) {
+        NSLog(@"%@, i:%i", line.text, line.indent);
+        if (line.order == mainLine.order){
+            counting = true;
+        } else if (counting){
+            if(line.indent > mainLine.indent){
+                result ++;
+            }
+            else
+                return result;
+        }
+    }
+    return result;
+}
+
+- (NSInteger) numberOfCheckedLines:(Line*)parentProject
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    NSEntityDescription *entity = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
+    [fetchRequest setEntity:entity];
+    
+    NSPredicate *filterPredicate;
+    filterPredicate = [NSPredicate predicateWithFormat:@"(isHidden = NO) AND (parentProject = %@) AND (isCompleted = YES)", parentProject];
+    [fetchRequest setPredicate:filterPredicate];
+
+    NSError *err;
+    NSUInteger count = [self.context countForFetchRequest:fetchRequest error:&err];
+
+    if(count == NSNotFound) {
+        return 0;
+    } else {
+        return count;
+    }
 }
 
 @end

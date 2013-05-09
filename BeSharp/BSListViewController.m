@@ -262,7 +262,9 @@
         cell.textFieldForEdit.hidden = YES;
         cell.textLabel.hidden = NO;
         //cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
+ 
         cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[line valueForKey:@"text"] description], [line valueForKey:@"order"], [line valueForKey:@"indent"],[line valueForKey:@"parentProject"]];
+                
         //cell.textLabel.text = [NSString stringWithFormat:@"%@",[[object valueForKey:@"text"] description]];
         
     }
