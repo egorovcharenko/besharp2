@@ -15,7 +15,7 @@ static NSInteger const rowHeightPixelValue = 40;
 static NSInteger const headerHeight = 43;
 static NSInteger const footerHeight = 58;
 
-static NSInteger const secondsWork = 5; // 25 mins
-static NSInteger const secondsRest = 3; // 5 min
+static NSInteger const secondsWork = 25 * 60; // 25 mins
+static NSInteger const secondsRest = 5 * 60; // 5 min
 
 #endif

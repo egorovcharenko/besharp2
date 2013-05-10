@@ -18,7 +18,7 @@
 @property NSObject <NSFetchedResultsControllerDelegate> *fetchedResultsControllerDelegate;
 
 - (BSDataController*) initWithAppDelegate:(BSAppDelegate *)delegate fetchedControllerDelegate:(NSObject <NSFetchedResultsControllerDelegate>*)fetchedResultsControllerDelegate;
-
+-(BSDataController*) initWithAppDelegate:(BSAppDelegate *)delegate;
 // add lines
 - (int) saveLine:(Line *) newLine;
 - (Line*) createNewLineForSaving;
@@ -33,8 +33,8 @@
 - (void) saveLine: (NSManagedObjectID *)lineId withIndent:(NSInteger) newIndent;
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 - (void) addOrderToAllLinesStartingOrder: (int) startinIndent fromProject:(Line*) parentProject;
-- (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject;
-- (NSArray*) hideAllCompletedProjects;
+- (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject actuallyHide:(Boolean) actuallyHide;
+- (NSArray*) hideAllCompletedProjects:(Boolean) actuallyHide;
 
 - (NSInteger) findNumberOfChildren:(Line*) mainLine parentProject:(Line*)parentProject;
 - (NSInteger) numberOfCheckedLines:(Line*) parentProject;

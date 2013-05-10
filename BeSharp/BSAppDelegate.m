@@ -8,6 +8,9 @@
 
 #import "BSAppDelegate.h"
 
+#import "BSDataController.h"
+#import "Line.h"
+
 #import "BSMasterViewController.h"
 
 @implementation BSAppDelegate
@@ -24,6 +27,15 @@
         UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
         splitViewController.delegate = (id)navigationController.topViewController;
     } else {
+    }
+    
+    // pre-load DB with tutorial data
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    if (![defaults objectForKey:@"firstRun"])
+    {
+        [defaults setObject:[NSDate date] forKey:@"firstRun"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+        [self preloadTutorialData];
     }
     return YES;
 }
@@ -153,6 +165,175 @@
 
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
     application.applicationIconBadgeNumber = 0;
+}
+
+- (void) preloadTutorialData
+{
+    BSDataController *dataController = [[BSDataController alloc] initWithAppDelegate:self];
+    
+    // add tutorial projects
+    Line* tutorial1 = [dataController createNewLineForSaving];
+    tutorial1.text = @"Tutorial 1: basics";
+    tutorial1.order = 1;
+    tutorial1.parentProject = nil;
+    tutorial1.type = 2;
+    [dataController saveLine:tutorial1];
+    
+    Line* tutorial2 = [dataController createNewLineForSaving];
+    tutorial2.text = @"Tutorial 2: focus";
+    tutorial2.order = 2;
+    tutorial2.parentProject = nil;
+    tutorial2.type = 2;
+    [dataController saveLine:tutorial2];
+    
+    Line* tutorial3 = [dataController createNewLineForSaving];
+    tutorial3.text = @"Tutorial 3: goals";
+    tutorial3.order = 3;
+    tutorial3.parentProject = nil;
+    tutorial3.type = 2;
+    [dataController saveLine:tutorial3];
+    
+    Line* tutorial4 = [dataController createNewLineForSaving];
+    tutorial4.text = @"Tutorial 4: typical workflow";
+    tutorial4.order = 4;
+    tutorial4.parentProject = nil;
+    tutorial4.type = 2;
+    [dataController saveLine:tutorial4];
+    
+    // add lines to inbox
+    Line *line = [dataController createNewLineForSaving];
+    line.text = @"Welcome to BeSharp - the tool that helps you keep focused!";
+    line.order = 1;
+    line.parentProject = [dataController getInbox];
+    line.type = 1;
+    [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Swipe to the left to reveal Projects screen. Then select first Tutorial project";
+    line.order = 2;
+    line.parentProject = [dataController getInbox];
+    line.type = 1;
+    [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You can delete all these tasks now if you wish";
+    line.order = 3;
+    line.parentProject = [dataController getInbox];
+    line.type = 1;
+    [dataController saveLine:line];
+    
+    // Tutorial 1 - basics
+    line = [dataController createNewLineForSaving];
+    line.text = @"Each line is a task. Complete it by clicking checkbox. You can delete all completed tasks by clicking Delete button at the top.";
+    line.order = 1; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Projects are there to group tasks. You can complete them in the same way.";
+    line.order = 2; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You can tap the task to see it's popup menu.";
+    line.order = 3; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You can create new tasks using buttons with a '+' sign in the popup menu";
+    line.order = 4; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You can move task to a diffent project by selecting top-right button in the popup menu";
+    line.order = 5; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You can change indent of a task by using right and left arrows in the popup menu";
+    line.order = 6; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line]; line.indent = 1;
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You can reorder tasks and projects by long-tapping them and then dragging around";
+    line.order = 6; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line]; line.indent = 1;
+    
+    
+    
+    // Tutorial 2 - focus
+    line = [dataController createNewLineForSaving];
+    line.text = @"Focusing is what makes BeSharp special";
+    line.order = 1; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Focusing means working without any distractions for 25 minutes, and then having 5 minutes rest before next sprint";
+    line.order = 2; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Let me repeat - you cannot distract at all during 25 minutes. It's what helps you to stay productive.";
+    line.order = 3; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"You pick a task to focus by either using top-left icon from the popup menu, or by selecting a goal (discussed later)";
+    line.order = 4; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Start working on a task by tapping 'start' button. After timer finished, have a rest.";
+    line.order = 5; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"If you lose focus or stop focused - click 'stop' and start over.";
+    line.order = 6; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
+    
+    
+    
+    
+    // Tutorial 3 - goals
+    line = [dataController createNewLineForSaving];
+    line.text = @"Goals help you keep focus on most important tasks. There are daily, weekly and yearly goals.";
+    line.order = 1; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Daily goals are tasks, weekly and yearly are projects";
+    line.order = 2; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Mark task as a daily goal by tapping lower-left button in it's popup menu";
+    line.order = 3; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Goals are shown in the left (focus) panel. You can focus on them by tapping there";
+    line.order = 4; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Mark projects as weekly and yearly goals in it's popup menu";
+    line.order = 5; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Try to have no more than 3 goals of each type - it helps you keep them in view";
+    line.order = 6; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line]; 
+    
+    
+    
+    
+    // Tutorial 4 - typical workflow
+    line = [dataController createNewLineForSaving];
+    line.text = @"All your task first usually should be captured to the 'Inbox'";
+    line.order = 1; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Several times per day, free up inbox by moving tasks to the corresponding projects";
+    line.order = 2; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"At evening, select 2-4 daily goals for the next day.";
+    line.order = 3; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Next day, start doing your daily goals FIRST.";
+    line.order = 4; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Same principles apply for weekly and yearly goals";
+    line.order = 5; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
+    
+    line = [dataController createNewLineForSaving];
+    line.text = @"Now you can delete these tutorial projects or leave them for reference. Good luck and be productive!";
+    line.order = 6; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
+    
 }
 
 @end

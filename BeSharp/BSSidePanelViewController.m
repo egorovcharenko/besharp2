@@ -564,7 +564,7 @@
     self.focusedTaskTextField.text = self.focusedTask.text;
     
     // TODO set maximum allowed height for the field
-    CGSize textViewSize = [self.focusedTask.text sizeWithFont:self.focusedTaskTextField.font constrainedToSize:CGSizeMake(self.focusedTaskTextField.frame.size.width, FLT_MAX) lineBreakMode:NSLineBreakByTruncatingTail];
+    //CGSize textViewSize = [self.focusedTask.text sizeWithFont:self.focusedTaskTextField.font constrainedToSize:CGSizeMake(self.focusedTaskTextField.frame.size.width, FLT_MAX) lineBreakMode:NSLineBreakByTruncatingTail];
     //self.focusedTaskTextFieldHeightConstraint.constant = textViewSize.height;
     
     // display left pomodoros
@@ -639,4 +639,5 @@
     
     [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 }
+
 @end

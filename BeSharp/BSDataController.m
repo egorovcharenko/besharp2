@@ -35,6 +35,12 @@
     return self;
 }
 
+-(BSDataController*) initWithAppDelegate:(BSAppDelegate *)delegate;
+{
+    _context = [delegate managedObjectContext];
+    return self;
+}
+
 -(Line*) createNewLineForSaving
 {
     NSEntityDescription *entityDesc = [NSEntityDescription entityForName:@"Line" inManagedObjectContext:self.context];
@@ -593,7 +599,7 @@
     [self saveContext];
 }
 
-- (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject
+- (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject actuallyHide:(Boolean) actuallyHide
 {
     NSMutableArray *result=[[NSMutableArray alloc]init];
     
@@ -617,8 +623,10 @@
     // iterate over all returned lines
     for (Line *line in completedLines) {
         if (line.isCompleted){
+            if (actuallyHide == YES) {
             // change isHidden to YES
-            line.isHidden = YES;
+                line.isHidden = YES;
+            }
             
             // remember this line in return array
             NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];
@@ -635,7 +643,7 @@
     return result;
 }
 
-- (NSArray*) hideAllCompletedProjects
+- (NSArray*) hideAllCompletedProjects:(Boolean) actuallyHide
 {
     NSMutableArray *result=[[NSMutableArray alloc]init];
     
@@ -654,8 +662,10 @@
     // iterate over all returned lines
     for (Line *line in completedLines) {
         if (line.isCompleted){
-            // change isHidden to YES
-            line.isHidden = YES;
+            if (actuallyHide == YES) {
+                // change isHidden to YES
+                line.isHidden = YES;
+            }
             
             // remember this line in return array
             NSIndexPath *ip = [NSIndexPath indexPathForRow:i inSection:0];

@@ -125,7 +125,6 @@
 }
 
 
-
 - (IBAction)addNewTaskAbove:(id)sender {
     // first normalize
     [self.dataController normalizeOrder:[self getAParentProject]];
@@ -392,6 +391,23 @@
 
 -(void) hideButtonClicked:(id)sender
 {
+    // find focused task 
+    BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
+    Line* focusedTask = sidePanelController.focusedTask;
+    
+    // pre-show all lines that will be hidden
+    NSArray *toBeHiddenArray = [self.dataController hideAllCompletedLinesFromProject:[self getAParentProject] actuallyHide:NO];
+    // hide focused task from the pomodoro
+    for (NSIndexPath* ip in toBeHiddenArray) {
+        Line* hiddenLine = [self getLine:ip];
+        
+        //NSLog(@"%@  /  %@", hiddenLine.objectID, focusedTask.objectID);
+        
+        if (hiddenLine.objectID == focusedTask.objectID){
+            sidePanelController.focusedTask = nil;
+            break;
+        }
+    }
     
     // run some code after smooth update
     [CATransaction begin];
@@ -406,7 +422,9 @@
     [self.tableView beginUpdates];
     
     // hide all completed lines
-    NSArray *indexArray = [self.dataController hideAllCompletedLinesFromProject:[self getAParentProject]];
+    NSArray *indexArray = [self.dataController hideAllCompletedLinesFromProject:[self getAParentProject] actuallyHide:YES];
+    
+    
     [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
     
     [self.tableView endUpdates];
@@ -414,7 +432,6 @@
     [CATransaction commit];
     
     // refresh also left panel as some goals could be hidden already
-    //BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
     //[sidePanelController.goalsTable reloadData];
 }
 

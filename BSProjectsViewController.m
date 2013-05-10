@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "BSProjectsViewController.h"
+#import "BSSidePanelViewController.h"
 
 #import "BSDataController.h"
 
@@ -336,6 +337,25 @@
 
 -(void) hideButtonClicked:(id)sender
 {
+    // find focused task
+    BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
+    Line* focusedTask = sidePanelController.focusedTask;
+    
+    // pre-show all lines that will be hidden
+    NSArray *toBeHiddenArray = [self.dataController hideAllCompletedProjects:NO];
+    // hide focused task from the pomodoro
+    for (NSIndexPath* ip in toBeHiddenArray) {
+        Line* hiddenLine = [self getLine:ip];
+        
+        //NSLog(@"%@  /  %@", hiddenLine.objectID, focusedTask.objectID);
+        
+        if (hiddenLine.objectID == focusedTask.objectID){
+            sidePanelController.focusedTask = nil;
+            break;
+        }
+    }
+
+    
     // run some code after smooth update
     [CATransaction begin];
     
@@ -348,7 +368,7 @@
     [self.tableView beginUpdates];
     
     // hide all completed lines
-    NSArray *indexArray = [self.dataController hideAllCompletedProjects];
+    NSArray *indexArray = [self.dataController hideAllCompletedProjects:YES];
     [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationFade];
     
     [self.tableView endUpdates];

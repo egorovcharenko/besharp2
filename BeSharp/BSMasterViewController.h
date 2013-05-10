@@ -20,7 +20,6 @@
 - (IBAction)indentMinusAction:(id)sender;
 - (IBAction)indentPlusAction:(id)sender;
 - (IBAction)completeTaskClicked:(id)sender;
-- (IBAction)markAsProjectClicked:(id)sender;
 - (IBAction)pomodoroButtonClicked:(id)sender;
 
 // hide popup
