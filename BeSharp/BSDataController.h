@@ -34,12 +34,15 @@
 - (void) changeIndent: (NSManagedObjectID *)lineId indentChange: (NSInteger) indentChange;
 - (void) addOrderToAllLinesStartingOrder: (int) startinIndent fromProject:(Line*) parentProject;
 - (NSArray*) hideAllCompletedLinesFromProject: (Line*) parentProject;
+- (NSArray*) hideAllCompletedProjects;
 
 - (NSInteger) findNumberOfChildren:(Line*) mainLine parentProject:(Line*)parentProject;
 - (NSInteger) numberOfCheckedLines:(Line*) parentProject;
+- (NSInteger) numberOfCheckedProjects;
 
 // reordering
 - (void) moveLineFrom:(NSInteger)startPos to:(NSInteger)newPos inProject:(Line*) parentProject;
+- (void) moveProjectFrom:(NSInteger)startPos to:(NSInteger)newPos;
 - (void) normalizeOrder:(Line*) parentProject;
 
 // goals

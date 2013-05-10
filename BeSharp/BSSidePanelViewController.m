@@ -6,6 +6,8 @@
 //  Copyright (c) 2013 Egor Ovcharenko. All rights reserved.
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "BSSidePanelViewController.h"
 
 #import "IIViewDeckController.h"
@@ -13,6 +15,8 @@
 #import "BSMasterViewController.h"
 #import "BSDataController.h"
 #import "BSGoalLineCell.h"
+
+#import "BSProjectsViewController.h"
 
 #import "Line.h"
 #import "consts.h"
@@ -25,6 +29,10 @@
 
 @synthesize focusedTask;
 @synthesize timerState;
+@synthesize notification;
+@synthesize timerStartDate;
+@synthesize timerSeconds;
+
 
 // override setters and getters for focusedTask
 -(Line*) focusedTask
@@ -47,6 +55,9 @@
         
         // Change button skin to disabled
         [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
+        
+        // change button label
+        [self.startStopButton setTitle: @"Work" forState: UIControlStateNormal];
         
         // Enable the button
         [self.startStopButton setEnabled:YES];
@@ -287,6 +298,13 @@
 - (IBAction)startStopButtonClicked:(id)sender {
     switch (timerState) {
         case timerWaitingForWork:
+            
+            // remember timer start date
+            timerStartDate = [[NSDate alloc] init];
+            
+            // remember timer time
+            timerSeconds = secondsWork;
+            
             // setup seconds
             secondsLeft = secondsWork;
             
@@ -301,6 +319,9 @@
             
             // Change button skin
             [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_stop.png"] forState:UIControlStateNormal];
+            
+            // Start notification
+            [self scheduleNotificationWithText:[NSString stringWithFormat:@"Work finished: %@", focusedTask.text] action:@"rest" interval:secondsLeft];
             
             break;
             
@@ -322,9 +343,19 @@
             // Change button skin
             [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
             
+            // Cancel notification
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
+            
             break;
             
         case timerWaitingForRest:
+            
+            // remember timer start date
+            timerStartDate = [[NSDate alloc] init];
+            
+            // remember timer time
+            timerSeconds = secondsRest;
+            
             // setup seconds
             secondsLeft = secondsRest;
             
@@ -340,12 +371,17 @@
             // Change button skin
             [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_skip.png"] forState:UIControlStateNormal];
             
+            // Start notification
+            [self scheduleNotificationWithText:[NSString stringWithFormat:@"Rest finished after: %@", focusedTask.text] action:@"continue work" interval:secondsLeft];
+            
             break;
             
         case timerResting:
             // skip to work
             [self prepareForWork];
             
+            // Cancel notification
+            [[UIApplication sharedApplication] cancelAllLocalNotifications];
             
             break;
 
@@ -388,13 +424,50 @@
     [masterViewController.dataController saveLine:taskToSave];
 }
 
+-(void) flashScreen {
+    UIWindow* wnd = [UIApplication sharedApplication].keyWindow;
+    UIView* v = [[UIView alloc] initWithFrame: CGRectMake(0, 0, wnd.frame.size.width, wnd.frame.size.height)];
+    [wnd addSubview: v];
+    v.backgroundColor = [UIColor colorWithRed:1.0 green:1.0 blue:1.0 alpha:0.7];
+    
+    // run some code after smooth update
+    [CATransaction begin];
+    
+    [CATransaction setCompletionBlock:^{
+        // remove view from superview
+        [v removeFromSuperview];
+    }];
+    
+    [UIView beginAnimations: nil context: nil];
+    [UIView setAnimationDuration: 1.0];
+    v.alpha = 0.0f;
+    [UIView commitAnimations];
+    
+    [CATransaction commit];
+}
+
 - (void) timerTick:(NSTimer *) argTimer {
     // update seconds left
-    secondsLeft --;
+    //secondsLeft --;
+    NSDate *now = [[NSDate alloc] init];
+    
+    NSCalendar *calendar = [[NSCalendar alloc] initWithCalendarIdentifier:NSGregorianCalendar];
+    NSDateComponents *components = [calendar components:NSYearCalendarUnit|NSMonthCalendarUnit|NSDayCalendarUnit|NSSecondCalendarUnit|NSMinuteCalendarUnit|NSHourCalendarUnit
+                                               fromDate:timerStartDate
+                                                 toDate:now
+                                                options:0];
+
+    int secondsElapsed = [components second] + [components minute] * 60;
+    secondsLeft =  timerSeconds - secondsElapsed;
     
     // if it's the end
     if (secondsLeft <=0) {
+        
+        // flash the screen
+        [self flashScreen];
+        
         switch (timerState) {
+                // work period finished
             case timerWorking:
             {
                 // reset timer
@@ -425,13 +498,19 @@
                 // Change button skin
                 [self.startStopButton setBackgroundImage:[UIImage imageNamed:@"pomodoro_start.png"] forState:UIControlStateNormal];
                 
+                // Cancel notification
+                [[UIApplication sharedApplication] cancelAllLocalNotifications];
+                
                 break;
             }
+                // rest finished
             case timerResting:
             {
                 // start waiting for work
-                
                 [self prepareForWork];
+                
+                // Cancel notification
+                [[UIApplication sharedApplication] cancelAllLocalNotifications];
                 
                 break;
             }
@@ -522,6 +601,13 @@
     
     // refresh (possibly not needed)
     [self.goalsTable reloadData];
+    
+    // reload center and project screens also
+    BSMasterViewController *centerController = (BSMasterViewController*) self.viewDeckController.centerController;
+    [centerController.tableView reloadData];
+    
+    BSProjectsViewController *rightController = (BSProjectsViewController*) self.viewDeckController.rightController;
+    [rightController.tableView reloadData];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -529,5 +615,28 @@
     // set task as focused
     Line* selectedGoal = [self getGoal:indexPath];
     self.focusedTask = selectedGoal;
+}
+
+- (void)scheduleNotificationWithText:(NSString *)text action:(NSString*)action interval:(int)secondsAfter {
+    // get current date
+    NSDate *now = [[NSDate alloc] init];
+    
+    notification = [[UILocalNotification alloc] init];
+    if (notification == nil)
+        return;
+    
+    notification.fireDate = [now dateByAddingTimeInterval:secondsAfter];
+    notification.timeZone = [NSTimeZone defaultTimeZone];
+    
+    notification.alertBody = text;
+    notification.alertAction = action;
+    
+    notification.soundName = UILocalNotificationDefaultSoundName;
+    //notification.applicationIconBadgeNumber = 1;
+    
+    //NSDictionary *infoDict = [NSDictionary dictionaryWithObject:item.eventName forKey:ToDoItemKey];
+    //localNotif.userInfo = infoDict;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:notification];
 }
 @end

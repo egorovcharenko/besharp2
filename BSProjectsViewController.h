@@ -27,5 +27,15 @@
 
 // popup events
 - (IBAction)popupBackgroundClicked:(id)sender;
+- (IBAction)decreaseProjectIndent:(id)sender;
+- (IBAction)increaseIndent:(id)sender;
+- (IBAction)editProjectClicked:(id)sender;
+- (IBAction)setAsLifeGoalClicked:(id)sender;
+- (IBAction)setAsWeeklyGoalClicked:(id)sender;
+- (IBAction)addNewProjectAboveClicked:(id)sender;
+- (IBAction)addNewProjectBelowClicked:(id)sender;
+
+// header
+@property UIView *headerManualView;
 
 @end

@@ -19,6 +19,13 @@
 
 // pomodoro
 @property Line *focusedTask;
+@property UILocalNotification* notification;
+
+// timer start date
+@property NSDate* timerStartDate;
+
+// timer seconds
+@property NSInteger timerSeconds;
 
 @property (weak, nonatomic) IBOutlet UILabel *focusedTaskTextField;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *focusedTaskTextFieldHeightConstraint;

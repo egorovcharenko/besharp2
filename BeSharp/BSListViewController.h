@@ -58,8 +58,16 @@
 // virtual methods
 - (NSInteger) getLineType;
 - (Line*) getLine:(NSIndexPath *)indexPath;
+- (NSInteger) getLabelWidth;
 
 // selection delegate
 @property (retain, nonatomic) id <LineSelectionDelegate> lineSelectedDelegate;
+
+// reload of both left and center panes
+- (void) reloadLeftAndCenterPanes;
+
+- (void)startInlineEditing: (NSIndexPath*)indexPath;
+
+- (void)addLineInternalWithIncrement: (int)increment indentIncrement: (int)indentIncrement;
 
 @end

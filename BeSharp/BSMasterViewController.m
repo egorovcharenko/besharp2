@@ -111,7 +111,8 @@
     //[self.tableView endUpdates];
     
     // update all rows after deleted!!
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
+    [self reloadLeftAndCenterPanes];
 }
 
 -(NSInteger) leftShift
@@ -124,56 +125,18 @@
 }
 
 
-- (void)addLineInternalWithIncrement:(int)increment indentIncrement:(int)indentIncrement {
-    // Calc order for the new line
-    int newOrder = self.popupLine.order + increment;
-    
-    // Change order for all other lines
-    [self.dataController addOrderToAllLinesStartingOrder:newOrder fromProject:self.popupLine.parentProject];
-    
-    // Add Line itself
-    Line *line = [self.dataController createNewLineForSaving];
-    line.text = @"";
-    line.order = newOrder;
-    line.parentProject = [self getAParentProject];
-    line.type = [self getLineType];
-    line.indent = self.popupLine.indent + indentIncrement;
-    
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(self.popupIndexPath.row + increment) inSection:self.popupIndexPath.section];
-    
-    // run some code after smooth update
-    [CATransaction begin];
-    
-    [CATransaction setCompletionBlock:^{
-        // animation has finished - reload all data
-        [self.tableView reloadData];
-        // start editing new line
-        [self startInlineEditing:indexPath];
-    }];
-    
-    [self.tableView beginUpdates];
-    
-    [self.dataController saveLine:line];
-    NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
-    [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
-    
-    [self.tableView endUpdates];
-    
-    [CATransaction commit];
-    
-    // scroll to new line
-    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
-    
-    // hide popup
-    [popupView removeFromSuperview];
-}
 
 - (IBAction)addNewTaskAbove:(id)sender {
+    // first normalize
+    [self.dataController normalizeOrder:[self getAParentProject]];
+    
     int increment = 0;
     int indentIncrement = 0;
     
     [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
     
+    // hide popup
+    [popupView removeFromSuperview];
 }
 
 - (IBAction)addNewTaskBelow:(id)sender {
@@ -185,6 +148,9 @@
     int indentIncrement = 0;
     
     [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
+    
+    // hide popup
+    [popupView removeFromSuperview];
 }
 
 - (IBAction)addNewTaskChild:(id)sender {
@@ -193,6 +159,8 @@
     
     [self addLineInternalWithIncrement:increment indentIncrement:indentIncrement];
     
+    // hide popup
+    [popupView removeFromSuperview];
 }
 
 - (IBAction)pomodoroButtonClicked:(id)sender {
@@ -213,15 +181,22 @@
 }
 
 - (IBAction)markAsGoalClicked:(id)sender {
-    // set as last goal
-    self.popupLine.goalType = 1;
-    self.popupLine.goalOrder = [self.dataController lastGoalOrderByType:1] + 1;
+    if (self.popupLine.goalType == 0){
+        // set as last goal
+        self.popupLine.goalType = 1;
+        self.popupLine.goalOrder = [self.dataController lastGoalOrderByType:1] + 1;
+    } else {
+        self.popupLine.goalType = 0;
+        self.popupLine.goalOrder = 0; // just to pretty
+    }
     
     // save line
     [self.dataController saveLine:self.popupLine];
     
     // update left goals table
-    [((BSSidePanelViewController*)self.viewDeckController.leftController).goalsTable reloadData];
+    [self reloadLeftAndCenterPanes];
+    
+    //[((BSSidePanelViewController*)self.viewDeckController.leftController).goalsTable reloadData];
     
     // hide popup
     [popupView removeFromSuperview];
@@ -259,6 +234,19 @@
     
     // set new project
     if (selectedProjectForLine != nil){
+        
+        
+        
+        // run some code after smooth update
+        [CATransaction begin];
+        
+        [CATransaction setCompletionBlock:^{
+            // animation has finished - reload all data
+            //[self.tableView reloadData];
+            [self reloadLeftAndCenterPanes];
+            
+        }];
+        
         [self.tableView beginUpdates];
         self.lineWithProbablyNewProject.parentProject = selectedProjectForLine;
         
@@ -270,6 +258,8 @@
         [self.tableView deleteRowsAtIndexPaths:indexArray withRowAnimation:UITableViewRowAnimationAutomatic];
         
         [self.tableView endUpdates];
+        
+        [CATransaction commit];
     }
 }
 
@@ -298,26 +288,13 @@
     [self initFetchController];
     
     // refresh all lines
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
+    [self reloadLeftAndCenterPanes];
     
     // refresh header
     self.headerManualView = nil;
 }
 
-- (void)startInlineEditing:(NSIndexPath *)indexPath
-{
-    Line *line = [self getLine:indexPath];
-    
-    // inline editing
-    self.currentEditingItemId = [line objectID];
-    self.currentlySelectedCell = (BSLineCell*) [self.tableView cellForRowAtIndexPath:indexPath];
-    
-    self.currentlySelectedCell.textFieldForEdit.hidden = NO;
-    self.currentlySelectedCell.textLabel.hidden = YES;
-    self.currentlySelectedCell.textFieldForEdit.text = line.text;
-    
-    [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
-}
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -342,14 +319,6 @@
             int height = headerHeight;
             CGFloat width = CGRectGetWidth(self.view.bounds);
             
-            // top label
-            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, width, height)];
-            [topLabel setText:curParentProject.text];
-            [topLabel setTextAlignment:NSTextAlignmentCenter];
-            [topLabel setBackgroundColor: [UIColor clearColor]];
-            [topLabel setTextColor:[UIColor whiteColor]];
-            [topLabel setFont:[UIFont fontWithName:@"Helvetica" size:24]];
-            
             // Stretch top
             UIEdgeInsets edge = UIEdgeInsetsMake(0, 3, 0, 3);
             UIImage *tasks_top = [UIImage imageNamed:@"tasks_top.png"];
@@ -362,7 +331,6 @@
                                         top_back.frame.origin.y, width, height);
             // add to view
             [headerManualView addSubview:top_back];
-            [headerManualView addSubview:topLabel];
             
             // "Hide all checked" button
             int numberOfCheckedLines = [self.dataController numberOfCheckedLines:self.parentProject];
@@ -389,9 +357,32 @@
                 
                 [headerManualView addSubview:inboxButton];
                 
-                // modify project label
-                [topLabel setFrame:CGRectMake(10, topLabel.frame.origin.y, width - 10 - 10 - 78, topLabel.frame.size.height)];
             }
+            
+            // top label
+            int x, y, labelW, labelH;
+            if (numberOfCheckedLines > 0)
+                x = 5 + 78 + 10;
+            else
+                x = 10;
+            
+            if (self.parentProject.objectID != [self.dataController getInbox].objectID)
+                labelW = width - x - 78 - 10 - 10;
+            else {
+                // it's inbox
+                x = 10;
+                labelW = width - x - 10;
+            }
+            y = 0;
+            labelH = height;
+            
+            UILabel *topLabel = [[UILabel alloc] initWithFrame:CGRectMake(x, y, labelW, labelH)];
+            [topLabel setText:curParentProject.text];
+            [topLabel setTextAlignment:NSTextAlignmentCenter];
+            [topLabel setBackgroundColor: [UIColor clearColor]];
+            [topLabel setTextColor:[UIColor whiteColor]];
+            [topLabel setFont:[UIFont fontWithName:@"Helvetica" size:24]];
+            [headerManualView addSubview:topLabel];
         }
     }
     
@@ -407,7 +398,9 @@
     
     [CATransaction setCompletionBlock:^{
         // animation has finished - reload all data
-        [self.tableView reloadData];
+        //[self.tableView reloadData];
+        [self reloadLeftAndCenterPanes];
+        
     }];
     
     [self.tableView beginUpdates];
@@ -421,8 +414,8 @@
     [CATransaction commit];
     
     // refresh also left panel as some goals could be hidden already
-    BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
-    [sidePanelController.goalsTable reloadData];
+    //BSSidePanelViewController *sidePanelController = (BSSidePanelViewController*) self.viewDeckController.leftController;
+    //[sidePanelController.goalsTable reloadData];
 }
 
 -(void) inboxButtonClicked:(id)sender
@@ -431,7 +424,9 @@
     self.parentProject = [self.dataController getInbox];
     
     // refresh tasks list
-    [self.tableView reloadData];
+    //[self.tableView reloadData];
+    [self reloadLeftAndCenterPanes];
+    
     
     // refresh also projects list
     BSProjectsViewController *sidePanelController = (BSProjectsViewController*) self.viewDeckController.rightController;
@@ -454,4 +449,10 @@
     // reload data so tags will be updated
     //[self.tableView reloadData];
 }
+
+- (NSInteger) getLabelWidth
+{
+    return 245;
+}
+
 @end

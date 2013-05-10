@@ -6,9 +6,13 @@
 //
 //
 
+#import <QuartzCore/QuartzCore.h>
+
 #import "BSListViewController.h"
 #import "BSMasterViewController.h"
 #import "BSDataController.h"
+#import "BSSidePanelViewController.h"
+#import "BSProjectsViewController.h"
 
 #import "Line.h"
 #import "BSLineCell.h"
@@ -128,7 +132,12 @@
 
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath
 {
-    [self.dataController moveLineFrom:fromIndexPath.row to:toIndexPath.row inProject:[self getAParentProject]];
+    Line* parentProject = [self getAParentProject];
+    if (parentProject != nil) {
+        [self.dataController moveLineFrom:fromIndexPath.row to:toIndexPath.row inProject:[self getAParentProject]];
+    } else {
+        [self.dataController moveProjectFrom:fromIndexPath.row to:toIndexPath.row];
+    }
 }
 
 - (void)awakeFromNib
@@ -203,7 +212,7 @@
     cell.textFieldForEdit.delegate = self;
     
     // deal with completed and not tasks and projects
-    
+
     if ([self getLineType] == 1){
         // Line
         if (line.isCompleted){
@@ -263,16 +272,31 @@
         cell.textLabel.hidden = NO;
         //cell.textLabel.text = [[[object valueForKey:@"text"] description] stringByAppendingString:[[object valueForKey:@"indent"] description]];
  
-        cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[line valueForKey:@"text"] description], [line valueForKey:@"order"], [line valueForKey:@"indent"],[line valueForKey:@"parentProject"]];
+        //cell.textLabel.text = [NSString stringWithFormat:@"%@, o:%@, i:%@, p:%@",[[line valueForKey:@"text"] description], [line valueForKey:@"order"], [line valueForKey:@"indent"],[line valueForKey:@"parentProject"]];
                 
-        //cell.textLabel.text = [NSString stringWithFormat:@"%@",[[object valueForKey:@"text"] description]];
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", line.text];
         
+        
+        // if goal - underline
+        if ((line.goalType == 1) || (line.goalType == 2)){
+            NSMutableAttributedString *temString=[[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+            [temString addAttribute:NSUnderlineStyleAttributeName
+                              value:[NSNumber numberWithInt:1]
+                              range:(NSRange){0,[temString length]}];
+            cell.textLabel.attributedText = temString;
+        } else if (line.goalType == 3){
+            NSMutableAttributedString *temString=[[NSMutableAttributedString alloc]initWithString:cell.textLabel.text];
+            [temString addAttribute:NSUnderlineStyleAttributeName
+                              value:[NSNumber numberWithInt:2]
+                              range:(NSRange){0,[temString length]}];
+            cell.textLabel.attributedText = temString;
+        }
     }
     
     // configure indent view
     int indent = [[line valueForKey:@"indent"] integerValue];
     
-    // enumerate over all constraints
+    // enumerate over all constraints - tasks
     for (NSLayoutConstraint *constraint in cell.checkButton.constraints) {
         // find constraint on this view and with 'width' attribute
         if ((constraint.firstItem == cell.checkButton) &&
@@ -280,6 +304,18 @@
             (constraint.secondItem == nil)){
             // increase width of constraint
             constraint.constant = indent * indentPixelValue + 40;
+            break;
+        }
+    }
+    
+    // enumerate over all constraints - projects
+    for (NSLayoutConstraint *constraint in cell.leftButtonProjects.constraints) {
+        // find constraint on this view and with 'width' attribute
+        if ((constraint.firstItem == cell.leftButtonProjects) &&
+            (constraint.firstAttribute == NSLayoutAttributeWidth) &&
+            (constraint.secondItem == nil)){
+            // increase width of constraint
+            constraint.constant = indent * indentPixelValue + 30 + [self leftShift];
             break;
         }
     }
@@ -396,6 +432,9 @@
         }
         self.currentEditingItemId = nil;
         
+        [self reloadLeftAndCenterPanes];
+        
+        // just in case we are right pane
         [self.tableView reloadData];
     } else if (theTextField == self.theNewLineTextField){
         if ([self.theNewLineTextField.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]].length > 0){
@@ -467,6 +506,107 @@
 	//cell.textLabel.text = @"test";//[arrayOfItems objectAtIndex:indexPath.row];
     
 	return cell;
+}
+
+- (void) reloadLeftAndCenterPanes
+{
+    BSMasterViewController *centerController = (BSMasterViewController*) self.viewDeckController.centerController;
+    BSSidePanelViewController *leftController = (BSSidePanelViewController*) self.viewDeckController.leftController;
+    BSProjectsViewController *rightController = (BSProjectsViewController*) self.viewDeckController.rightController;
+    
+    [centerController.tableView reloadData];
+    [leftController.goalsTable reloadData];
+    [rightController.tableView reloadData];
+}
+
+- (void)startInlineEditing:(NSIndexPath *)indexPath
+{
+    Line *line = [self getLine:indexPath];
+    
+    // inline editing
+    self.currentEditingItemId = [line objectID];
+    self.currentlySelectedCell = (BSLineCell*) [self.tableView cellForRowAtIndexPath:indexPath];
+    
+    self.currentlySelectedCell.textFieldForEdit.hidden = NO;
+    self.currentlySelectedCell.textLabel.hidden = YES;
+    self.currentlySelectedCell.textFieldForEdit.text = line.text;
+    
+    [self.currentlySelectedCell.textFieldForEdit becomeFirstResponder];
+}
+
+- (void)addLineInternalWithIncrement:(int)increment indentIncrement:(int)indentIncrement {
+    // Calc order for the new line
+    int newOrder = self.popupLine.order + increment;
+    
+    // Change order for all other lines
+    [self.dataController addOrderToAllLinesStartingOrder:newOrder fromProject:self.popupLine.parentProject];
+    
+    // Add Line itself
+    Line *line = [self.dataController createNewLineForSaving];
+    line.text = @"";
+    line.order = newOrder;
+    line.parentProject = [self getAParentProject];
+    line.type = [self getLineType];
+    line.indent = self.popupLine.indent + indentIncrement;
+    
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:(self.popupIndexPath.row + increment) inSection:self.popupIndexPath.section];
+    
+    // run some code after smooth update
+    [CATransaction begin];
+    
+    [CATransaction setCompletionBlock:^{
+        // animation has finished - reload all data
+        //[self.tableView reloadData];
+        [self reloadLeftAndCenterPanes];
+        
+        // start editing new line
+        [self startInlineEditing:indexPath];
+    }];
+    
+    [self.tableView beginUpdates];
+    
+    [self.dataController saveLine:line];
+    NSArray *newLineArray = [[NSArray alloc] initWithObjects:indexPath, nil];
+    [self.tableView insertRowsAtIndexPaths:newLineArray withRowAnimation:UITableViewRowAnimationAutomatic];
+    
+    [self.tableView endUpdates];
+    
+    [CATransaction commit];
+    
+    // scroll to new line
+    [self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    
+}
+
+- (NSInteger) numberOfLinesInLabel:(NSString*)text labelWidth:(NSInteger)labelWidth
+{
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectZero];
+    label.numberOfLines = 0;
+    label.lineBreakMode = NSLineBreakByWordWrapping;
+    label.text = text;
+    
+    CGRect frame = label.frame;
+    frame.size.width = labelWidth;
+    frame.size = [label sizeThatFits:frame.size];
+    label.frame = frame;
+    
+    CGFloat lineHeight = label.font.lineHeight;
+    NSUInteger linesInLabel = floor(frame.size.height/lineHeight);
+    
+    if (linesInLabel == 0)
+        linesInLabel = 1;
+    if (linesInLabel >= 5)
+        linesInLabel = 5;
+    return linesInLabel * lineHeight;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Line *line = [self getLine:indexPath];
+    
+    NSInteger numberOfLines = [self numberOfLinesInLabel:line.text labelWidth:([self getLabelWidth] - line.indent * indentPixelValue)];
+    
+    return numberOfLines + 23;
 }
 
 @end
