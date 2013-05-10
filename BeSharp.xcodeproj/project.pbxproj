@@ -77,6 +77,8 @@
 		0EB6B78316A830B800FBD634 /* BSListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B78216A830B800FBD634 /* BSListViewController.m */; };
 		0EB6B79916AA8AF800FBD634 /* BSProjectsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EB6B79816AA8AF800FBD634 /* BSProjectsViewController.m */; };
 		0EBEECCD16B584A7004B33B9 /* BSGoalLineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 0EBEECCC16B584A7004B33B9 /* BSGoalLineCell.m */; };
+		0EE70397173D5F550045FBCC /* icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE70396173D5F550045FBCC /* icon@2x.png */; };
+		0EE70399173D5F870045FBCC /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 0EE70398173D5F870045FBCC /* icon.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -170,6 +172,8 @@
 		0EB6B79816AA8AF800FBD634 /* BSProjectsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSProjectsViewController.m; sourceTree = "<group>"; };
 		0EBEECCB16B584A7004B33B9 /* BSGoalLineCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSGoalLineCell.h; sourceTree = "<group>"; };
 		0EBEECCC16B584A7004B33B9 /* BSGoalLineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSGoalLineCell.m; sourceTree = "<group>"; };
+		0EE70396173D5F550045FBCC /* icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon@2x.png"; sourceTree = "<group>"; };
+		0EE70398173D5F870045FBCC /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -243,6 +247,8 @@
 		0E71BE90169A059F002478BA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				0EE70396173D5F550045FBCC /* icon@2x.png */,
+				0EE70398173D5F870045FBCC /* icon.png */,
 				0E00AB5816F489B100529BCF /* Design */,
 				0E71BE9E169C1AE3002478BA /* Bullet.png */,
 				0E71BE91169A05B5002478BA /* sectorForBSDown.png */,
@@ -538,6 +544,8 @@
 				0E7C5C6A173D1F3E00441109 /* add_life_goal@2x.png in Resources */,
 				0E7C5C6C173D1F4B00441109 /* add_weekly_goal@2x.png in Resources */,
 				0E7C5C6E173D1F5B00441109 /* change_project_color@2x.png in Resources */,
+				0EE70397173D5F550045FBCC /* icon@2x.png in Resources */,
+				0EE70399173D5F870045FBCC /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -650,6 +658,7 @@
 				GCC_PREFIX_HEADER = "BeSharp/BeSharp-Prefix.pch";
 				INFOPLIST_FILE = "BeSharp/BeSharp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -661,6 +670,7 @@
 				GCC_PREFIX_HEADER = "BeSharp/BeSharp-Prefix.pch";
 				INFOPLIST_FILE = "BeSharp/BeSharp-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = 1;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

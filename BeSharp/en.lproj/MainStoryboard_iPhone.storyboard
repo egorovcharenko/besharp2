@@ -314,7 +314,7 @@
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" tag="101" contentMode="left" text="text" lineBreakMode="wordWrap" numberOfLines="5" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="220" translatesAutoresizingMaskIntoConstraints="NO" id="NGJ-B3-Vv7">
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="220" type="user" id="IYe-7V-sNn"/>
+                                                <constraint firstAttribute="width" priority="989" constant="220" type="user" id="IYe-7V-sNn"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
                                             <color key="textColor" red="0.30980392156862746" green="0.30980392156862746" blue="0.30980392156862746" alpha="1" colorSpace="calibratedRGB"/>
@@ -324,6 +324,7 @@
                                         </label>
                                         <button opaque="NO" tag="102" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zTe-dV-uD3">
                                             <constraints>
+                                                <constraint firstAttribute="width" constant="222" type="user" id="dRW-SA-xLo"/>
                                                 <constraint firstAttribute="height" constant="205" id="fmk-Pu-YRr"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="15"/>
@@ -337,7 +338,8 @@
                                         </button>
                                         <textField opaque="NO" clipsSubviews="YES" tag="101" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="text" borderStyle="roundedRect" placeholder="text" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="KcX-Lj-ClQ">
                                             <constraints>
-                                                <constraint firstAttribute="width" constant="211" type="user" id="Y5q-Ad-gtA"/>
+                                                <constraint firstAttribute="height" constant="30" type="user" id="1fF-e6-FNe"/>
+                                                <constraint firstAttribute="width" priority="554" constant="211" type="user" id="Y5q-Ad-gtA"/>
                                             </constraints>
                                             <color key="textColor" red="0.30980392159999998" green="0.30980392159999998" blue="0.30980392159999998" alpha="1" colorSpace="calibratedRGB"/>
                                             <fontDescription key="fontDescription" name="Helvetica" family="Helvetica" pointSize="17"/>
@@ -348,7 +350,7 @@
                                                 <constraint firstAttribute="width" constant="57" type="user" id="0qF-gk-uMZ"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" size="button"/>
-                                            <state key="normal">
+                                            <state key="normal" title="actual check">
                                                 <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -365,7 +367,7 @@
                                                 <constraint firstAttribute="width" constant="24" type="user" id="tgD-fk-Uaj"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" backgroundImage="edit_icon@2x.png">
+                                            <state key="normal" title="pencil_image" backgroundImage="edit_icon@2x.png">
                                                 <color key="titleColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -379,7 +381,7 @@
                                                 <constraint firstAttribute="height" constant="22" type="user" id="wJz-Op-eeD"/>
                                             </constraints>
                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
-                                            <state key="normal" image="black_checkbox@2x.png">
+                                            <state key="normal" title="just_check_mark" image="black_checkbox@2x.png">
                                                 <color key="titleColor" red="0.19607843459999999" green="0.30980393290000002" blue="0.52156865600000002" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
@@ -392,26 +394,25 @@
                                 </view>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 <constraints>
-                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="10" type="user" id="147-kB-gpv"/>
-                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="centerY" secondItem="vsS-Am-nUd" secondAttribute="centerY" type="default" id="9x0-9a-0Tf"/>
-                                    <constraint firstAttribute="centerY" secondItem="KcX-Lj-ClQ" secondAttribute="centerY" type="user" id="DKT-J2-Kwl"/>
-                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="trailing" secondItem="zTe-dV-uD3" secondAttribute="trailing" type="user" id="NeM-cR-y83"/>
+                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="AlD-cY-jv2"/>
+                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="centerY" secondItem="48E-F8-FdW" secondAttribute="centerY" type="default" id="CPN-Rl-mWM"/>
+                                    <constraint firstItem="vsS-Am-nUd" firstAttribute="centerY" secondItem="NGJ-B3-Vv7" secondAttribute="centerY" type="default" id="FsI-8u-9XN"/>
                                     <constraint firstItem="1DU-57-zY5" firstAttribute="top" secondItem="lJ0-d7-vTF" secondAttribute="top" type="user" id="NsV-6z-yNf"/>
+                                    <constraint firstItem="48E-F8-FdW" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="-28" type="user" id="Ocj-tx-SCC"/>
                                     <constraint firstItem="NGJ-B3-Vv7" firstAttribute="bottom" secondItem="1DU-57-zY5" secondAttribute="bottom" type="user" id="Pnt-DV-Yml"/>
-                                    <constraint firstAttribute="centerY" secondItem="48E-F8-FdW" secondAttribute="centerY" type="user" id="Un8-zL-1hB"/>
-                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="leading" secondItem="48E-F8-FdW" secondAttribute="trailing" constant="16" type="user" id="WIl-sV-pj4"/>
-                                    <constraint firstItem="1DU-57-zY5" firstAttribute="leading" secondItem="lJ0-d7-vTF" secondAttribute="leading" type="user" id="Y48-rG-aRH"/>
+                                    <constraint firstAttribute="centerY" secondItem="KcX-Lj-ClQ" secondAttribute="centerY" type="user" id="RpL-l4-Xuj"/>
+                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="10" type="user" id="UQl-1k-Oh3"/>
+                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="centerY" secondItem="NGJ-B3-Vv7" secondAttribute="centerY" type="default" id="V1g-9f-ZiC"/>
                                     <constraint firstItem="NGJ-B3-Vv7" firstAttribute="top" secondItem="lJ0-d7-vTF" secondAttribute="top" type="user" id="Z5f-7r-tbU"/>
+                                    <constraint firstAttribute="trailing" secondItem="NGJ-B3-Vv7" secondAttribute="trailing" constant="33" type="user" id="ZVu-fc-hJt"/>
+                                    <constraint firstItem="48E-F8-FdW" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="-28" type="user" id="bf0-y3-hDl"/>
                                     <constraint firstItem="zTe-dV-uD3" firstAttribute="top" secondItem="lJ0-d7-vTF" secondAttribute="top" type="default" id="dEO-i1-06X"/>
-                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="baseline" secondItem="NGJ-B3-Vv7" secondAttribute="baseline" type="default" id="e6B-hg-dPm"/>
                                     <constraint firstAttribute="trailing" secondItem="KcX-Lj-ClQ" secondAttribute="trailing" priority="795" constant="39" type="user" id="eML-D4-Ikj"/>
                                     <constraint firstItem="vsS-Am-nUd" firstAttribute="leading" secondItem="KcX-Lj-ClQ" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="gf9-yK-562"/>
-                                    <constraint firstAttribute="trailing" secondItem="vsS-Am-nUd" secondAttribute="trailing" constant="6" type="user" id="h65-Vf-xyA"/>
-                                    <constraint firstAttribute="trailing" secondItem="NGJ-B3-Vv7" secondAttribute="trailing" constant="33" type="user" id="kQn-Ah-PWM"/>
-                                    <constraint firstItem="NGJ-B3-Vv7" firstAttribute="bottom" secondItem="lJ0-d7-vTF" secondAttribute="bottom" type="user" id="pRr-id-Po6"/>
-                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="8" symbolic="YES" type="user" id="qul-4u-p3n"/>
-                                    <constraint firstItem="1DU-57-zY5" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="lJ0-d7-vTF" secondAttribute="leading" type="user" id="tjx-n1-kQ3"/>
-                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="top" secondItem="lJ0-d7-vTF" secondAttribute="top" type="default" id="zLC-6Z-73L"/>
+                                    <constraint firstItem="KcX-Lj-ClQ" firstAttribute="leading" secondItem="1DU-57-zY5" secondAttribute="trailing" constant="7" type="user" id="iH7-V4-tr4"/>
+                                    <constraint firstItem="zTe-dV-uD3" firstAttribute="trailing" secondItem="NGJ-B3-Vv7" secondAttribute="trailing" type="user" id="lWg-IA-myN"/>
+                                    <constraint firstItem="1DU-57-zY5" firstAttribute="leading" secondItem="lJ0-d7-vTF" secondAttribute="leading" type="user" id="tjx-n1-kQ3"/>
+                                    <constraint firstAttribute="trailing" secondItem="vsS-Am-nUd" secondAttribute="trailing" constant="8" type="user" id="xVt-rS-VkV"/>
                                 </constraints>
                                 <connections>
                                     <outlet property="checkButton" destination="1DU-57-zY5" id="rze-dc-6rM"/>

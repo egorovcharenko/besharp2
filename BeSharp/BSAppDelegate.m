@@ -151,4 +151,8 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
+    application.applicationIconBadgeNumber = 0;
+}
+
 @end
