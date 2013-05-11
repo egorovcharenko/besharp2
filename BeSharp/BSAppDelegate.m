@@ -209,47 +209,49 @@
     [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Swipe to the left to reveal Projects screen. Then select first Tutorial project";
+    line.text = @"Swipe to the left to reveal Projects screen on the right. Then select the first Tutorial project";
     line.order = 2;
     line.parentProject = [dataController getInbox];
     line.type = 1;
     [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You can delete all these tasks now if you wish";
+    line.text = @"Tip: delete all these tasks if you wish";
     line.order = 3;
     line.parentProject = [dataController getInbox];
     line.type = 1;
     [dataController saveLine:line];
     
+    
+    
     // Tutorial 1 - basics
     line = [dataController createNewLineForSaving];
-    line.text = @"Each line is a task. Complete it by clicking checkbox. You can delete all completed tasks by clicking Delete button at the top.";
+    line.text = @"Each line is a task. Complete it by tapping checkbox. You can delete all completed tasks by tapping the 'Delete' button at the top";
     line.order = 1; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Projects are there to group tasks. You can complete them in the same way.";
+    line.text = @"Projects are there to group tasks. You can complete them in the similar way";
     line.order = 2; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You can tap the task to see it's popup menu.";
+    line.text = @"Tap any task to see the popup menu. For projects - tap right pencil icon";
     line.order = 3; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You can create new tasks using buttons with a '+' sign in the popup menu";
+    line.text = @"Create new tasks using buttons with a '+' sign in the popup menu or text area in the bottom";
     line.order = 4; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You can move task to a diffent project by selecting top-right button in the popup menu";
+    line.text = @"Move task to a diffent project by selecting top-right button in the popup menu";
     line.order = 5; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You can change indent of a task by using right and left arrows in the popup menu";
+    line.text = @"Change indent of a task by using right and left arrows in the popup menu";
     line.order = 6; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line]; line.indent = 1;
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You can reorder tasks and projects by long-tapping them and then dragging around";
-    line.order = 6; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line]; line.indent = 1;
+    line.text = @"Reorder tasks and projects by long-tapping them and then dragging";
+    line.order = 7; line.parentProject = tutorial1; line.type = 1; [dataController saveLine:line]; ;
     
     
     
@@ -259,23 +261,23 @@
     line.order = 1; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Focusing means working without any distractions for 25 minutes, and then having 5 minutes rest before next sprint";
+    line.text = @"Focusing means working without any distractions for 25 minutes, and then having 5 minutes rest before next 'sprint'";
     line.order = 2; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Let me repeat - you cannot distract at all during 25 minutes. It's what helps you to stay productive.";
+    line.text = @"Let me repeat - you cannot distract at all during 25 minutes. It's what helps you to stay productive";
     line.order = 3; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"You pick a task to focus by either using top-left icon from the popup menu, or by selecting a goal (discussed later)";
+    line.text = @"You pick a task to focus on by either using top-left icon from the popup menu, or by selecting a goal (discussed later)";
     line.order = 4; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Start working on a task by tapping 'start' button. After timer finished, have a rest.";
+    line.text = @"Start working on a task by tapping 'start' button. After timer finished, have a rest";
     line.order = 5; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"If you lose focus or stop focused - click 'stop' and start over.";
+    line.text = @"If you lose focus - click 'stop' and start over";
     line.order = 6; line.parentProject = tutorial2; line.type = 1; [dataController saveLine:line];
     
     
@@ -283,11 +285,11 @@
     
     // Tutorial 3 - goals
     line = [dataController createNewLineForSaving];
-    line.text = @"Goals help you keep focus on most important tasks. There are daily, weekly and yearly goals.";
+    line.text = @"Goals help you keep focus on most important tasks. There are daily, weekly and yearly goals";
     line.order = 1; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Daily goals are tasks, weekly and yearly are projects";
+    line.text = @"Daily goals are tasks; weekly and yearly are projects";
     line.order = 2; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
@@ -295,15 +297,15 @@
     line.order = 3; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Goals are shown in the left (focus) panel. You can focus on them by tapping there";
+    line.text = @"Goals are shown in the left (focus) panel. You can focus on them by tapping";
     line.order = 4; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Mark projects as weekly and yearly goals in it's popup menu";
+    line.text = @"Mark projects as weekly and yearly goals in the popup menu";
     line.order = 5; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Try to have no more than 3 goals of each type - it helps you keep them in view";
+    line.text = @"Try to have no more than 3 goals of each type - it helps you keep them in your view";
     line.order = 6; line.parentProject = tutorial3; line.type = 1; [dataController saveLine:line]; 
     
     
@@ -311,7 +313,7 @@
     
     // Tutorial 4 - typical workflow
     line = [dataController createNewLineForSaving];
-    line.text = @"All your task first usually should be captured to the 'Inbox'";
+    line.text = @"All your task first usually should be captured in the 'Inbox'";
     line.order = 1; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
@@ -319,11 +321,11 @@
     line.order = 2; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"At evening, select 2-4 daily goals for the next day.";
+    line.text = @"At evening, select 2-4 daily goals for the next day";
     line.order = 3; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];
-    line.text = @"Next day, start doing your daily goals FIRST.";
+    line.text = @"Next day, start doing your daily goals FIRST";
     line.order = 4; line.parentProject = tutorial4; line.type = 1; [dataController saveLine:line];
     
     line = [dataController createNewLineForSaving];

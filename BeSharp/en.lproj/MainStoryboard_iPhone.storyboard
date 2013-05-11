@@ -173,7 +173,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="277" id="1SI-A6-O7H"/>
-                                    <constraint firstAttribute="height" constant="328" id="AmF-2Y-kf9"/>
+                                    <constraint firstAttribute="height" constant="328" type="user" id="AmF-2Y-kf9"/>
                                 </constraints>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="GoalCell" id="34L-lV-6Ba" customClass="BSGoalLineCell">
@@ -257,6 +257,7 @@
                             <constraint firstItem="DH4-T1-ghY" firstAttribute="top" secondItem="Xo9-Ga-pye" secondAttribute="top" constant="174" id="MgW-0D-Pce"/>
                             <constraint firstItem="vi4-6a-7CS" firstAttribute="leading" secondItem="Xo9-Ga-pye" secondAttribute="leading" constant="15" id="PYW-c4-fmS"/>
                             <constraint firstItem="Crg-5c-g14" firstAttribute="top" secondItem="Xo9-Ga-pye" secondAttribute="top" constant="127" id="PeX-XD-uwX"/>
+                            <constraint firstItem="8WM-et-9Jl" firstAttribute="top" secondItem="Xo9-Ga-pye" secondAttribute="top" constant="220" type="user" id="TgV-b0-ZNa"/>
                             <constraint firstItem="uaU-sc-tE6" firstAttribute="trailing" secondItem="xcC-JU-V8n" secondAttribute="trailing" type="default" id="a5S-HJ-fv9"/>
                             <constraint firstItem="dzB-38-V7U" firstAttribute="leading" secondItem="Xo9-Ga-pye" secondAttribute="leading" constant="8" id="a9h-G4-xIr"/>
                             <constraint firstItem="uaU-sc-tE6" firstAttribute="leading" secondItem="xcC-JU-V8n" secondAttribute="leading" type="default" id="aIY-K3-6oh"/>
@@ -270,7 +271,7 @@
                             <constraint firstItem="HX2-Z6-tp1" firstAttribute="trailing" secondItem="OMG-95-RhW" secondAttribute="trailing" type="default" id="ooU-s9-QDg"/>
                             <constraint firstItem="8WM-et-9Jl" firstAttribute="top" secondItem="zsR-7s-nh2" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="p68-nv-CPw"/>
                             <constraint firstItem="8WM-et-9Jl" firstAttribute="top" secondItem="hB6-R4-6oh" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="qUI-KR-ZQf"/>
-                            <constraint firstItem="8WM-et-9Jl" firstAttribute="bottom" secondItem="Xo9-Ga-pye" secondAttribute="bottom" type="default" id="uas-Vu-f3Z"/>
+                            <constraint firstItem="8WM-et-9Jl" firstAttribute="bottom" secondItem="Xo9-Ga-pye" secondAttribute="bottom" type="user" id="uas-Vu-f3Z"/>
                             <constraint firstItem="vi4-6a-7CS" firstAttribute="top" secondItem="Xo9-Ga-pye" secondAttribute="top" constant="20" symbolic="YES" type="default" id="usx-fF-YuX"/>
                             <constraint firstItem="f5O-fD-79Z" firstAttribute="top" secondItem="Xo9-Ga-pye" secondAttribute="top" constant="181" id="vGD-7Q-0mx"/>
                             <constraint firstItem="DkQ-ne-dP8" firstAttribute="trailing" secondItem="dzB-38-V7U" secondAttribute="trailing" type="default" id="vmL-yR-aoX"/>
@@ -636,7 +637,6 @@
                 <relationship kind="action" name="leftButtonClicked:forEvent:"/>
                 <relationship kind="action" name="markAsCompleted:"/>
                 <relationship kind="action" name="markAsGoalClicked:"/>
-                <relationship kind="action" name="markAsProjectClicked:"/>
                 <relationship kind="action" name="moveToProjectClicked:"/>
                 <relationship kind="action" name="pomodoroButtonClicked:"/>
                 <relationship kind="action" name="popupBackgroundButtonClicked:"/>

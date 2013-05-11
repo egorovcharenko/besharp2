@@ -90,6 +90,16 @@
         
         // Set color of start button
         [self.startStopButton setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+        
+        // stop the timer
+        [timer invalidate];
+        timer = nil;
+        
+        // cancel notifications
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+        
+        // reset the view
+        [self prepareForWork];
     }
 }
 
